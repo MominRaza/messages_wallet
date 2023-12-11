@@ -11,7 +11,7 @@ void main() {
         'Credited',
         () {
           expect(
-            extractBOBMessages([bobMessages[0]]),
+            extractBOBMessages([bobMessages[0]]).toString(),
             equals(
               {
                 'BoB XX7544': [
@@ -24,7 +24,7 @@ void main() {
                     dateTime: DateTime.parse('2023-08-09 22:40:20'),
                   ),
                 ],
-              },
+              }.toString(),
             ),
           );
         },
@@ -34,7 +34,7 @@ void main() {
         'withdrawn',
         () {
           expect(
-            extractBOBMessages([bobMessages[1]]),
+            extractBOBMessages([bobMessages[1]]).toString(),
             equals(
               {
                 'BoB XX7544': [
@@ -47,7 +47,7 @@ void main() {
                     dateTime: DateTime.parse('2023-11-29 16:48:04'),
                   ),
                 ]
-              },
+              }.toString(),
             ),
           );
         },
@@ -57,7 +57,7 @@ void main() {
         'transferred',
         () {
           expect(
-            extractBOBMessages([bobMessages[2]]),
+            extractBOBMessages([bobMessages[2]]).toString(),
             equals(
               {
                 'BoB XX7544': [
@@ -70,7 +70,7 @@ void main() {
                     dateTime: DateTime.parse('2023-10-31 21:19:22'),
                   )
                 ]
-              },
+              }.toString(),
             ),
           );
         },
