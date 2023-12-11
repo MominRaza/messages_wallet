@@ -46,7 +46,7 @@ void main() {
                     body: bobMessages[1],
                     dateTime: DateTime.parse('2023-11-29 16:48:04'),
                   ),
-                ]
+                ],
               }.toString(),
             ),
           );
@@ -68,8 +68,8 @@ void main() {
                     accountNumber: 'BoB XX7544',
                     body: bobMessages[2],
                     dateTime: DateTime.parse('2023-10-31 21:19:22'),
-                  )
-                ]
+                  ),
+                ],
               }.toString(),
             ),
           );

@@ -5,11 +5,12 @@ import 'package:messages_wallet/components/transactions_list_view.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 
 class Messages extends StatelessWidget {
-  const Messages(
-      {super.key,
-      required this.axisMessages,
-      required this.bobMessages,
-      required this.transactionsGroup});
+  const Messages({
+    super.key,
+    required this.axisMessages,
+    required this.bobMessages,
+    required this.transactionsGroup,
+  });
   final List<SmsMessage> axisMessages;
   final List<SmsMessage> bobMessages;
   final Map<String, List<Transaction>> transactionsGroup;
@@ -20,7 +21,7 @@ class Messages extends StatelessWidget {
       length: transactionsGroup.length + 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('SMS Inbox Example'),
+          title: const Text('Messages Wallet'),
           bottom: TabBar(
             tabs: [
               const Tab(

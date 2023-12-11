@@ -36,6 +36,8 @@ Map<String, List<Transaction>> extractBOBMessages(List<String> bobMessages) {
     );
   }).toList();
 
-  return groupBy(transactions,
-      (Transaction transaction) => transaction.accountNumber ?? '');
+  return groupBy(
+    transactions,
+    (Transaction transaction) => transaction.accountNumber ?? '',
+  );
 }

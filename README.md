@@ -1,3 +1,3 @@
-# messages_wallet
+# Messages Wallet
 
 A new Flutter project.

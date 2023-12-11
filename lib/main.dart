@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter SMS Inbox App',
+      title: 'Messages Wallet',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),

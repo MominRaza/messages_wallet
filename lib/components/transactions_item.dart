@@ -53,7 +53,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
             child: Text('${widget.transaction.body}'),
-          )
+          ),
         ],
       ),
     );
