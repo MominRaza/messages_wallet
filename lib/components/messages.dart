@@ -3,6 +3,7 @@ import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:messages_wallet/components/messages_list_view.dart';
 import 'package:messages_wallet/components/transactions_list_view.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
+import 'package:messages_wallet/utils/flags.dart';
 
 class Messages extends StatelessWidget {
   const Messages({
@@ -18,18 +19,21 @@ class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: transactionsGroup.length + 2,
+      length: transactionsGroup.length + (isDebug ? 2 : 0),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Messages Wallet'),
           bottom: TabBar(
+            isScrollable: true,
             tabs: [
-              const Tab(
-                child: Text('Bank of Baroda'),
-              ),
-              const Tab(
-                child: Text('Axis Bank'),
-              ),
+              if (isDebug) ...[
+                const Tab(
+                  child: Text('Bank of Baroda'),
+                ),
+                const Tab(
+                  child: Text('Axis Bank'),
+                ),
+              ],
               ...transactionsGroup.entries.map(
                 (entry) => Tab(
                   child: Text(entry.key),
@@ -40,28 +44,30 @@ class Messages extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            bobMessages.isNotEmpty
-                ? MessagesListView(
-                    messages: bobMessages,
-                  )
-                : Center(
-                    child: Text(
-                      'No messages to show.',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      textAlign: TextAlign.center,
+            if (isDebug) ...[
+              bobMessages.isNotEmpty
+                  ? MessagesListView(
+                      messages: bobMessages,
+                    )
+                  : Center(
+                      child: Text(
+                        'No messages to show.',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-            axisMessages.isNotEmpty
-                ? MessagesListView(
-                    messages: axisMessages,
-                  )
-                : Center(
-                    child: Text(
-                      'No messages to show.',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      textAlign: TextAlign.center,
+              axisMessages.isNotEmpty
+                  ? MessagesListView(
+                      messages: axisMessages,
+                    )
+                  : Center(
+                      child: Text(
+                        'No messages to show.',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
+            ],
             ...transactionsGroup.entries.map(
               (entry) => TransactionsListView(
                 transactions: entry.value,
