@@ -76,7 +76,6 @@ class _PermissionScreenState extends State<PermissionScreen> {
   }
 
   void _handleReadSMSPermission() {
-    print('momin');
     Permission.sms
         .onGrantedCallback(
       () => Navigator.pushReplacementNamed(context, '/messages'),
