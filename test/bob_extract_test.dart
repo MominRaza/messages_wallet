@@ -15,7 +15,7 @@ void main() {
             extractBOBMessages([bobMessages[0]]).first.toString(),
             equals(
               Transaction(
-                type: 'Credited',
+                type: TransactionType.credited,
                 transactionAmount: '30',
                 finalAmount: '92.1',
                 accountNumber: 'BoB XX7544',
@@ -34,7 +34,7 @@ void main() {
             extractBOBMessages([bobMessages[1]]).first.toString(),
             equals(
               Transaction(
-                type: 'withdrawn',
+                type: TransactionType.withdrawn,
                 transactionAmount: '5500',
                 finalAmount: '496.1',
                 accountNumber: 'BoB XX7544',
@@ -53,7 +53,7 @@ void main() {
             extractBOBMessages([bobMessages[2]]).first.toString(),
             equals(
               Transaction(
-                type: 'transferred',
+                type: TransactionType.transferred,
                 transactionAmount: '20',
                 finalAmount: '3352.1',
                 accountNumber: 'BoB XX7544',

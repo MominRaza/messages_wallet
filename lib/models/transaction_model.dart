@@ -1,5 +1,7 @@
+enum TransactionType { credited, withdrawn, transferred }
+
 class Transaction {
-  String? type;
+  TransactionType type;
   String? transactionAmount;
   String? finalAmount;
   String? accountNumber;
@@ -7,7 +9,7 @@ class Transaction {
   DateTime? dateTime;
 
   Transaction({
-    this.type,
+    required this.type,
     this.transactionAmount,
     this.finalAmount,
     this.accountNumber,

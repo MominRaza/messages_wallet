@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messages_wallet/components/transactions_item.dart';
+import 'package:messages_wallet/components/transactions_list_item.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 
 class TransactionsListView extends StatelessWidget {

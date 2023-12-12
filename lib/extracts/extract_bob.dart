@@ -25,7 +25,11 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
       DateTime dateTime = DateTime.parse(formattedDateTimeString);
 
       return Transaction(
-        type: transactionType,
+        type: switch (transactionType?.toLowerCase()) {
+          'credited' => TransactionType.credited,
+          'transferred' => TransactionType.transferred,
+          _ => TransactionType.withdrawn,
+        },
         transactionAmount: transactionAmount,
         finalAmount: finalAmount,
         accountNumber: 'BoB XX$accountNumber',
