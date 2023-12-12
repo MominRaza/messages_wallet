@@ -25,6 +25,7 @@ class Messages extends StatelessWidget {
           title: const Text('Messages Wallet'),
           bottom: TabBar(
             isScrollable: true,
+            tabAlignment: TabAlignment.center,
             tabs: [
               if (isDebug) ...[
                 const Tab(

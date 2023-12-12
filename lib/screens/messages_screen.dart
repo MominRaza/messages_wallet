@@ -52,6 +52,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
         (Transaction transaction) => transaction.accountNumber ?? '',
       );
 
+      transactionsGroup.forEach((_, value) {
+        value.sort(
+          (a, b) => b.dateTime?.compareTo(a.dateTime ?? DateTime(0)) ?? 0,
+        );
+      });
+
       setState(() {
         _axisMessages = axisMessages;
         _bobMessages = bobMessages;
