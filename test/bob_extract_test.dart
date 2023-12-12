@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:messages_wallet/data.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
+
+import 'data.dart';
 
 void main() {
   group(
