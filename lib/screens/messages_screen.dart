@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:messages_wallet/components/messages.dart';
+import 'package:messages_wallet/extracts/extract_axis.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -35,16 +36,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ],
       );
       var axisMessages = messages.where(
-            (message) => message.address!.contains('AXISBK'),
+        (message) => message.address!.contains('AXISBK'),
       );
       var bobMessages = messages.where(
-            (message) => message.address!.contains('BOBTXN'),
+        (message) => message.address!.contains('BOBTXN'),
       );
       Iterable<Transaction> bobTransactions =
           extractBOBMessages(bobMessages.map((e) => e.body ?? ''));
 
+      Iterable<Transaction> axisTransaction =
+          extractAxisMessages(axisMessages.map((e) => e.body ?? ''));
+
       Map<String, List<Transaction>> transactionsGroup = groupBy(
-        bobTransactions,
+        [...bobTransactions, ...axisTransaction],
         (Transaction transaction) => transaction.accountNumber ?? '',
       );
 
