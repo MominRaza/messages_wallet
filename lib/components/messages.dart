@@ -11,8 +11,8 @@ class Messages extends StatelessWidget {
     required this.bobMessages,
     required this.transactionsGroup,
   });
-  final List<SmsMessage> axisMessages;
-  final List<SmsMessage> bobMessages;
+  final Iterable<SmsMessage> axisMessages;
+  final Iterable<SmsMessage> bobMessages;
   final Map<String, List<Transaction>> transactionsGroup;
 
   @override

@@ -39,7 +39,11 @@ class _TransactionListItemState extends State<TransactionListItem> {
             },
           ),
         ),
-        title: Text(formatDateTime(widget.transaction.dateTime!)),
+        title: Text(
+          widget.transaction.dateTime != null
+              ? formatDateTime(widget.transaction.dateTime!)
+              : 'null',
+        ),
         subtitle: Text(
           'Total Bal: ${widget.transaction.finalAmount}',
           maxLines: 3,

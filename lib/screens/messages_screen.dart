@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:messages_wallet/components/messages.dart';
@@ -14,9 +15,9 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final SmsQuery _query = SmsQuery();
-  List<SmsMessage> _axisMessages = [];
-  List<SmsMessage> _bobMessages = [];
-  Map<String, List<Transaction>> _transactions = {};
+  Iterable<SmsMessage> _axisMessages = [];
+  Iterable<SmsMessage> _bobMessages = [];
+  Map<String, List<Transaction>> _transactionsGroup = {};
 
   @override
   void initState() {
@@ -33,23 +34,24 @@ class _MessagesScreenState extends State<MessagesScreen> {
           SmsQueryKind.sent,
         ],
       );
-      var axisMessages = messages
-          .where(
+      var axisMessages = messages.where(
             (message) => message.address!.contains('AXISBK'),
-          )
-          .toList();
-      var bobMessages = messages
-          .where(
+      );
+      var bobMessages = messages.where(
             (message) => message.address!.contains('BOBTXN'),
-          )
-          .toList();
-      Map<String, List<Transaction>> bobTransactions =
-          extractBOBMessages(bobMessages.map((e) => e.body ?? '').toList());
+      );
+      Iterable<Transaction> bobTransactions =
+          extractBOBMessages(bobMessages.map((e) => e.body ?? ''));
+
+      Map<String, List<Transaction>> transactionsGroup = groupBy(
+        bobTransactions,
+        (Transaction transaction) => transaction.accountNumber ?? '',
+      );
 
       setState(() {
         _axisMessages = axisMessages;
         _bobMessages = bobMessages;
-        _transactions = bobTransactions;
+        _transactionsGroup = transactionsGroup;
       });
     }
   }
@@ -59,7 +61,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return Messages(
       axisMessages: _axisMessages,
       bobMessages: _bobMessages,
-      transactionsGroup: _transactions,
+      transactionsGroup: _transactionsGroup,
     );
   }
 }

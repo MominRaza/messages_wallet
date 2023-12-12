@@ -7,7 +7,7 @@ class MessagesListView extends StatelessWidget {
     required this.messages,
   });
 
-  final List<SmsMessage> messages;
+  final Iterable<SmsMessage> messages;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MessagesListView extends StatelessWidget {
       shrinkWrap: true,
       itemCount: messages.length,
       itemBuilder: (BuildContext context, int i) {
-        var message = messages[i];
+        var message = messages.toList()[i];
 
         return ListTile(
           title: Text('${message.sender} [${message.date}] ${message.address}'),
