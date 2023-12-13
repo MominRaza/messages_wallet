@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
+import 'package:messages_wallet/utils/currency.dart';
 import 'package:messages_wallet/utils/utils.dart';
 
 class TransactionListItem extends StatefulWidget {
@@ -45,12 +46,12 @@ class _TransactionListItemState extends State<TransactionListItem> {
               : 'null',
         ),
         subtitle: Text(
-          'Total Bal: ${widget.transaction.finalAmount ?? 'N/A'}',
+          'Total Bal: ${currencyFormat(widget.transaction.finalAmount) ?? 'N/A'}',
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Text(
-          '${widget.transaction.type == 'Credited' ? '+' : '-'} ${widget.transaction.transactionAmount}',
+          '${widget.transaction.type == TransactionType.credited ? '+' : '-'} ${currencyFormat(widget.transaction.transactionAmount)}',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         children: [
