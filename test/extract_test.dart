@@ -66,16 +66,33 @@ void main() {
     'Axis Extract',
     () {
       test(
-        'Debit ATM-WDL/',
+        'Credit',
         () => expect(
           extractAxisMessages([axisMessages[0]]).first.toString(),
+          equals(
+            Transaction(
+              type: TransactionType.credited,
+              transactionAmount: '42476.00',
+              finalAmount: '65789.44',
+              accountNumber: 'Axis XX5237',
+              body: axisMessages[0],
+              dateTime: DateTime.parse('2023-08-30 05:31:41'),
+            ).toString(),
+          ),
+        ),
+      );
+
+      test(
+        'Debit ATM-WDL/',
+        () => expect(
+          extractAxisMessages([axisMessages[1]]).first.toString(),
           equals(
             Transaction(
               type: TransactionType.withdrawn,
               transactionAmount: '5000.00',
               finalAmount: '4384.44',
               accountNumber: 'Axis XX5237',
-              body: axisMessages[0],
+              body: axisMessages[1],
               dateTime: DateTime.parse('2023-08-31 19:15:15'),
             ).toString(),
           ),
@@ -85,14 +102,14 @@ void main() {
       test(
         'Debit UPI/',
         () => expect(
-          extractAxisMessages([axisMessages[1]]).first.toString(),
+          extractAxisMessages([axisMessages[2]]).first.toString(),
           equals(
             Transaction(
               type: TransactionType.transferred,
               transactionAmount: '435.00',
               finalAmount: null,
               accountNumber: 'Axis XX5237',
-              body: axisMessages[1],
+              body: axisMessages[2],
               dateTime: DateTime.parse('2023-09-20 16:47:23'),
             ).toString(),
           ),
