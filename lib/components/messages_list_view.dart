@@ -18,7 +18,7 @@ class MessagesListView extends StatelessWidget {
         var message = messages.toList()[i];
 
         return ListTile(
-          title: Text('${message.sender} [${message.date}] ${message.address}'),
+          title: Text('${message.address}'),
           subtitle: Text(
             '${message.body?.trim()}',
             maxLines: 3,

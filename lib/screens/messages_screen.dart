@@ -16,8 +16,7 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final SmsQuery _query = SmsQuery();
-  Iterable<SmsMessage> _axisMessages = [];
-  Iterable<SmsMessage> _bobMessages = [];
+  Iterable<SmsMessage> _allMessages = [];
   Map<String, List<Transaction>> _transactionsGroup = {};
 
   @override
@@ -29,17 +28,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Future<void> _loadMessages() async {
     var permission = await Permission.sms.status;
     if (permission.isGranted) {
-      var messages = await _query.querySms(
+      final messages = await _query.querySms(
         kinds: [
           SmsQueryKind.inbox,
           SmsQueryKind.sent,
         ],
       );
-      var axisMessages = messages.where(
-        (message) => message.address!.contains('AXISBK'),
+      final axisMessages = messages.where(
+        (message) =>
+            message.address?.toLowerCase().contains('-axisbk') ?? false,
       );
-      var bobMessages = messages.where(
-        (message) => message.address!.contains('BOBTXN'),
+      final bobMessages = messages.where(
+        (message) =>
+            message.address?.toLowerCase().contains('-bobtxn') ?? false,
       );
       Iterable<Transaction> bobTransactions =
           extractBOBMessages(bobMessages.map((e) => e.body ?? ''));
@@ -58,9 +59,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
         );
       });
 
+      messages.sort((a, b) => a.address?.compareTo(b.address ?? '') ?? 0);
+
       setState(() {
-        _axisMessages = axisMessages;
-        _bobMessages = bobMessages;
+        _allMessages = messages.where(
+          (message) => message.address?[2] == '-',
+        );
         _transactionsGroup = transactionsGroup;
       });
     }
@@ -69,8 +73,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Messages(
-      axisMessages: _axisMessages,
-      bobMessages: _bobMessages,
+      allMessages: _allMessages,
       transactionsGroup: _transactionsGroup,
     );
   }

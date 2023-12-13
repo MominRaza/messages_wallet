@@ -8,18 +8,16 @@ import 'package:messages_wallet/utils/flags.dart';
 class Messages extends StatelessWidget {
   const Messages({
     super.key,
-    required this.axisMessages,
-    required this.bobMessages,
+    required this.allMessages,
     required this.transactionsGroup,
   });
-  final Iterable<SmsMessage> axisMessages;
-  final Iterable<SmsMessage> bobMessages;
+  final Iterable<SmsMessage> allMessages;
   final Map<String, List<Transaction>> transactionsGroup;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: transactionsGroup.length + (isDebug ? 2 : 0),
+      length: transactionsGroup.length + (isDebug ? 1 : 0),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Messages Wallet'),
@@ -29,10 +27,7 @@ class Messages extends StatelessWidget {
             tabs: [
               if (isDebug) ...[
                 const Tab(
-                  child: Text('Bank of Baroda'),
-                ),
-                const Tab(
-                  child: Text('Axis Bank'),
+                  child: Text('Debug'),
                 ),
               ],
               ...transactionsGroup.entries.map(
@@ -46,20 +41,9 @@ class Messages extends StatelessWidget {
         body: TabBarView(
           children: [
             if (isDebug) ...[
-              bobMessages.isNotEmpty
+              allMessages.isNotEmpty
                   ? MessagesListView(
-                      messages: bobMessages,
-                    )
-                  : Center(
-                      child: Text(
-                        'No messages to show.',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-              axisMessages.isNotEmpty
-                  ? MessagesListView(
-                      messages: axisMessages,
+                      messages: allMessages,
                     )
                   : Center(
                       child: Text(
