@@ -66,7 +66,7 @@ void main() {
     'Axis Extract',
     () {
       test(
-        'Credit',
+        'credited',
         () => expect(
           extractAxisMessages([axisMessages[0]]).first.toString(),
           equals(
