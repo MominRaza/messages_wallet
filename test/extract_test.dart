@@ -11,53 +11,50 @@ void main() {
     () {
       test(
         'Credited',
-        () => expect(
-          extractBOBMessages([bobMessages[0]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.credited,
-              transactionAmount: '30',
-              finalAmount: '92.1',
-              accountNumber: 'BoB XX7544',
-              body: bobMessages[0],
-              dateTime: DateTime.parse('2023-08-09 22:40:20'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractBOBMessages([bobMessages[0]]).first;
+          expect(transaction.type, equals(TransactionType.credited));
+          expect(transaction.transactionAmount, equals('30'));
+          expect(transaction.finalAmount, equals('92.1'));
+          expect(transaction.accountNumber, equals('BoB XX7544'));
+          expect(transaction.body, equals(bobMessages[0]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-08-09 22:40:20')),
+          );
+        },
       );
 
       test(
         'withdrawn',
-        () => expect(
-          extractBOBMessages([bobMessages[1]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.withdrawn,
-              transactionAmount: '5500',
-              finalAmount: '496.1',
-              accountNumber: 'BoB XX7544',
-              body: bobMessages[1],
-              dateTime: DateTime.parse('2023-11-29 16:48:04'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractBOBMessages([bobMessages[1]]).first;
+          expect(transaction.type, equals(TransactionType.withdrawn));
+          expect(transaction.transactionAmount, equals('5500'));
+          expect(transaction.finalAmount, equals('496.1'));
+          expect(transaction.accountNumber, equals('BoB XX7544'));
+          expect(transaction.body, equals(bobMessages[1]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-11-29 16:48:04')),
+          );
+        },
       );
 
       test(
         'transferred',
-        () => expect(
-          extractBOBMessages([bobMessages[2]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.transferred,
-              transactionAmount: '20',
-              finalAmount: '3352.1',
-              accountNumber: 'BoB XX7544',
-              body: bobMessages[2],
-              dateTime: DateTime.parse('2023-10-31 21:19:22'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractBOBMessages([bobMessages[2]]).first;
+          expect(transaction.type, equals(TransactionType.transferred));
+          expect(transaction.transactionAmount, equals('20'));
+          expect(transaction.finalAmount, equals('3352.1'));
+          expect(transaction.accountNumber, equals('BoB XX7544'));
+          expect(transaction.body, equals(bobMessages[2]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-10-31 21:19:22')),
+          );
+        },
       );
     },
   );
@@ -67,53 +64,50 @@ void main() {
     () {
       test(
         'credited',
-        () => expect(
-          extractAxisMessages([axisMessages[0]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.credited,
-              transactionAmount: '42476.00',
-              finalAmount: '65789.44',
-              accountNumber: 'Axis XX5237',
-              body: axisMessages[0],
-              dateTime: DateTime.parse('2023-08-30 05:31:41'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractAxisMessages([axisMessages[0]]).first;
+          expect(transaction.type, equals(TransactionType.credited));
+          expect(transaction.transactionAmount, equals('42476.00'));
+          expect(transaction.finalAmount, equals('65789.44'));
+          expect(transaction.accountNumber, equals('Axis XX5237'));
+          expect(transaction.body, equals(axisMessages[0]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-08-30 05:31:41')),
+          );
+        },
       );
 
       test(
         'Debit ATM-WDL/',
-        () => expect(
-          extractAxisMessages([axisMessages[1]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.withdrawn,
-              transactionAmount: '5000.00',
-              finalAmount: '4384.44',
-              accountNumber: 'Axis XX5237',
-              body: axisMessages[1],
-              dateTime: DateTime.parse('2023-08-31 19:15:15'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractAxisMessages([axisMessages[1]]).first;
+          expect(transaction.type, equals(TransactionType.withdrawn));
+          expect(transaction.transactionAmount, equals('5000.00'));
+          expect(transaction.finalAmount, equals('4384.44'));
+          expect(transaction.accountNumber, equals('Axis XX5237'));
+          expect(transaction.body, equals(axisMessages[1]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-08-31 19:15:15')),
+          );
+        },
       );
 
       test(
         'Debit UPI/',
-        () => expect(
-          extractAxisMessages([axisMessages[2]]).first.toString(),
-          equals(
-            Transaction(
-              type: TransactionType.transferred,
-              transactionAmount: '435.00',
-              finalAmount: null,
-              accountNumber: 'Axis XX5237',
-              body: axisMessages[2],
-              dateTime: DateTime.parse('2023-09-20 16:47:23'),
-            ).toString(),
-          ),
-        ),
+        () {
+          var transaction = extractAxisMessages([axisMessages[2]]).first;
+          expect(transaction.type, equals(TransactionType.transferred));
+          expect(transaction.transactionAmount, equals('435.00'));
+          expect(transaction.finalAmount, isNull);
+          expect(transaction.accountNumber, equals('Axis XX5237'));
+          expect(transaction.body, equals(axisMessages[2]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-09-20 16:47:23')),
+          );
+        },
       );
     },
   );
