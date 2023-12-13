@@ -5,6 +5,7 @@ import 'package:messages_wallet/components/messages.dart';
 import 'package:messages_wallet/extracts/extract_axis.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
+import 'package:messages_wallet/utils/flags.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -28,12 +29,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Future<void> _loadMessages() async {
     var permission = await Permission.sms.status;
     if (permission.isGranted) {
-      final messages = await _query.querySms(
-        kinds: [
-          SmsQueryKind.inbox,
-          SmsQueryKind.sent,
-        ],
-      );
+      final messages = await _query.querySms();
       final axisMessages = messages.where(
         (message) =>
             message.address?.toLowerCase().contains('-axisbk') ?? false,
@@ -59,12 +55,16 @@ class _MessagesScreenState extends State<MessagesScreen> {
         );
       });
 
-      messages.sort((a, b) => a.address?.compareTo(b.address ?? '') ?? 0);
+      if (isDebug) {
+        messages.sort((a, b) => a.address?.compareTo(b.address ?? '') ?? 0);
+        setState(() {
+          _allMessages = messages.where(
+            (message) => message.address?[2] == '-',
+          );
+        });
+      }
 
       setState(() {
-        _allMessages = messages.where(
-          (message) => message.address?[2] == '-',
-        );
         _transactionsGroup = transactionsGroup;
       });
     }
