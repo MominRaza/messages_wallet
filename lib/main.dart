@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.teal,
+        brightness: Brightness.dark,
+      ),
       routes: {
         '/': (_) => const HomeScreen(),
         '/permission': (_) => const PermissionScreen(),
