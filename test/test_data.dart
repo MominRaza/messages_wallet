@@ -9,3 +9,9 @@ List<String> axisMessages = [
   'Debit INR 5000.00 A/c no. XX985237 31-08-2023 19:15:15 ATM-WDL/MAIN CHOURA Bal INR 4384.44 SMS BLOCKCARD **** to +918691000002, if not you-Axis Bank',
   'Debit INR 435.00 A/c no. XX5237 20-09-23 16:47:23 UPI/P2M/************/Flipkart Payments SMS BLOCKUPI Cust ID to 919951860002, if not you - Axis Bank',
 ];
+
+List<String> cosmosMessages = [
+  'Your A/c X2345 is debited by INR. 123.45 on 23/11/23 for UPI/************/razor. A/c bal is INR. 3456.45 Cr -Cosmos Bank',
+  'Your Chq  ****** of INR 10000/- is debited for A/c no XX2345 on 01-12-2023. A/c balance is INR 4567.89./-Cr.-Cosmos Bank',
+  'Your A/c XX2345 is credited by INR 123.45 on 23-11-2023 for UPI-CR/************/sheet. A/c bal is INR 3456.45Cr.-Cosmos Bank',
+];

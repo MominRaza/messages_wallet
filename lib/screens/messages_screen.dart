@@ -4,6 +4,7 @@ import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:messages_wallet/components/messages.dart';
 import 'package:messages_wallet/extracts/extract_axis.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
+import 'package:messages_wallet/extracts/extract_cosmos.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 import 'package:messages_wallet/utils/flags.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,14 +39,20 @@ class _MessagesScreenState extends State<MessagesScreen> {
         (message) =>
             message.address?.toLowerCase().contains('-bobtxn') ?? false,
       );
+      final cosmosMessages = messages.where(
+        (message) =>
+            message.address?.toLowerCase().contains('-cosmos') ?? false,
+      );
+
       Iterable<Transaction> bobTransactions =
           extractBOBMessages(bobMessages.map((e) => e.body ?? ''));
-
-      Iterable<Transaction> axisTransaction =
+      Iterable<Transaction> axisTransactions =
           extractAxisMessages(axisMessages.map((e) => e.body ?? ''));
+      Iterable<Transaction> cosmosTransactions =
+          extractCosmosMessages(cosmosMessages.map((e) => e.body ?? ''));
 
       Map<String, List<Transaction>> transactionsGroup = groupBy(
-        [...bobTransactions, ...axisTransaction],
+        [...bobTransactions, ...axisTransactions, ...cosmosTransactions],
         (Transaction transaction) => transaction.accountNumber ?? '',
       );
 

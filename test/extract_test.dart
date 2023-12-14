@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:messages_wallet/extracts/extract_axis.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
+import 'package:messages_wallet/extracts/extract_cosmos.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 
 import 'test_data.dart';
@@ -106,6 +107,59 @@ void main() {
           expect(
             transaction.dateTime,
             equals(DateTime.parse('2023-09-20 16:47:23')),
+          );
+        },
+      );
+    },
+  );
+
+  group(
+    'Cosmos Extract',
+    () {
+      test(
+        'Debited UPI',
+        () {
+          var transaction = extractCosmosMessages([cosmosMessages[0]]).first;
+          expect(transaction.type, equals(TransactionType.transferred));
+          expect(transaction.transactionAmount, equals('123.45'));
+          expect(transaction.finalAmount, equals('3456.45'));
+          expect(transaction.accountNumber, equals('Cosmos XX2345'));
+          expect(transaction.body, equals(cosmosMessages[0]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-11-23 00:00:00')),
+          );
+        },
+      );
+
+      test(
+        'Debited Cheque',
+        () {
+          var transaction = extractCosmosMessages([cosmosMessages[1]]).first;
+          expect(transaction.type, equals(TransactionType.transferred));
+          expect(transaction.transactionAmount, equals('10000'));
+          expect(transaction.finalAmount, equals('4567.89'));
+          expect(transaction.accountNumber, equals('Cosmos XX2345'));
+          expect(transaction.body, equals(cosmosMessages[1]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-12-01 00:00:00')),
+          );
+        },
+      );
+
+      test(
+        'Credited UPI',
+        () {
+          var transaction = extractCosmosMessages([cosmosMessages[2]]).first;
+          expect(transaction.type, equals(TransactionType.credited));
+          expect(transaction.transactionAmount, equals('123.45'));
+          expect(transaction.finalAmount, equals('3456.45'));
+          expect(transaction.accountNumber, equals('Cosmos XX2345'));
+          expect(transaction.body, equals(cosmosMessages[2]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2023-11-23 00:00:00')),
           );
         },
       );
