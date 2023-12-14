@@ -6,8 +6,7 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
       RegExp amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{2})?)');
       RegExp finalAmountRegex = RegExp(r'Avlbl Amt:Rs\.([\d,]+(?:\.\d{1,2})?)');
       RegExp accountNumberRegex = RegExp(r'A/c \.{3}(\d+)');
-      RegExp dateTimeRegex =
-          RegExp(r'(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})');
+      RegExp dateTimeRegex = RegExp(r'(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})');
 
       String? transactionType = typeRegex.firstMatch(message)?.group(1);
       String? transactionAmount = amountRegex.firstMatch(message)?.group(1);

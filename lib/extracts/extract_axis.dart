@@ -1,18 +1,18 @@
 import 'package:messages_wallet/models/transaction_model.dart';
 
-Iterable<Transaction> extractAxisMessages(Iterable<String> axisMessages) =>
+Iterable<Transaction> extractAxisMessages(
+  Iterable<String> axisMessages,
+) =>
     axisMessages.map((message) {
       RegExp typeRegex = RegExp(r'(credited|Debit)');
       RegExp debitTypeRegex = RegExp(r'(UPI/|ATM-WDL/)');
       RegExp amountRegex = RegExp(r'INR (\d+\.\d{2})');
       RegExp finalAmountRegex = RegExp(r'(Avl Bal-|Bal) INR (\d+\.\d{2})');
       RegExp accountNumberRegex = RegExp(r'A/c no\. XX(\d+)');
-      RegExp dateTimeRegex =
-          RegExp(r'(\d{2})-(\d{2})-(\d{2}|\d{4}) (at )?(\d{2}:\d{2}:\d{2})');
+      RegExp dateTimeRegex = RegExp(r'(\d{2})-(\d{2})-(\d{2}|\d{4}) (at )?(\d{2}:\d{2}:\d{2})');
 
       String? transactionType = typeRegex.firstMatch(message)?.group(1);
-      String? debitTransactionType =
-          debitTypeRegex.firstMatch(message)?.group(1);
+      String? debitTransactionType = debitTypeRegex.firstMatch(message)?.group(1);
       String? transactionAmount = amountRegex.firstMatch(message)?.group(1);
       String? finalAmount = finalAmountRegex.firstMatch(message)?.group(2);
       String? accountNumber = accountNumberRegex.firstMatch(message)?.group(1);
@@ -38,13 +38,10 @@ Iterable<Transaction> extractAxisMessages(Iterable<String> axisMessages) =>
         },
         transactionAmount: transactionAmount,
         finalAmount: finalAmount,
-        accountNumber:
-            'Axis XX${accountNumber?.substring(accountNumber.length - 4)}',
+        accountNumber: 'Axis XX${accountNumber?.substring(accountNumber.length - 4)}',
         body: message,
         dateTime: dateTime,
       );
     }).where(
-      (element) =>
-          element.transactionAmount != null &&
-          element.accountNumber != 'Axis XXnull',
+      (element) => element.transactionAmount != null && element.accountNumber != 'Axis XXnull',
     );
