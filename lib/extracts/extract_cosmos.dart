@@ -4,7 +4,8 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
     bobMessages.map((message) {
       RegExp typeRegex = RegExp(r'(debited|credited)');
       RegExp amountRegex = RegExp(r'INR\.? ([\d,]+(?:\.\d{2})?)');
-      RegExp finalAmountRegex = RegExp(r'A/c (balance is INR|bal is INR)\.? (\d+\.\d+)');
+      RegExp finalAmountRegex =
+          RegExp(r'A/c (balance is INR|bal is INR)\.? (\d+\.\d+)');
 
       RegExp accountNumberRegex = RegExp(r'A/c (no )?X{1,2}(\d+)');
       RegExp dateTimeRegex = RegExp(r'(\d{2})[-/](\d{2})[-/](\d{2,4})');
@@ -25,8 +26,9 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
       DateTime dateTime = DateTime.parse(formattedDateTimeString);
 
       return Transaction(
-        type:
-            transactionType == 'credited' ? TransactionType.credited : TransactionType.transferred,
+        type: transactionType == 'credited'
+            ? TransactionType.credited
+            : TransactionType.transferred,
         transactionAmount: transactionAmount,
         finalAmount: finalAmount,
         accountNumber: 'Cosmos XX$accountNumber',
