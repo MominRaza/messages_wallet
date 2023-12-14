@@ -52,13 +52,13 @@ class _PermissionScreenState extends State<PermissionScreen> {
             child: Column(
               children: [
                 Text(
-                  'In order to use this App you have allow read SMS permission.',
+                  'To use this app, you must grant permission to read SMS messages.',
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   height: 12,
                 ),
-                Text('All messages processed only on your device.'),
+                Text('Messages are processed on your device only.'),
               ],
             ),
           ),
