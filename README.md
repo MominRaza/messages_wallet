@@ -29,3 +29,26 @@ Create an issue with sample transaction messages and sender address. Let's expan
 
 
 Feel free to contribute and make it even better! 🚀👩‍💻
+
+## Building the Android App
+
+To build the Messages Wallet Android app, follow these steps:
+
+1. Clone the GitHub repository:
+    ```bash
+    git clone https://github.com/MominRaza/messages_wallet.git
+    ```
+
+2. Make sure Flutter and Android development tools are available on your system.
+
+3. Run the following command to install dependencies:
+    ```bash
+    flutter pub get
+    ```
+
+4. Finally, run the app on your connected Android device or emulator:
+    ```bash
+    flutter run
+    ```
+
+Now you can build and run the Messages Wallet app on your Android device! 🚀📱
