@@ -15,7 +15,7 @@ class MonthlySpendingListItem extends StatelessWidget {
       title: Text(monthlySpending.month),
       trailing: Text(
         monthlySpending.totalCredit > monthlySpending.totalDebit
-            ? '+ ${currencyFormat(
+            ? '${currencyFormat(
                 (monthlySpending.totalCredit - monthlySpending.totalDebit)
                     .toString(),
               )}'

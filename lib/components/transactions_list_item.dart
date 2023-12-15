@@ -51,7 +51,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: Text(
-          '${widget.transaction.type == TransactionType.credited ? '+' : '-'} ${currencyFormat(widget.transaction.transactionAmount)}',
+          '${widget.transaction.type == TransactionType.credited ? '' : '- '}${currencyFormat(widget.transaction.transactionAmount)}',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         children: [
