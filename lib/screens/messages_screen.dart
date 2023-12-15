@@ -1,10 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:intl/intl.dart';
 import 'package:messages_wallet/components/messages.dart';
 import 'package:messages_wallet/extracts/extract_axis.dart';
 import 'package:messages_wallet/extracts/extract_bob.dart';
 import 'package:messages_wallet/extracts/extract_cosmos.dart';
+import 'package:messages_wallet/models/monthly_spending_model.dart';
 import 'package:messages_wallet/models/transaction_model.dart';
 import 'package:messages_wallet/utils/flags.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,7 +21,7 @@ class MessagesScreen extends StatefulWidget {
 class _MessagesScreenState extends State<MessagesScreen> {
   final SmsQuery _query = SmsQuery();
   Iterable<SmsMessage> _allMessages = [];
-  Map<String, List<Transaction>> _transactionsGroup = {};
+  Map<String, List<dynamic>> _transactionsGroup = {};
 
   @override
   void initState() {
@@ -56,10 +58,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
         (Transaction transaction) => transaction.accountNumber ?? '',
       );
 
-      transactionsGroup.forEach((_, value) {
+      Map<String, List<dynamic>> transactionsGroupWithMonth = {};
+
+      transactionsGroup.forEach((key, value) {
         value.sort(
-          (a, b) => b.dateTime?.compareTo(a.dateTime ?? DateTime(0)) ?? 0,
+          (a, b) => a.dateTime?.compareTo(b.dateTime ?? DateTime(0)) ?? 0,
         );
+        transactionsGroupWithMonth[key] = groupTransactionsByMonth(value);
       });
 
       if (isDebug) {
@@ -72,9 +77,66 @@ class _MessagesScreenState extends State<MessagesScreen> {
       }
 
       setState(() {
-        _transactionsGroup = transactionsGroup;
+        _transactionsGroup = transactionsGroupWithMonth;
       });
     }
+  }
+
+  List<dynamic> groupTransactionsByMonth(List<Transaction> transactions) {
+    List<dynamic> items = [];
+    String? currentMonth;
+    double totalCredit = 0;
+    double totalDebit = 0;
+    double previousTotalCredit = 0;
+    double previousTotalDebit = 0;
+
+    for (var transaction in transactions) {
+      String month = DateFormat('MMMM yyyy').format(transaction.dateTime!);
+
+      double amount = double.tryParse(transaction.transactionAmount ?? '') ?? 0;
+      if (transaction.type == TransactionType.credited) {
+        totalCredit += amount;
+      } else {
+        totalDebit += amount;
+      }
+
+      if (currentMonth != null && currentMonth != month) {
+        items.add(
+          MonthlySpending(
+            month: currentMonth,
+            totalCredit: previousTotalCredit,
+            totalDebit: previousTotalDebit,
+          ),
+        );
+
+        if (transaction.type == TransactionType.credited) {
+          totalCredit = amount;
+          totalDebit = 0;
+        } else {
+          totalCredit = 0;
+          totalDebit = amount;
+        }
+      }
+
+      previousTotalCredit = totalCredit;
+      previousTotalDebit = totalDebit;
+
+      items.add(transaction);
+
+      if (currentMonth != null && transaction == transactions.last) {
+        items.add(
+          MonthlySpending(
+            month: currentMonth,
+            totalCredit: totalCredit,
+            totalDebit: totalDebit,
+          ),
+        );
+      }
+
+      currentMonth = month;
+    }
+
+    return items.reversed.toList();
   }
 
   @override

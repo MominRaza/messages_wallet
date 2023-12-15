@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:messages_wallet/components/messages_list_view.dart';
 import 'package:messages_wallet/components/transactions_list_view.dart';
-import 'package:messages_wallet/models/transaction_model.dart';
 import 'package:messages_wallet/utils/flags.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,7 +12,7 @@ class Messages extends StatelessWidget {
     required this.transactionsGroup,
   });
   final Iterable<SmsMessage> allMessages;
-  final Map<String, List<Transaction>> transactionsGroup;
+  final Map<String, List<dynamic>> transactionsGroup;
 
   @override
   Widget build(BuildContext context) {
