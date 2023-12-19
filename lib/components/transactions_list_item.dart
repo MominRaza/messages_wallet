@@ -21,6 +21,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      clipBehavior: _isExpended ? Clip.hardEdge : null,
       elevation: _isExpended ? null : 0,
       margin: _isExpended ? const EdgeInsets.all(8) : EdgeInsets.zero,
       child: ExpansionTile(
