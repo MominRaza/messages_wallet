@@ -5,6 +5,12 @@ import 'package:messages_wallet/components/transactions_list_view.dart';
 import 'package:messages_wallet/utils/flags.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum MoreMenuOption {
+  openGitHub,
+  settings,
+  about,
+}
+
 class Messages extends StatelessWidget {
   const Messages({
     super.key,
@@ -21,17 +27,40 @@ class Messages extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Messages Wallet'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                launchUrl(
-                  Uri.https(
-                    'github.com',
-                    '/MominRaza/messages_wallet',
+          actions: <Widget>[
+            PopupMenuButton<MoreMenuOption>(
+              itemBuilder: (BuildContext context) {
+                return <PopupMenuEntry<MoreMenuOption>>[
+                  const PopupMenuItem<MoreMenuOption>(
+                    value: MoreMenuOption.openGitHub,
+                    child: Text('Open GitHub'),
                   ),
-                );
+                  const PopupMenuItem<MoreMenuOption>(
+                    value: MoreMenuOption.settings,
+                    child: Text('Settings'),
+                  ),
+                  const PopupMenuItem<MoreMenuOption>(
+                    value: MoreMenuOption.about,
+                    child: Text('About'),
+                  ),
+                ];
               },
-              icon: const Icon(Icons.info_outline),
+              onSelected: (MoreMenuOption value) {
+                switch (value) {
+                  case MoreMenuOption.openGitHub:
+                    launchUrl(
+                      Uri.https('github.com', '/MominRaza/messages_wallet'),
+                    );
+                    break;
+                  case MoreMenuOption.settings:
+                    Navigator.pushNamed(context, '/settings');
+                    break;
+                  case MoreMenuOption.about:
+                    launchUrl(Uri.https('mominraza.dev', '/messages_wallet'));
+                    break;
+                }
+              },
+              icon: const Icon(Icons.more_vert),
             ),
           ],
           bottom: TabBar(

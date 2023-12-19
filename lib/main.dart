@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:messages_wallet/screens/home_screen.dart';
 import 'package:messages_wallet/screens/messages_screen.dart';
 import 'package:messages_wallet/screens/permission_screen.dart';
+import 'package:messages_wallet/screens/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/': (_) => const HomeScreen(),
         '/permission': (_) => const PermissionScreen(),
         '/messages': (_) => const MessagesScreen(),
+        '/settings': (_) => const SettingsScreen(),
       },
     );
   }
