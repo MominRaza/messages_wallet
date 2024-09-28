@@ -1,0 +1,44 @@
+name: Build Flutter APK and Create Release
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+\+[0-9]+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Extract tag information
+        run: |
+          TAG="$GITHUB_REF"
+          TAG=${TAG##*/}
+          VERSION_NAME=$(echo $TAG | sed 's/+.*//')
+          BUILD_NAME=$(echo $VERSION_NAME | cut -d 'v' -f 2)
+          BUILD_NUMBER=$(echo $TAG | sed 's/.*+//')
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "BUILD_NAME=$BUILD_NAME" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+
+      - name: Setup keystore
+        run: echo ${{ secrets.SIGNING_STORE_BASE64 }} | base64 --decode > android/app/keystore.jks
+
+      - name: Build APK
+        run: flutter build apk --build-name=$BUILD_NAME --build-number=$BUILD_NUMBER
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
