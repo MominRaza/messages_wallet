@@ -2,5 +2,12 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    prefer_single_quotes: true
-    require_trailing_commas: true
+    - always_declare_return_types
+    - always_put_required_named_parameters_first
+    - avoid_escaping_inner_quotes
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - prefer_relative_imports
+    - prefer_single_quotes
