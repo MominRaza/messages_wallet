@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:messages_wallet/screens/home_screen.dart';
-import 'package:messages_wallet/screens/messages_screen.dart';
-import 'package:messages_wallet/screens/permission_screen.dart';
-import 'package:messages_wallet/screens/settings_screen.dart';
+
+import 'screens/home_screen.dart';
+import 'screens/messages_screen.dart';
+import 'screens/permission_screen.dart';
+import 'screens/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

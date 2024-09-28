@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:messages_wallet/components/messages_list_view.dart';
-import 'package:messages_wallet/components/transactions_list_view.dart';
-import 'package:messages_wallet/utils/flags.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../utils/flags.dart';
+import 'messages_list_view.dart';
+import 'transactions_list_view.dart';
 
 enum MoreMenuOption {
   openGitHub,
@@ -13,9 +14,9 @@ enum MoreMenuOption {
 
 class Messages extends StatelessWidget {
   const Messages({
-    super.key,
     required this.allMessages,
     required this.transactionsGroup,
+    super.key,
   });
   final Iterable<SmsMessage> allMessages;
   final Map<String, List<dynamic>> transactionsGroup;
@@ -106,7 +107,7 @@ class Messages extends StatelessWidget {
                             height: 16,
                           ),
                           Text(
-                            'When reporting, include sample messages and the sender\'s address from your bank. Remember to remove any sensitive information first!',
+                            "When reporting, include sample messages and the sender's address from your bank. Remember to remove any sensitive information first!",
                             textAlign: TextAlign.center,
                           ),
                         ],

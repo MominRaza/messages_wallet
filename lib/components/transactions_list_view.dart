@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:messages_wallet/components/monthly_spending_list_item.dart';
-import 'package:messages_wallet/components/transactions_list_item.dart';
-import 'package:messages_wallet/models/transaction_model.dart';
+
+import '../models/transaction_model.dart';
+import 'monthly_spending_list_item.dart';
+import 'transactions_list_item.dart';
 
 class TransactionsListView extends StatelessWidget {
   const TransactionsListView({
-    super.key,
     required this.transactions,
+    super.key,
   });
 
   final List<dynamic> transactions;

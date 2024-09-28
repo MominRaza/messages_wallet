@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:messages_wallet/models/transaction_model.dart';
-import 'package:messages_wallet/utils/currency.dart';
-import 'package:messages_wallet/utils/utils.dart';
+
+import '../models/transaction_model.dart';
+import '../utils/currency.dart';
+import '../utils/utils.dart';
 
 class TransactionListItem extends StatefulWidget {
   const TransactionListItem({
-    super.key,
     required this.transaction,
+    super.key,
   });
 
   final Transaction transaction;

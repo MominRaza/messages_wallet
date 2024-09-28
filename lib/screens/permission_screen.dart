@@ -26,7 +26,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _listener.dispose();
     super.dispose();
   }

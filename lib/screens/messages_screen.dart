@@ -2,14 +2,15 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:intl/intl.dart';
-import 'package:messages_wallet/components/messages.dart';
-import 'package:messages_wallet/extracts/extract_axis.dart';
-import 'package:messages_wallet/extracts/extract_bob.dart';
-import 'package:messages_wallet/extracts/extract_cosmos.dart';
-import 'package:messages_wallet/models/monthly_spending_model.dart';
-import 'package:messages_wallet/models/transaction_model.dart';
-import 'package:messages_wallet/utils/flags.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../components/messages.dart';
+import '../extracts/extract_axis.dart';
+import '../extracts/extract_bob.dart';
+import '../extracts/extract_cosmos.dart';
+import '../models/monthly_spending_model.dart';
+import '../models/transaction_model.dart';
+import '../utils/flags.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});

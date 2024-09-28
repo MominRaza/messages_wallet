@@ -1,4 +1,4 @@
-import 'package:messages_wallet/models/transaction_model.dart';
+import '../models/transaction_model.dart';
 
 Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
     bobMessages.map((message) {
