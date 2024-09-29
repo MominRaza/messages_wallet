@@ -38,7 +38,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
             switch (widget.transaction.type) {
               TransactionType.credited => Icons.south_west,
               TransactionType.transferred => Icons.north_east,
-              TransactionType.withdrawn => Icons.arrow_downward,
+              TransactionType.withdrawn => Icons.money_rounded,
             },
           ),
         ),
