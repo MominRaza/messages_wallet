@@ -45,7 +45,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         title: Text(
           widget.transaction.dateTime != null
               ? formatDateTime(widget.transaction.dateTime!)
-              : 'null',
+              : 'N/A',
         ),
         subtitle: Text(
           'Total Bal: ${currencyFormat(widget.transaction.finalAmount) ?? 'N/A'}',
