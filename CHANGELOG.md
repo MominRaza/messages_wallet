@@ -1,5 +1,6 @@
 ## 0.2.3
 
+- Bug fix and ui improvements
 - Added github actions for CI/CD
 
 ## 0.2.2
