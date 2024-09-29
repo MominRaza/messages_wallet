@@ -50,7 +50,8 @@ jobs:
       #   run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/Messages.Wallet.$VERSION_NAME.apk
 
       - Extract Changelog
-        run: sed -n "/## $BUILD_NAME/,/^## /p" CHANGELOG.md | sed '1d;$d' | sed '/^[[:space:]]*$/d' > CHANGELOG_EXTRACT.md
+        run: |
+          sed -n "/## $BUILD_NAME/,/^## /p" CHANGELOG.md | sed '1d;$d' | sed '/^[[:space:]]*$/d' > CHANGELOG_EXTRACT.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
