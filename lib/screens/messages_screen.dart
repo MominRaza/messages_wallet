@@ -92,7 +92,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     double previousTotalDebit = 0;
 
     for (var transaction in transactions) {
-      String month = DateFormat('MMMM yyyy').format(transaction.dateTime!);
+      String month = transaction.dateTime != null
+          ? DateFormat('MMMM yyyy').format(transaction.dateTime!)
+          : 'N/A';
 
       double amount = double.tryParse(transaction.transactionAmount ?? '') ?? 0;
       if (transaction.type == TransactionType.credited) {
