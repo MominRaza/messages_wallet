@@ -40,7 +40,7 @@ jobs:
         run: echo ${{ secrets.SIGNING_STORE_BASE64 }} | base64 --decode > android/app/keystore.jks
 
       - name: Build APK
-        run: flutter build apk --build-name=$BUILD_NAME --build-number=$BUILD_NUMBER
+        run: flutter build apk --build-name=$BUILD_NAME --build-number=$BUILD_NUMBER --dart-define=isDebug=false
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
