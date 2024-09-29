@@ -25,6 +25,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
       clipBehavior: _isExpended ? Clip.hardEdge : null,
       elevation: _isExpended ? null : 0,
       margin: _isExpended ? const EdgeInsets.all(8) : EdgeInsets.zero,
+      color: _isExpended ? null : Colors.transparent,
       child: ExpansionTile(
         shape: const Border(),
         onExpansionChanged: (value) => setState(() => _isExpended = value),
