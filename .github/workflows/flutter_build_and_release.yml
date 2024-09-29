@@ -46,8 +46,10 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-      # - name: Rename APK
-      #   run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/Messages.Wallet.$VERSION_NAME.apk
+      - name: Rename APK
+        run: |
+          mv build/app/outputs/flutter-apk/app-release.apk Messages.Wallet.$VERSION_NAME.apk
+          ls
 
       - name: Extract Changelog
         run: |
@@ -56,7 +58,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: Messages.Wallet.$VERSION_NAME.apk
           prerelease: true
           body_path: CHANGELOG_EXTRACT.md
           generate_release_notes: true
