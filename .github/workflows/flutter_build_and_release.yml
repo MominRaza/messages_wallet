@@ -49,7 +49,7 @@ jobs:
       # - name: Rename APK
       #   run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/Messages.Wallet.$VERSION_NAME.apk
 
-      - Extract Changelog
+      - name: Extract Changelog
         run: |
           sed -n "/## $BUILD_NAME/,/^## /p" CHANGELOG.md | sed '1d;$d' | sed '/^[[:space:]]*$/d' > CHANGELOG_EXTRACT.md
 
