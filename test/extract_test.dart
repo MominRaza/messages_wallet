@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:messages_wallet/extracts/extract_axis.dart';
-import 'package:messages_wallet/extracts/extract_bob.dart';
-import 'package:messages_wallet/extracts/extract_cosmos.dart';
-import 'package:messages_wallet/models/transaction_model.dart';
+import 'package:messages_wallet/src/shared/models/transaction_model.dart';
+import 'package:messages_wallet/src/utils/extract_axis.dart';
+import 'package:messages_wallet/src/utils/extract_bob.dart';
+import 'package:messages_wallet/src/utils/extract_cosmos.dart';
 
 import 'test_data.dart';
 

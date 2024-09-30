@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:messages_wallet/utils/currency.dart';
+import 'package:messages_wallet/src/utils/currency.dart';
 
 void main() {
   group('currencyFormat', () {

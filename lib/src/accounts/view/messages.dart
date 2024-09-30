@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../utils/flags.dart';
-import 'messages_list_view.dart';
-import 'transactions_list_view.dart';
+import '../../account/view/transactions_list_view.dart';
+import '../../debug/view/messages_list_view.dart';
+import '../../utils/flags.dart';
 
 enum MoreMenuOption {
   openGitHub,
