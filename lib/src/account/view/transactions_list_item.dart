@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../shared/models/transaction_model.dart';
 import '../../utils/currency.dart';
 import '../../utils/date_time.dart';
+import '../../utils/final_balance.dart';
 
 class TransactionListItem extends StatefulWidget {
   const TransactionListItem({
@@ -52,7 +53,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
               : 'N/A',
         ),
         subtitle: Text(
-          '${widget.transaction.type == TransactionType.creditCardSpent ? 'Available Limit:' : 'Final Balance:'} ${currencyFormat(widget.transaction.finalAmount) ?? 'N/A'}',
+          finalBalance(widget.transaction.type, widget.transaction.finalAmount),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
