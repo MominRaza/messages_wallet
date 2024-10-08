@@ -110,6 +110,38 @@ void main() {
           );
         },
       );
+
+      test(
+        'credited 2',
+        () {
+          var transaction = extractAxisMessages([axisMessages[3]]).first;
+          expect(transaction.type, equals(TransactionType.credited));
+          expect(transaction.transactionAmount, equals('1000.00'));
+          expect(transaction.finalAmount, isNull);
+          expect(transaction.accountNumber, equals('Axis XX5237'));
+          expect(transaction.body, equals(axisMessages[3]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2024-10-07 07:32:10')),
+          );
+        },
+      );
+
+      test(
+        'creditCardSpent',
+        () {
+          var transaction = extractAxisMessages([axisMessages[4]]).first;
+          expect(transaction.type, equals(TransactionType.creditCardSpent));
+          expect(transaction.transactionAmount, equals('50'));
+          expect(transaction.finalAmount, equals('34985'));
+          expect(transaction.accountNumber, equals('Axis Credit Card XX3348'));
+          expect(transaction.body, equals(axisMessages[4]));
+          expect(
+            transaction.dateTime,
+            equals(DateTime.parse('2024-10-07 21:52:10')),
+          );
+        },
+      );
     },
   );
 

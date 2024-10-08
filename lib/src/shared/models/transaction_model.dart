@@ -1,4 +1,4 @@
-enum TransactionType { credited, withdrawn, transferred }
+enum TransactionType { credited, withdrawn, transferred, creditCardSpent }
 
 class Transaction {
   TransactionType type;

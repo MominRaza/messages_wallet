@@ -8,6 +8,14 @@ List<String> axisMessages = [
   'INR 42476.00 credited to A/c no. XX5237 on 30-08-23 at 05:31:41 IST. Info- NEFT/****************/XXXXXXXXX/BANK OF. Avl Bal- INR 65789.44 - Axis Bank',
   'Debit INR 5000.00 A/c no. XX985237 31-08-2023 19:15:15 ATM-WDL/MAIN CHOURA Bal INR 4384.44 SMS BLOCKCARD **** to +918691000002, if not you-Axis Bank',
   'Debit INR 435.00 A/c no. XX5237 20-09-23 16:47:23 UPI/P2M/************/Flipkart Payments SMS BLOCKUPI Cust ID to 919951860002, if not you - Axis Bank',
+  'INR 1000.00 credited to A/c no. XX5237 on 07-10-24 at 07:32:10 IST. Info - NEFT/****************/ACCE. Chk Bal https://ccm.axbk.in/AXISBK/ltt3Dvko - Axis Bank',
+  '''Spent
+Card no. XX3348
+INR 50
+07-10-24 21:52:10
+AARISH AHAM
+Avl Lmt INR 34985
+SMS BLOCK 3348 to 919951860002, if not you - Axis Bank'''
 ];
 
 List<String> cosmosMessages = [

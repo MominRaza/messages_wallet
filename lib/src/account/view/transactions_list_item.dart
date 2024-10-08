@@ -32,7 +32,9 @@ class _TransactionListItemState extends State<TransactionListItem> {
         leading: CircleAvatar(
           backgroundColor: switch (widget.transaction.type) {
             TransactionType.credited => Colors.greenAccent,
-            TransactionType.transferred => Colors.redAccent,
+            TransactionType.transferred ||
+            TransactionType.creditCardSpent =>
+              Colors.redAccent,
             TransactionType.withdrawn => null,
           },
           child: Icon(
@@ -40,6 +42,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
               TransactionType.credited => Icons.south_west,
               TransactionType.transferred => Icons.north_east,
               TransactionType.withdrawn => Icons.money_rounded,
+              TransactionType.creditCardSpent => Icons.credit_card_rounded,
             },
           ),
         ),
@@ -49,7 +52,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
               : 'N/A',
         ),
         subtitle: Text(
-          'Total Bal: ${currencyFormat(widget.transaction.finalAmount) ?? 'N/A'}',
+          '${widget.transaction.type == TransactionType.creditCardSpent ? 'Available Limit:' : 'Final Balance:'} ${currencyFormat(widget.transaction.finalAmount) ?? 'N/A'}',
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
