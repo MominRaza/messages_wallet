@@ -2,18 +2,18 @@ enum TransactionType { credited, withdrawn, transferred, creditCardSpent }
 
 class Transaction {
   TransactionType type;
-  String? transactionAmount;
+  String transactionAmount;
+  String accountNumber;
+  String body;
+  DateTime dateTime;
   String? finalAmount;
-  String? accountNumber;
-  String? body;
-  DateTime? dateTime;
 
   Transaction({
     required this.type,
-    this.transactionAmount,
+    required this.transactionAmount,
+    required this.accountNumber,
+    required this.body,
+    required this.dateTime,
     this.finalAmount,
-    this.accountNumber,
-    this.body,
-    this.dateTime,
   });
 }

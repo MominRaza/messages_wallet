@@ -47,11 +47,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
             },
           ),
         ),
-        title: Text(
-          widget.transaction.dateTime != null
-              ? formatDateTime(widget.transaction.dateTime!)
-              : 'N/A',
-        ),
+        title: Text(formatDateTime(widget.transaction.dateTime)),
         subtitle: Text(
           finalBalance(widget.transaction.type, widget.transaction.finalAmount),
           maxLines: 3,
@@ -64,7 +60,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-            child: Text('${widget.transaction.body}'),
+            child: Text(widget.transaction.body),
           ),
         ],
       ),

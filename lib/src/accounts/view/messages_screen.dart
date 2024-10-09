@@ -56,14 +56,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
       Map<String, List<Transaction>> transactionsGroup = groupBy(
         [...bobTransactions, ...axisTransactions, ...cosmosTransactions],
-        (Transaction transaction) => transaction.accountNumber ?? '',
+        (Transaction transaction) => transaction.accountNumber,
       );
 
       Map<String, List<dynamic>> transactionsGroupWithMonth = {};
 
       transactionsGroup.forEach((key, value) {
         value.sort(
-          (a, b) => a.dateTime?.compareTo(b.dateTime ?? DateTime(0)) ?? 0,
+          (a, b) => a.dateTime.compareTo(b.dateTime),
         );
         transactionsGroupWithMonth[key] = groupTransactionsByMonth(value);
       });
@@ -92,11 +92,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
     double previousTotalDebit = 0;
 
     for (var transaction in transactions) {
-      String month = transaction.dateTime != null
-          ? DateFormat('MMMM yyyy').format(transaction.dateTime!)
-          : 'N/A';
+      String month = DateFormat('MMMM yyyy').format(transaction.dateTime);
 
-      double amount = double.tryParse(transaction.transactionAmount ?? '') ?? 0;
+      double amount = double.tryParse(transaction.transactionAmount) ?? 0;
       if (transaction.type == TransactionType.credited) {
         totalCredit += amount;
       } else {

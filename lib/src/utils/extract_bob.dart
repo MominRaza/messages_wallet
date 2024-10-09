@@ -22,7 +22,7 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
 
       String formattedDateTimeString = '$year-$month-$day $time';
 
-      DateTime dateTime = DateTime.parse(formattedDateTimeString);
+      DateTime? dateTime = DateTime.tryParse(formattedDateTimeString);
 
       return Transaction(
         type: switch (transactionType?.toLowerCase()) {
@@ -30,10 +30,15 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
           'transferred' => TransactionType.transferred,
           _ => TransactionType.withdrawn,
         },
-        transactionAmount: transactionAmount,
-        finalAmount: finalAmount,
-        accountNumber: 'BoB XX$accountNumber',
+        transactionAmount: transactionAmount ?? '',
+        accountNumber: accountNumber == null ? '' : 'BoB XX$accountNumber',
         body: message,
-        dateTime: dateTime,
+        dateTime: dateTime ?? DateTime(0),
+        finalAmount: finalAmount,
       );
-    });
+    }).where(
+      (element) =>
+          element.transactionAmount.isNotEmpty &&
+          element.accountNumber.isNotEmpty &&
+          element.dateTime != DateTime(0),
+    );

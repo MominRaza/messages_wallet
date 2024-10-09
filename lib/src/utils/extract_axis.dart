@@ -40,15 +40,17 @@ Iterable<Transaction> extractAxisMessages(
           'Spent' => TransactionType.creditCardSpent,
           _ => TransactionType.transferred,
         },
-        transactionAmount: transactionAmount,
-        finalAmount: finalAmount,
-        accountNumber:
-            'Axis ${transactionType == 'Spent' ? 'Credit Card ' : ''}XX${accountNumber?.substring(accountNumber.length - 4)}',
+        transactionAmount: transactionAmount ?? '',
+        accountNumber: accountNumber == null
+            ? ''
+            : 'Axis ${transactionType == 'Spent' ? 'Credit Card ' : ''}XX${accountNumber.substring(accountNumber.length - 4)}',
         body: message,
-        dateTime: dateTime,
+        dateTime: dateTime ?? DateTime(0),
+        finalAmount: finalAmount,
       );
     }).where(
       (element) =>
-          element.transactionAmount != null &&
-          element.accountNumber != 'Axis XXnull',
+          element.transactionAmount.isNotEmpty &&
+          element.accountNumber.isNotEmpty &&
+          element.dateTime != DateTime(0),
     );

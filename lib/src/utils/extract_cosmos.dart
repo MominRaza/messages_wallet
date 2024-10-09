@@ -23,16 +23,21 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
 
       String formattedDateTimeString = '$year-$month-$day 00:00:00';
 
-      DateTime dateTime = DateTime.parse(formattedDateTimeString);
+      DateTime? dateTime = DateTime.tryParse(formattedDateTimeString);
 
       return Transaction(
         type: transactionType == 'credited'
             ? TransactionType.credited
             : TransactionType.transferred,
-        transactionAmount: transactionAmount,
+        transactionAmount: transactionAmount ?? '',
         finalAmount: finalAmount,
-        accountNumber: 'Cosmos XX$accountNumber',
+        accountNumber: accountNumber == null ? '' : 'Cosmos XX$accountNumber',
         body: message,
-        dateTime: dateTime,
+        dateTime: dateTime ?? DateTime(0),
       );
-    });
+    }).where(
+      (element) =>
+          element.transactionAmount.isNotEmpty &&
+          element.accountNumber.isNotEmpty &&
+          element.dateTime != DateTime(0),
+    );
