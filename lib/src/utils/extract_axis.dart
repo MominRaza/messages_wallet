@@ -1,4 +1,4 @@
-import '../shared/models/transaction_model.dart';
+import '../shared/models/spending_model.dart';
 
 Iterable<Transaction> extractAxisMessages(
   Iterable<String> axisMessages,

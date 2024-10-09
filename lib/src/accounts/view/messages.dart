@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../account/view/transactions_list_view.dart';
 import '../../debug/view/messages_list_view.dart';
-import '../../shared/models/transaction_model.dart';
+import '../../shared/models/spending_model.dart';
 import '../../utils/flags.dart';
 
 enum MoreMenuOption {

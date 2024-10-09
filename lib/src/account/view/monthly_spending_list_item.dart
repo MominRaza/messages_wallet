@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/models/spending_model.dart';
 import '../../utils/currency.dart';
-import '../models/monthly_spending_model.dart';
 
 class MonthlySpendingListItem extends StatelessWidget {
   const MonthlySpendingListItem({required this.monthlySpending, super.key});

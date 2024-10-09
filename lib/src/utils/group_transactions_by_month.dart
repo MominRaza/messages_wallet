@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../account/models/monthly_spending_model.dart';
-import '../shared/models/transaction_model.dart';
+import '../shared/models/spending_model.dart';
 
 List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
   List<Spending> items = [];

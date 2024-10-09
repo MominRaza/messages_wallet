@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../shared/models/transaction_model.dart';
+import '../../shared/models/spending_model.dart';
 import '../../utils/extract_axis.dart';
 import '../../utils/extract_bob.dart';
 import '../../utils/extract_cosmos.dart';

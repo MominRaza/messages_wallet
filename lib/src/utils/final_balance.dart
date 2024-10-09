@@ -1,4 +1,4 @@
-import '../shared/models/transaction_model.dart';
+import '../shared/models/spending_model.dart';
 import 'currency.dart';
 
 String finalBalance(TransactionType type, String? finalAmount) =>

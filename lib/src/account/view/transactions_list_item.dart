@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/models/transaction_model.dart';
+import '../../shared/models/spending_model.dart';
 import '../../utils/currency.dart';
 import '../../utils/date_time.dart';
 import '../../utils/final_balance.dart';

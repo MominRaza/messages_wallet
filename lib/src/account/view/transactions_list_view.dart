@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/models/transaction_model.dart';
-import '../models/monthly_spending_model.dart';
+import '../../shared/models/spending_model.dart';
 import 'monthly_spending_list_item.dart';
 import 'transactions_list_item.dart';
 

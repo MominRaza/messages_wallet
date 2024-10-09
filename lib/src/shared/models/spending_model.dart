@@ -19,3 +19,15 @@ class Transaction implements Spending {
     this.finalAmount,
   });
 }
+
+class MonthlySpending implements Spending {
+  final String month;
+  final double totalCredit;
+  final double totalDebit;
+
+  MonthlySpending({
+    required this.month,
+    required this.totalCredit,
+    required this.totalDebit,
+  });
+}

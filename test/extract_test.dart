@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:messages_wallet/src/shared/models/transaction_model.dart';
+import 'package:messages_wallet/src/shared/models/spending_model.dart';
 import 'package:messages_wallet/src/utils/extract_axis.dart';
 import 'package:messages_wallet/src/utils/extract_bob.dart';
 import 'package:messages_wallet/src/utils/extract_cosmos.dart';
