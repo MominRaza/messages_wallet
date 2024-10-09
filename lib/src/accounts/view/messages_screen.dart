@@ -1,15 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../account/models/monthly_spending_model.dart';
 import '../../shared/models/transaction_model.dart';
 import '../../utils/extract_axis.dart';
 import '../../utils/extract_bob.dart';
 import '../../utils/extract_cosmos.dart';
 import '../../utils/flags.dart';
+import '../../utils/group_transactions_by_month.dart';
 import 'messages.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -81,63 +80,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
         _transactionsGroup = transactionsGroupWithMonth;
       });
     }
-  }
-
-  List<dynamic> groupTransactionsByMonth(List<Transaction> transactions) {
-    List<dynamic> items = [];
-    String? currentMonth;
-    double totalCredit = 0;
-    double totalDebit = 0;
-    double previousTotalCredit = 0;
-    double previousTotalDebit = 0;
-
-    for (var transaction in transactions) {
-      String month = DateFormat('MMMM yyyy').format(transaction.dateTime);
-
-      double amount = double.tryParse(transaction.transactionAmount) ?? 0;
-      if (transaction.type == TransactionType.credited) {
-        totalCredit += amount;
-      } else {
-        totalDebit += amount;
-      }
-
-      if (currentMonth != null && currentMonth != month) {
-        items.add(
-          MonthlySpending(
-            month: currentMonth,
-            totalCredit: previousTotalCredit,
-            totalDebit: previousTotalDebit,
-          ),
-        );
-
-        if (transaction.type == TransactionType.credited) {
-          totalCredit = amount;
-          totalDebit = 0;
-        } else {
-          totalCredit = 0;
-          totalDebit = amount;
-        }
-      }
-
-      previousTotalCredit = totalCredit;
-      previousTotalDebit = totalDebit;
-
-      items.add(transaction);
-
-      if (currentMonth != null && transaction == transactions.last) {
-        items.add(
-          MonthlySpending(
-            month: currentMonth,
-            totalCredit: totalCredit,
-            totalDebit: totalDebit,
-          ),
-        );
-      }
-
-      currentMonth = month;
-    }
-
-    return items.reversed.toList();
   }
 
   @override
