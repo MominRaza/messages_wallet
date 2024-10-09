@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/models/transaction_model.dart';
+import '../models/monthly_spending_model.dart';
 import 'monthly_spending_list_item.dart';
 import 'transactions_list_item.dart';
 
@@ -10,7 +11,7 @@ class TransactionsListView extends StatelessWidget {
     super.key,
   });
 
-  final List<dynamic> transactions;
+  final List<Spending> transactions;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,9 @@ class TransactionsListView extends StatelessWidget {
 
         return transaction is Transaction
             ? TransactionListItem(transaction: transaction)
-            : MonthlySpendingListItem(monthlySpending: transaction);
+            : transaction is MonthlySpending
+                ? MonthlySpendingListItem(monthlySpending: transaction)
+                : null;
       },
     );
   }

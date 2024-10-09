@@ -1,4 +1,6 @@
-class MonthlySpending {
+import '../../shared/models/transaction_model.dart';
+
+class MonthlySpending implements Spending {
   final String month;
   final double totalCredit;
   final double totalDebit;

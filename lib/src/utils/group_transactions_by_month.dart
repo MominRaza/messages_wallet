@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import '../account/models/monthly_spending_model.dart';
 import '../shared/models/transaction_model.dart';
 
-List<dynamic> groupTransactionsByMonth(List<Transaction> transactions) {
-  List<dynamic> items = [];
+List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
+  List<Spending> items = [];
   String? currentMonth;
   double totalCredit = 0;
   double totalDebit = 0;

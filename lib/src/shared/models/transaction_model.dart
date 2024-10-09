@@ -1,6 +1,8 @@
 enum TransactionType { credited, withdrawn, transferred, creditCardSpent }
 
-class Transaction {
+abstract class Spending {}
+
+class Transaction implements Spending {
   TransactionType type;
   String transactionAmount;
   String accountNumber;

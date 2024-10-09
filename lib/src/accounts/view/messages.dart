@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../account/view/transactions_list_view.dart';
 import '../../debug/view/messages_list_view.dart';
+import '../../shared/models/transaction_model.dart';
 import '../../utils/flags.dart';
 
 enum MoreMenuOption {
@@ -19,7 +20,7 @@ class Messages extends StatelessWidget {
     super.key,
   });
   final Iterable<SmsMessage> allMessages;
-  final Map<String, List<dynamic>> transactionsGroup;
+  final Map<String, List<Spending>> transactionsGroup;
 
   @override
   Widget build(BuildContext context) {

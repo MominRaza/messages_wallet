@@ -21,7 +21,7 @@ class MessagesScreen extends StatefulWidget {
 class _MessagesScreenState extends State<MessagesScreen> {
   final SmsQuery _query = SmsQuery();
   Iterable<SmsMessage> _allMessages = [];
-  Map<String, List<dynamic>> _transactionsGroup = {};
+  Map<String, List<Spending>> _transactionsGroup = {};
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         (Transaction transaction) => transaction.accountNumber,
       );
 
-      Map<String, List<dynamic>> transactionsGroupWithMonth = {};
+      Map<String, List<Spending>> transactionsGroupWithMonth = {};
 
       transactionsGroup.forEach((key, value) {
         value.sort(
