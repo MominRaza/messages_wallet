@@ -4,56 +4,57 @@ import '../shared/models/spending_model.dart';
 
 List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
   List<Spending> items = [];
-  String? currentMonth;
-  double totalCredit = 0;
-  double totalDebit = 0;
-  double previousTotalCredit = 0;
-  double previousTotalDebit = 0;
+  String? runningMonth;
+  double runningMonthCredit = 0;
+  double runningMonthDebit = 0;
 
   for (var transaction in transactions) {
     String month = DateFormat('MMMM yyyy').format(transaction.dateTime);
-
     double amount = double.tryParse(transaction.transactionAmount) ?? 0;
-    if (transaction.type == TransactionType.credited) {
-      totalCredit += amount;
-    } else {
-      totalDebit += amount;
-    }
 
-    if (currentMonth != null && currentMonth != month) {
-      items.add(
-        MonthlySpending(
-          month: currentMonth,
-          totalCredit: previousTotalCredit,
-          totalDebit: previousTotalDebit,
-        ),
-      );
+    runningMonth ??= month;
+
+    if (runningMonth == month) {
+      items.add(transaction);
 
       if (transaction.type == TransactionType.credited) {
-        totalCredit = amount;
-        totalDebit = 0;
+        runningMonthCredit += amount;
       } else {
-        totalCredit = 0;
-        totalDebit = amount;
+        runningMonthDebit += amount;
       }
     }
 
-    previousTotalCredit = totalCredit;
-    previousTotalDebit = totalDebit;
-
-    items.add(transaction);
-
-    if (currentMonth != null && transaction == transactions.last) {
+    if (runningMonth != month) {
       items.add(
         MonthlySpending(
-          month: currentMonth,
-          totalCredit: totalCredit,
-          totalDebit: totalDebit,
+          month: runningMonth,
+          totalCredit: runningMonthCredit,
+          totalDebit: runningMonthDebit,
+        ),
+      );
+
+      items.add(transaction);
+
+      runningMonth = month;
+
+      if (transaction.type == TransactionType.credited) {
+        runningMonthCredit = amount;
+        runningMonthDebit = 0;
+      } else {
+        runningMonthCredit = 0;
+        runningMonthDebit = amount;
+      }
+    }
+
+    if (transaction == transactions.last) {
+      items.add(
+        MonthlySpending(
+          month: runningMonth,
+          totalCredit: runningMonthCredit,
+          totalDebit: runningMonthDebit,
         ),
       );
     }
-
-    currentMonth = month;
   }
 
   return items.reversed.toList();
