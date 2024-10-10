@@ -1,3 +1,8 @@
+## 0.2.4
+
+- Added axis bank credit card support
+- Fixed monthly spending breakdown
+
 ## 0.2.3
 
 - Bug fix and ui improvements
