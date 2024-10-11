@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/models/spending_model.dart';
+import '../../shared/view/link_text.dart';
 import '../../utils/currency.dart';
 import '../../utils/date_time.dart';
 import '../../utils/final_balance.dart';
@@ -60,7 +61,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-            child: Text(widget.transaction.body),
+            child: LinkText(widget.transaction.body),
           ),
         ],
       ),
