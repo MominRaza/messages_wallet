@@ -22,6 +22,9 @@ Enjoy the simplified banking experience with Messages Wallet! 🎉📱
 - Axis Bank
 - Cosmos Bank
 
+## Supported Credit Cards
+- Axis Bank
+
 
 ### Adding Support for Your Bank?
 
