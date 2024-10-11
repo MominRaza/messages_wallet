@@ -23,6 +23,8 @@ class _TransactionListItemState extends State<TransactionListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final transaction = widget.transaction;
+
     return Card(
       clipBehavior: _isExpended ? Clip.hardEdge : null,
       elevation: _isExpended ? null : 0,
@@ -32,7 +34,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         shape: const Border(),
         onExpansionChanged: (value) => setState(() => _isExpended = value),
         leading: CircleAvatar(
-          backgroundColor: switch (widget.transaction.type) {
+          backgroundColor: switch (transaction.type) {
             TransactionType.credited => Colors.greenAccent,
             TransactionType.transferred ||
             TransactionType.creditCardSpent =>
@@ -40,7 +42,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
             TransactionType.withdrawn => null,
           },
           child: Icon(
-            switch (widget.transaction.type) {
+            switch (transaction.type) {
               TransactionType.credited => Icons.south_west,
               TransactionType.transferred => Icons.north_east,
               TransactionType.withdrawn => Icons.money_rounded,
@@ -48,20 +50,20 @@ class _TransactionListItemState extends State<TransactionListItem> {
             },
           ),
         ),
-        title: Text(formatDateTime(widget.transaction.dateTime)),
-        subtitle: Text(
-          finalBalance(widget.transaction.type, widget.transaction.finalAmount),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(formatDateTime(transaction.dateTime)),
+        subtitle: Text(finalBalance(transaction.type, transaction.finalAmount)),
         trailing: Text(
-          '${widget.transaction.type == TransactionType.credited ? '' : '- '}${currencyFormat(widget.transaction.transactionAmount)}',
-          style: Theme.of(context).textTheme.bodyLarge,
+          '${transaction.type == TransactionType.credited ? '' : '- '}${currencyFormat(transaction.transactionAmount)}',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
+        childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),
+        expandedAlignment: Alignment.centerLeft,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-            child: LinkText(widget.transaction.body),
+          SafeArea(
+            top: false,
+            bottom: false,
+            minimum: const EdgeInsets.only(left: 16, right: 24),
+            child: LinkText(transaction.body),
           ),
         ],
       ),

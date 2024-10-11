@@ -13,7 +13,10 @@ class MonthlySpendingListItem extends StatelessWidget {
     return ExpansionTile(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      title: Text(monthlySpending.month),
+      title: Text(
+        monthlySpending.month,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
       trailing: Text(
         monthlySpending.totalCredit > monthlySpending.totalDebit
             ? '${currencyFormat(
@@ -24,30 +27,47 @@ class MonthlySpendingListItem extends StatelessWidget {
                 (monthlySpending.totalDebit - monthlySpending.totalCredit)
                     .toString(),
               )}',
-        style: Theme.of(context).textTheme.bodyMedium,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       visualDensity: VisualDensity.compact,
       expandedAlignment: Alignment.centerRight,
-      childrenPadding: const EdgeInsets.fromLTRB(16, 8, 24, 12),
+      childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),
       shape: const Border(),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Total Credit:'),
-            Text(
-              '${currencyFormat(monthlySpending.totalCredit.toString())}',
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Total Debit:'),
-            Text(
-              '- ${currencyFormat(monthlySpending.totalDebit.toString())}',
-            ),
-          ],
+        SafeArea(
+          top: false,
+          bottom: false,
+          minimum: const EdgeInsets.only(left: 16, right: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    'Total Credit:',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  Text(
+                    'Total Debit:',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                ],
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '${currencyFormat(monthlySpending.totalCredit.toString())}',
+                  ),
+                  Text(
+                    '- ${currencyFormat(monthlySpending.totalDebit.toString())}',
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
