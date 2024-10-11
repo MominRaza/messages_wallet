@@ -1,3 +1,9 @@
+## 0.2.5
+
+- URLs in message body are now clickable
+- Display edge to edge
+- Updated UI
+
 ## 0.2.4
 
 - Added axis bank credit card support
