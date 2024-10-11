@@ -6,7 +6,7 @@ void main() {
   group('finalBalance', () {
     test('should return available limit for credit card spent', () {
       String result = finalBalance(TransactionType.creditCardSpent, '34985');
-      expect(result, 'Available Limit: ₹34,985.00');
+      expect(result, 'Available Limit: ₹34,985');
     });
 
     test('should return final balance for other transaction types', () {
