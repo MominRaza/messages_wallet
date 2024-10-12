@@ -11,7 +11,7 @@ void main() {
         List<Transaction> transactions = [
           Transaction(
             dateTime: DateTime(2023, 1, 15),
-            transactionAmount: '1000',
+            transactionAmount: 1000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Salary',
@@ -27,14 +27,14 @@ void main() {
 
       test('should have monthly spending at index 0', () {
         expect(result[0], isA<MonthlySpending>());
-        expect((result[0] as MonthlySpending).month, 'January 2023');
+        expect((result[0] as MonthlySpending).monthYear, 'January 2023');
         expect((result[0] as MonthlySpending).totalCredit, 1000);
         expect((result[0] as MonthlySpending).totalDebit, 0);
       });
 
       test('should have transactions at index 1', () {
         expect(result[1], isA<Transaction>());
-        expect((result[1] as Transaction).transactionAmount, '1000');
+        expect((result[1] as Transaction).transactionAmount, 1000);
       });
     });
 
@@ -45,14 +45,14 @@ void main() {
         List<Transaction> transactions = [
           Transaction(
             dateTime: DateTime(2023, 1, 15),
-            transactionAmount: '1000',
+            transactionAmount: 1000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Salary',
           ),
           Transaction(
             dateTime: DateTime(2023, 1, 20),
-            transactionAmount: '500',
+            transactionAmount: 500,
             type: TransactionType.withdrawn,
             accountNumber: '123456',
             body: 'Groceries',
@@ -68,19 +68,19 @@ void main() {
 
       test('should have monthly spending at index 0', () {
         expect(result[0], isA<MonthlySpending>());
-        expect((result[0] as MonthlySpending).month, 'January 2023');
+        expect((result[0] as MonthlySpending).monthYear, 'January 2023');
         expect((result[0] as MonthlySpending).totalCredit, 1000);
         expect((result[0] as MonthlySpending).totalDebit, 500);
       });
 
       test('should have transactions at index 1', () {
         expect(result[1], isA<Transaction>());
-        expect((result[1] as Transaction).transactionAmount, '500');
+        expect((result[1] as Transaction).transactionAmount, 500);
       });
 
       test('should have transactions at index 2', () {
         expect(result[2], isA<Transaction>());
-        expect((result[2] as Transaction).transactionAmount, '1000');
+        expect((result[2] as Transaction).transactionAmount, 1000);
       });
     });
 
@@ -91,14 +91,14 @@ void main() {
         List<Transaction> transactions = [
           Transaction(
             dateTime: DateTime(2023, 1, 15),
-            transactionAmount: '1000',
+            transactionAmount: 1000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Salary',
           ),
           Transaction(
             dateTime: DateTime(2023, 2, 10),
-            transactionAmount: '2000',
+            transactionAmount: 2000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Freelance',
@@ -114,26 +114,26 @@ void main() {
 
       test('should have monthly spending at index 0', () {
         expect(result[0], isA<MonthlySpending>());
-        expect((result[0] as MonthlySpending).month, 'February 2023');
+        expect((result[0] as MonthlySpending).monthYear, 'February 2023');
         expect((result[0] as MonthlySpending).totalCredit, 2000);
         expect((result[0] as MonthlySpending).totalDebit, 0);
       });
 
       test('should have transactions at index 1', () {
         expect(result[1], isA<Transaction>());
-        expect((result[1] as Transaction).transactionAmount, '2000');
+        expect((result[1] as Transaction).transactionAmount, 2000);
       });
 
       test('should have monthly spending at index 2', () {
         expect(result[2], isA<MonthlySpending>());
-        expect((result[2] as MonthlySpending).month, 'January 2023');
+        expect((result[2] as MonthlySpending).monthYear, 'January 2023');
         expect((result[2] as MonthlySpending).totalCredit, 1000);
         expect((result[2] as MonthlySpending).totalDebit, 0);
       });
 
       test('should have transactions at index 3', () {
         expect(result[3], isA<Transaction>());
-        expect((result[3] as Transaction).transactionAmount, '1000');
+        expect((result[3] as Transaction).transactionAmount, 1000);
       });
     });
 
@@ -144,21 +144,21 @@ void main() {
         List<Transaction> transactions = [
           Transaction(
             dateTime: DateTime(2023, 1, 15),
-            transactionAmount: '1000',
+            transactionAmount: 1000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Salary',
           ),
           Transaction(
             dateTime: DateTime(2023, 1, 20),
-            transactionAmount: '500',
+            transactionAmount: 500,
             type: TransactionType.withdrawn,
             accountNumber: '123456',
             body: 'Groceries',
           ),
           Transaction(
             dateTime: DateTime(2023, 2, 10),
-            transactionAmount: '2000',
+            transactionAmount: 2000,
             type: TransactionType.credited,
             accountNumber: '123456',
             body: 'Freelance',
@@ -174,31 +174,31 @@ void main() {
 
       test('should have monthly spending at index 0', () {
         expect(result[0], isA<MonthlySpending>());
-        expect((result[0] as MonthlySpending).month, 'February 2023');
+        expect((result[0] as MonthlySpending).monthYear, 'February 2023');
         expect((result[0] as MonthlySpending).totalCredit, 2000);
         expect((result[0] as MonthlySpending).totalDebit, 0);
       });
 
       test('should have transactions at index 1', () {
         expect(result[1], isA<Transaction>());
-        expect((result[1] as Transaction).transactionAmount, '2000');
+        expect((result[1] as Transaction).transactionAmount, 2000);
       });
 
       test('should have monthly spending at index 2', () {
         expect(result[2], isA<MonthlySpending>());
-        expect((result[2] as MonthlySpending).month, 'January 2023');
+        expect((result[2] as MonthlySpending).monthYear, 'January 2023');
         expect((result[2] as MonthlySpending).totalCredit, 1000);
         expect((result[2] as MonthlySpending).totalDebit, 500);
       });
 
       test('should have transactions at index 3', () {
         expect(result[3], isA<Transaction>());
-        expect((result[3] as Transaction).transactionAmount, '500');
+        expect((result[3] as Transaction).transactionAmount, 500);
       });
 
       test('should have transactions at index 4', () {
         expect(result[4], isA<Transaction>());
-        expect((result[4] as Transaction).transactionAmount, '1000');
+        expect((result[4] as Transaction).transactionAmount, 1000);
       });
     });
 

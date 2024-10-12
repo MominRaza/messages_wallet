@@ -13,20 +13,21 @@ class MonthlySpendingListItem extends StatelessWidget {
     return ExpansionTile(
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       collapsedBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      title: Text(
-        monthlySpending.month,
-        style: Theme.of(context).textTheme.titleLarge,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            monthlySpending.year,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          Text(
+            monthlySpending.month,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ],
       ),
       trailing: Text(
-        monthlySpending.totalCredit > monthlySpending.totalDebit
-            ? '${currencyFormat(
-                (monthlySpending.totalCredit - monthlySpending.totalDebit)
-                    .toString(),
-              )}'
-            : '- ${currencyFormat(
-                (monthlySpending.totalDebit - monthlySpending.totalCredit)
-                    .toString(),
-              )}',
+        currencyFormat(monthlySpending.totalAmount),
         style: Theme.of(context).textTheme.titleLarge,
       ),
       visualDensity: VisualDensity.compact,
@@ -59,10 +60,10 @@ class MonthlySpendingListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '${currencyFormat(monthlySpending.totalCredit.toString())}',
+                    currencyFormat(monthlySpending.totalCredit),
                   ),
                   Text(
-                    '- ${currencyFormat(monthlySpending.totalDebit.toString())}',
+                    currencyFormat(monthlySpending.totalDebit * -1),
                   ),
                 ],
               ),

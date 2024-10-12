@@ -30,15 +30,15 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
           'transferred' => TransactionType.transferred,
           _ => TransactionType.withdrawn,
         },
-        transactionAmount: transactionAmount ?? '',
+        transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
         accountNumber: accountNumber == null ? '' : 'BoB XX$accountNumber',
         body: message,
         dateTime: dateTime ?? DateTime(0),
-        finalAmount: finalAmount,
+        finalAmount: double.tryParse(finalAmount ?? ''),
       );
     }).where(
       (element) =>
-          element.transactionAmount.isNotEmpty &&
+          element.transactionAmount != 0 &&
           element.accountNumber.isNotEmpty &&
           element.dateTime != DateTime(0),
     );

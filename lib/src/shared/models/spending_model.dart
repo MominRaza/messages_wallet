@@ -4,11 +4,11 @@ abstract class Spending {}
 
 class Transaction implements Spending {
   TransactionType type;
-  String transactionAmount;
+  double transactionAmount;
   String accountNumber;
   String body;
   DateTime dateTime;
-  String? finalAmount;
+  double? finalAmount;
 
   Transaction({
     required this.type,
@@ -21,12 +21,16 @@ class Transaction implements Spending {
 }
 
 class MonthlySpending implements Spending {
-  final String month;
+  final String monthYear;
   final double totalCredit;
   final double totalDebit;
 
+  double get totalAmount => totalCredit - totalDebit;
+  String get month => monthYear.split(' ')[0];
+  String get year => monthYear.split(' ')[1];
+
   MonthlySpending({
-    required this.month,
+    required this.monthYear,
     required this.totalCredit,
     required this.totalDebit,
   });
