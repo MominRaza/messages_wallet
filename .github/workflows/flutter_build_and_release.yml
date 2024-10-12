@@ -49,13 +49,9 @@ jobs:
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk Messages.Wallet.$VERSION_NAME.apk
 
-      - name: Extract Changelog
-        run: sed -n "/## $BUILD_NAME/,/^## /p" CHANGELOG.md | sed '1d;$d' | sed '/^[[:space:]]*$/d' > CHANGELOG_EXTRACT.md
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: Messages.Wallet.*.apk
           prerelease: true
-          body_path: CHANGELOG_EXTRACT.md
           generate_release_notes: true
