@@ -35,10 +35,13 @@ class _TransactionListItemState extends State<TransactionListItem> {
         onExpansionChanged: (value) => setState(() => _isExpended = value),
         leading: CircleAvatar(
           backgroundColor: switch (transaction.type) {
-            TransactionType.credited => Colors.greenAccent,
+            TransactionType.credited =>
+              Theme.of(context).brightness == Brightness.light
+                  ? Colors.greenAccent
+                  : Colors.green,
             TransactionType.transferred ||
             TransactionType.creditCardSpent =>
-              Colors.redAccent,
+              Theme.of(context).colorScheme.errorContainer,
             TransactionType.withdrawn => null,
           },
           child: Icon(
