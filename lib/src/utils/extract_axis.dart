@@ -40,17 +40,17 @@ Iterable<Transaction> extractAxisMessages(
           'Spent' => TransactionType.creditCardSpent,
           _ => TransactionType.transferred,
         },
-        transactionAmount: transactionAmount ?? '',
+        transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
         accountNumber: accountNumber == null
             ? ''
             : 'Axis ${transactionType == 'Spent' ? 'Credit Card ' : ''}XX${accountNumber.substring(accountNumber.length - 4)}',
         body: message,
         dateTime: dateTime ?? DateTime(0),
-        finalAmount: finalAmount,
+        finalAmount: double.tryParse(finalAmount ?? ''),
       );
     }).where(
       (element) =>
-          element.transactionAmount.isNotEmpty &&
+          element.transactionAmount != 0 &&
           element.accountNumber.isNotEmpty &&
           element.dateTime != DateTime(0),
     );

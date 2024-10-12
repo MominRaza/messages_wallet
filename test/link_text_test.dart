@@ -40,14 +40,14 @@ void main() {
     expect(span.children!.length, 3);
 
     final beforeUrlSpan = span.children![0] as TextSpan;
-    expect(beforeUrlSpan.text, equals(beforeUrl));
+    expect(beforeUrlSpan.text, beforeUrl);
 
     final urlSpan = span.children![1] as TextSpan;
-    expect(urlSpan.text, equals(url));
+    expect(urlSpan.text, url);
     expect(urlSpan.style?.decoration, TextDecoration.underline);
     expect(urlSpan.recognizer, isNotNull);
 
     final afterUrlSpan = span.children![2] as TextSpan;
-    expect(afterUrlSpan.text, equals(afterUrl));
+    expect(afterUrlSpan.text, afterUrl);
   });
 }

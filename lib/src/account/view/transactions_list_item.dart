@@ -53,7 +53,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         title: Text(formatDateTime(transaction.dateTime)),
         subtitle: Text(finalBalance(transaction.type, transaction.finalAmount)),
         trailing: Text(
-          '${transaction.type == TransactionType.credited ? '' : '- '}${currencyFormat(transaction.transactionAmount)}',
+          '${transaction.type == TransactionType.credited ? '' : '\u2212 '}${currencyFormat(transaction.transactionAmount)}',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),

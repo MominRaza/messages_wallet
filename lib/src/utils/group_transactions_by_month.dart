@@ -9,8 +9,8 @@ List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
   double runningMonthDebit = 0;
 
   for (var transaction in transactions) {
-    String month = DateFormat('MMMM yyyy').format(transaction.dateTime);
-    double amount = double.tryParse(transaction.transactionAmount) ?? 0;
+    final month = DateFormat('MMMM yyyy').format(transaction.dateTime);
+    final amount = transaction.transactionAmount;
 
     runningMonth ??= month;
 
@@ -27,7 +27,7 @@ List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
     if (runningMonth != month) {
       items.add(
         MonthlySpending(
-          month: runningMonth,
+          monthYear: runningMonth,
           totalCredit: runningMonthCredit,
           totalDebit: runningMonthDebit,
         ),
@@ -49,7 +49,7 @@ List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
     if (transaction == transactions.last) {
       items.add(
         MonthlySpending(
-          month: runningMonth,
+          monthYear: runningMonth,
           totalCredit: runningMonthCredit,
           totalDebit: runningMonthDebit,
         ),

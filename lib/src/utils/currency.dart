@@ -1,13 +1,15 @@
 import 'package:intl/intl.dart';
 
-String? currencyFormat(String? amount) {
-  final doubleAmount = double.tryParse(amount ?? '');
-  if (doubleAmount == null) return null;
+String currencyFormat(double amount) {
+  String formattedAmount;
 
-  if (doubleAmount == doubleAmount.toInt()) {
-    return NumberFormat.simpleCurrency(locale: 'HI', decimalDigits: 0)
-        .format(doubleAmount);
+  if (amount == amount.toInt()) {
+    formattedAmount =
+        NumberFormat.simpleCurrency(locale: 'HI', decimalDigits: 0)
+            .format(amount);
   } else {
-    return NumberFormat.simpleCurrency(locale: 'HI').format(doubleAmount);
+    formattedAmount = NumberFormat.simpleCurrency(locale: 'HI').format(amount);
   }
+
+  return formattedAmount.replaceAll('-', '\u2212 ');
 }

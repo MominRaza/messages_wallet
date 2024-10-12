@@ -29,15 +29,15 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
         type: transactionType == 'credited'
             ? TransactionType.credited
             : TransactionType.transferred,
-        transactionAmount: transactionAmount ?? '',
-        finalAmount: finalAmount,
+        transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
         accountNumber: accountNumber == null ? '' : 'Cosmos XX$accountNumber',
         body: message,
         dateTime: dateTime ?? DateTime(0),
+        finalAmount: double.tryParse(finalAmount ?? ''),
       );
     }).where(
       (element) =>
-          element.transactionAmount.isNotEmpty &&
+          element.transactionAmount != 0 &&
           element.accountNumber.isNotEmpty &&
           element.dateTime != DateTime(0),
     );

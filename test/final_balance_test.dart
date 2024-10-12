@@ -5,12 +5,12 @@ import 'package:messages_wallet/src/utils/final_balance.dart';
 void main() {
   group('finalBalance', () {
     test('should return available limit for credit card spent', () {
-      String result = finalBalance(TransactionType.creditCardSpent, '34985');
+      String result = finalBalance(TransactionType.creditCardSpent, 34985);
       expect(result, 'Available Limit: ₹34,985');
     });
 
     test('should return final balance for other transaction types', () {
-      String result = finalBalance(TransactionType.withdrawn, '65789.44');
+      String result = finalBalance(TransactionType.withdrawn, 65789.44);
       expect(result, 'Final Balance: ₹65,789.44');
     });
 
