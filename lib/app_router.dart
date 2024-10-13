@@ -8,6 +8,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: HomeRoute.page, initial: true),
         AutoRoute(page: MessagesRoute.page),
+        AutoRoute(page: TransactionsListView.page),
         AutoRoute(page: PermissionRoute.page),
         AutoRoute(page: SettingsRoute.page),
       ];

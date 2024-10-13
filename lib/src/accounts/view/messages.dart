@@ -4,9 +4,10 @@ import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app_router.gr.dart';
-import '../../account/view/transactions_list_view.dart';
-import '../../debug/view/messages_list_view.dart';
 import '../../shared/models/spending_model.dart';
+import '../../utils/currency.dart';
+import '../../utils/date_time.dart';
+import '../../utils/final_balance.dart';
 import '../../utils/flags.dart';
 
 enum MoreMenuOption {
@@ -67,95 +68,122 @@ class Messages extends StatelessWidget {
               icon: const Icon(Icons.more_vert),
             ),
           ],
-          bottom: TabBar(
-            isScrollable: true,
-            tabAlignment: TabAlignment.center,
-            tabs: [
-              if (isDebug) ...[
-                const Tab(
-                  child: Text('Debug'),
-                ),
-              ],
-              ...transactionsGroup.entries.map(
-                (entry) => Tab(
-                  child: Text(entry.key),
-                ),
-              ),
-            ],
-          ),
         ),
-        body: transactionsGroup.isEmpty && !isDebug
-            ? Center(
-                child: Column(
-                  children: [
-                    const Spacer(
-                      flex: 2,
-                    ),
-                    Text(
-                      'No messages to show',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
+        body: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemBuilder: (context, index) {
+            if (index == transactionsGroup.entries.length) {
+              return Card(
+                margin: const EdgeInsets.all(8),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your bank is not showing up?',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                          'Please raise an issue on GitHub or send a email, we will try to add support for it.'),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'Are your bank messages not displaying? Please, raise an issue on our GitHub page.',
-                            textAlign: TextAlign.center,
+                          OutlinedButton(
+                            onPressed: () {},
+                            child: const Text('Open GitHub Issue'),
                           ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "When reporting, include sample messages and the sender's address from your bank. Remember to remove any sensitive information first!",
-                            textAlign: TextAlign.center,
+                          const SizedBox(width: 8),
+                          FilledButton(
+                            onPressed: () {},
+                            child: const Text('Send Email'),
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            final entry = transactionsGroup.entries.elementAt(index);
+            return Card(
+              margin: const EdgeInsets.all(8),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.key,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    const SizedBox(
-                      height: 32,
+                    const SizedBox(height: 8),
+                    Text(
+                      finalBalance(
+                        entry.value.last.type,
+                        entry.value.last.finalAmount,
+                      ),
                     ),
-                    FilledButton.tonal(
-                      onPressed: () {
-                        launchUrl(
-                          Uri.https(
-                            'github.com',
-                            '/MominRaza/messages_wallet/issues',
+                    const SizedBox(height: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Transactions',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (var transaction in entry.value.take(3))
+                                  Text(formatDateTime(transaction.dateTime)),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                for (var transaction in entry.value.take(3))
+                                  Text(
+                                    currencyFormat(
+                                        transaction.transactionAmount *
+                                            (transaction.type ==
+                                                    TransactionType.credited
+                                                ? 1
+                                                : -1)),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FilledButton(
+                          onPressed: () => context.router.push(
+                            TransactionsListView(
+                                title: entry.key, transactions: entry.value),
                           ),
-                        );
-                      },
-                      child: const Text('Create an issue'),
+                          child: const Text('View All'),
+                        ),
+                      ],
                     ),
-                    const Spacer(flex: 3),
                   ],
                 ),
-              )
-            : TabBarView(
-                children: [
-                  if (isDebug) ...[
-                    allMessages.isNotEmpty
-                        ? MessagesListView(
-                            messages: allMessages,
-                          )
-                        : Center(
-                            child: Text(
-                              'No messages to show.',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                  ],
-                  ...transactionsGroup.entries.map(
-                    (entry) => TransactionsListView(
-                      transactions: entry.value,
-                    ),
-                  ),
-                ],
               ),
+            );
+          },
+          itemCount: transactionsGroup.entries.length + 1,
+        ),
       ),
     );
   }
