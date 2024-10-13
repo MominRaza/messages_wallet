@@ -43,7 +43,7 @@ Iterable<Transaction> extractAxisMessages(
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
         accountNumber: accountNumber == null
             ? ''
-            : 'Axis ${transactionType == 'Spent' ? 'Credit Card ' : ''}XX${accountNumber.substring(accountNumber.length - 4)}',
+            : 'Axis Bank ${transactionType == 'Spent' ? 'Credit Card ' : ''}${accountNumber.substring(accountNumber.length - 4)}',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),

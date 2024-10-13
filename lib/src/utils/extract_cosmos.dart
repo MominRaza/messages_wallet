@@ -30,7 +30,8 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
             ? TransactionType.credited
             : TransactionType.transferred,
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
-        accountNumber: accountNumber == null ? '' : 'Cosmos XX$accountNumber',
+        accountNumber:
+            accountNumber == null ? '' : 'Cosmos Bank $accountNumber',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),
