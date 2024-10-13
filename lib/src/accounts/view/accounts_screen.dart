@@ -8,7 +8,6 @@ import '../../shared/models/spending_model.dart';
 import '../../utils/extract_axis.dart';
 import '../../utils/extract_bob.dart';
 import '../../utils/extract_cosmos.dart';
-import '../../utils/flags.dart';
 import 'messages.dart';
 
 @RoutePage()
@@ -66,16 +65,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
           ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
       });
 
-      if (isDebug) {
-        messages.sort((a, b) => a.address?.compareTo(b.address ?? '') ?? 0);
-        setState(() {
-          _allMessages = messages.where(
-            (message) => message.address?[2] == '-',
-          );
-        });
-      }
-
       setState(() {
+        _allMessages = messages;
         _transactionsGroup = shortedTransactions;
       });
     }
