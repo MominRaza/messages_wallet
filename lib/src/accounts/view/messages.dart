@@ -170,8 +170,10 @@ class Messages extends StatelessWidget {
                       children: [
                         FilledButton(
                           onPressed: () => context.router.push(
-                            TransactionsListView(
-                                title: entry.key, transactions: entry.value),
+                            AccountRoute(
+                              title: entry.key,
+                              transactions: entry.value,
+                            ),
                           ),
                           child: const Text('View All'),
                         ),

@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     (() async => await Permission.sms.isGranted && mounted
-        ? context.router.replace(const MessagesRoute())
+        ? context.router.replace(const AccountsRoute())
         : context.router.replace(const PermissionRoute()))();
   }
 

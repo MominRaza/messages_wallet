@@ -7,8 +7,8 @@ import 'monthly_spending_list_item.dart';
 import 'transactions_list_item.dart';
 
 @RoutePage()
-class TransactionsListView extends StatelessWidget {
-  const TransactionsListView(
+class AccountScreen extends StatelessWidget {
+  const AccountScreen(
       {required this.transactions, required this.title, super.key});
 
   final String title;

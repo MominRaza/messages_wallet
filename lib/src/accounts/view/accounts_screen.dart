@@ -12,14 +12,14 @@ import '../../utils/flags.dart';
 import 'messages.dart';
 
 @RoutePage()
-class MessagesScreen extends StatefulWidget {
-  const MessagesScreen({super.key});
+class AccountsScreen extends StatefulWidget {
+  const AccountsScreen({super.key});
 
   @override
-  State<MessagesScreen> createState() => _MessagesScreenState();
+  State<AccountsScreen> createState() => _AccountsScreenState();
 }
 
-class _MessagesScreenState extends State<MessagesScreen> {
+class _AccountsScreenState extends State<AccountsScreen> {
   final SmsQuery _query = SmsQuery();
   Iterable<SmsMessage> _allMessages = [];
   Map<String, List<Transaction>> _transactionsGroup = {};
