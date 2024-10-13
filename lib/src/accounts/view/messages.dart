@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../app_router.gr.dart';
 import '../../account/view/transactions_list_view.dart';
 import '../../debug/view/messages_list_view.dart';
 import '../../shared/models/spending_model.dart';
@@ -55,7 +57,7 @@ class Messages extends StatelessWidget {
                     );
                     break;
                   case MoreMenuOption.settings:
-                    Navigator.pushNamed(context, '/settings');
+                    context.router.push(const SettingsRoute());
                     break;
                   case MoreMenuOption.about:
                     launchUrl(Uri.https('mominraza.dev', '/messages_wallet'));
