@@ -9,7 +9,6 @@ import '../../utils/extract_axis.dart';
 import '../../utils/extract_bob.dart';
 import '../../utils/extract_cosmos.dart';
 import '../../utils/flags.dart';
-import '../../utils/group_transactions_by_month.dart';
 import 'messages.dart';
 
 @RoutePage()
@@ -23,7 +22,7 @@ class MessagesScreen extends StatefulWidget {
 class _MessagesScreenState extends State<MessagesScreen> {
   final SmsQuery _query = SmsQuery();
   Iterable<SmsMessage> _allMessages = [];
-  Map<String, List<Spending>> _transactionsGroup = {};
+  Map<String, List<Transaction>> _transactionsGroup = {};
 
   @override
   void initState() {
@@ -60,13 +59,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
         (Transaction transaction) => transaction.accountNumber,
       );
 
-      Map<String, List<Spending>> transactionsGroupWithMonth = {};
+      Map<String, List<Transaction>> shortedTransactions = {};
 
       transactionsGroup.forEach((key, value) {
-        value.sort(
-          (a, b) => a.dateTime.compareTo(b.dateTime),
-        );
-        transactionsGroupWithMonth[key] = groupTransactionsByMonth(value);
+        shortedTransactions[key] = value
+          ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
       });
 
       if (isDebug) {
@@ -79,7 +76,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       }
 
       setState(() {
-        _transactionsGroup = transactionsGroupWithMonth;
+        _transactionsGroup = shortedTransactions;
       });
     }
   }

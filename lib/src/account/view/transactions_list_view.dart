@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/models/spending_model.dart';
+import '../../utils/group_transactions_by_month.dart';
 import 'monthly_spending_list_item.dart';
 import 'transactions_list_item.dart';
 
@@ -10,20 +11,22 @@ class TransactionsListView extends StatelessWidget {
     super.key,
   });
 
-  final List<Spending> transactions;
+  final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context) {
+    final spends = groupTransactionsByMonth(transactions);
+
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: transactions.length,
+      itemCount: spends.length,
       itemBuilder: (BuildContext context, int i) {
-        var transaction = transactions[i];
+        var spending = spends[i];
 
-        return transaction is Transaction
-            ? TransactionListItem(transaction: transaction)
-            : transaction is MonthlySpending
-                ? MonthlySpendingListItem(monthlySpending: transaction)
+        return spending is Transaction
+            ? TransactionListItem(transaction: spending)
+            : spending is MonthlySpending
+                ? MonthlySpendingListItem(monthlySpending: spending)
                 : null;
       },
     );

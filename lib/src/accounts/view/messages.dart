@@ -22,7 +22,7 @@ class Messages extends StatelessWidget {
     super.key,
   });
   final Iterable<SmsMessage> allMessages;
-  final Map<String, List<Spending>> transactionsGroup;
+  final Map<String, List<Transaction>> transactionsGroup;
 
   @override
   Widget build(BuildContext context) {
