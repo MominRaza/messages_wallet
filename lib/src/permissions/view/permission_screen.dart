@@ -82,7 +82,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
   void _handleReadSMSPermission() {
     Permission.sms
         .onGrantedCallback(
-      () => context.router.replace(const MessagesRoute()),
+      () => context.router.replace(const AccountsRoute()),
     )
         .onDeniedCallback(() {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();

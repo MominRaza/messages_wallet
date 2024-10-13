@@ -31,7 +31,8 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
           _ => TransactionType.withdrawn,
         },
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
-        accountNumber: accountNumber == null ? '' : 'BoB XX$accountNumber',
+        accountNumber:
+            accountNumber == null ? '' : 'Bank of Baroda $accountNumber',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),

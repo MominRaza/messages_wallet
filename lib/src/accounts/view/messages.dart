@@ -1,13 +1,15 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app_router.gr.dart';
-import '../../account/view/transactions_list_view.dart';
-import '../../debug/view/messages_list_view.dart';
 import '../../shared/models/spending_model.dart';
 import '../../utils/flags.dart';
+import 'bank_card_view.dart';
+import 'no_bank_card_view.dart';
 
 enum MoreMenuOption {
   openGitHub,
@@ -22,7 +24,7 @@ class Messages extends StatelessWidget {
     super.key,
   });
   final Iterable<SmsMessage> allMessages;
-  final Map<String, List<Spending>> transactionsGroup;
+  final Map<String, List<Transaction>> transactionsGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -67,95 +69,24 @@ class Messages extends StatelessWidget {
               icon: const Icon(Icons.more_vert),
             ),
           ],
-          bottom: TabBar(
-            isScrollable: true,
-            tabAlignment: TabAlignment.center,
-            tabs: [
-              if (isDebug) ...[
-                const Tab(
-                  child: Text('Debug'),
-                ),
-              ],
-              ...transactionsGroup.entries.map(
-                (entry) => Tab(
-                  child: Text(entry.key),
-                ),
-              ),
-            ],
-          ),
         ),
-        body: transactionsGroup.isEmpty && !isDebug
-            ? Center(
-                child: Column(
-                  children: [
-                    const Spacer(
-                      flex: 2,
-                    ),
-                    Text(
-                      'No messages to show',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Are your bank messages not displaying? Please, raise an issue on our GitHub page.',
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "When reporting, include sample messages and the sender's address from your bank. Remember to remove any sensitive information first!",
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    FilledButton.tonal(
-                      onPressed: () {
-                        launchUrl(
-                          Uri.https(
-                            'github.com',
-                            '/MominRaza/messages_wallet/issues',
-                          ),
-                        );
-                      },
-                      child: const Text('Create an issue'),
-                    ),
-                    const Spacer(flex: 3),
-                  ],
-                ),
-              )
-            : TabBarView(
-                children: [
-                  if (isDebug) ...[
-                    allMessages.isNotEmpty
-                        ? MessagesListView(
-                            messages: allMessages,
-                          )
-                        : Center(
-                            child: Text(
-                              'No messages to show.',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                  ],
-                  ...transactionsGroup.entries.map(
-                    (entry) => TransactionsListView(
-                      transactions: entry.value,
-                    ),
-                  ),
-                ],
-              ),
+        body: ListView.builder(
+          padding: EdgeInsets.only(
+            top: 6,
+            bottom: max(6, MediaQuery.paddingOf(context).bottom),
+            left: max(6, MediaQuery.paddingOf(context).left),
+            right: max(6, MediaQuery.paddingOf(context).right),
+          ),
+          itemBuilder: (context, index) {
+            if (index == transactionsGroup.entries.length) {
+              return const NoBankCardView();
+            }
+
+            final entry = transactionsGroup.entries.elementAt(index);
+            return BankCardView(entry: entry);
+          },
+          itemCount: transactionsGroup.entries.length + 1,
+        ),
       ),
     );
   }
