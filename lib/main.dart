@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'src/accounts/view/messages_screen.dart';
-import 'src/home/view/home_screen.dart';
-import 'src/permissions/view/permission_screen.dart';
-import 'src/settings/view/settings_screen.dart';
+import 'app_router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +16,17 @@ void main() {
     ),
   );
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Messages Wallet',
       theme: ThemeData(
         primarySwatch: Colors.teal,
@@ -36,12 +35,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         brightness: Brightness.dark,
       ),
-      routes: {
-        '/': (_) => const HomeScreen(),
-        '/permission': (_) => const PermissionScreen(),
-        '/messages': (_) => const MessagesScreen(),
-        '/settings': (_) => const SettingsScreen(),
-      },
+      routerConfig: _appRouter.config(),
     );
   }
 }

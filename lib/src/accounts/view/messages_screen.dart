@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
@@ -11,6 +12,7 @@ import '../../utils/flags.dart';
 import '../../utils/group_transactions_by_month.dart';
 import 'messages.dart';
 
+@RoutePage()
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
 
