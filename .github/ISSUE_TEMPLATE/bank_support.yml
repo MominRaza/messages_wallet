@@ -1,6 +1,6 @@
 name: Bank Support
 description: Request support for a new bank
-title: '[SUPPORT]: <bank name>'
+title: "[SUPPORT]: <bank name>"
 labels:
   - support
 
@@ -17,6 +17,7 @@ body:
       label: Bank Name
       description: The name of the bank you would like to see supported
       placeholder: Enter the name of the bank
+    validations:
       required: true
 
   - type: input
@@ -25,6 +26,7 @@ body:
       label: Bank SMS Sender Address
       description: The SMS sender address of the bank, eg. AD-AxisBk, VM-BOBTXN, etc.
       placeholder: Enter the SMS sender address of the bank
+    validations:
       required: true
 
   - type: textarea
@@ -68,4 +70,3 @@ body:
       label: Other transaction type SMS
       description: Any other transaction type SMS that you would like to see supported
       placeholder: Enter any other transaction type SMS
-  

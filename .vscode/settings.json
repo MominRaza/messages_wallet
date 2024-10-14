@@ -1,0 +1,11 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-issue-config.json": [
+            ".github/ISSUE_TEMPLATE/config.yml"
+        ],
+        "https://json.schemastore.org/github-issue-forms.json": [
+            ".github/ISSUE_TEMPLATE/bank_support.yml",
+            ".github/ISSUE_TEMPLATE/bug_report.yml"
+        ]
+    }
+}
