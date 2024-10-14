@@ -2,7 +2,7 @@ name: Bank Support
 description: Request support for a new bank
 title: "[SUPPORT]: <bank name>"
 labels:
-  - support
+  - enhancement
 
 body:
   - type: markdown
