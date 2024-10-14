@@ -51,16 +51,16 @@ body:
       placeholder: Enter a sample withdrawal SMS
 
   - type: textarea
-    id: credit_card_spent_sms
+    id: card_spent_sms
     attributes:
-      label: Credit Card Spent SMS
+      label: Card Spent SMS
       description: A sample SMS that is sent when you spend money using your credit card
       placeholder: Enter a sample credit card spent SMS
 
   - type: textarea
-    id: credit_card_payment_sms
+    id: card_payment_sms
     attributes:
-      label: Credit Card Payment SMS
+      label: Card Payment SMS
       description: A sample SMS that is sent when you make a payment towards your credit card
       placeholder: Enter a sample credit card payment SMS
 
