@@ -1,0 +1,71 @@
+name: Bank Support
+description: Request support for a new bank
+title: '[SUPPORT]: <bank name>'
+labels:
+  - support
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bank Support
+        Please provide a clear and concise description of the bank you would like to see supported.
+
+  - type: input
+    id: bank_name
+    attributes:
+      label: Bank Name
+      description: The name of the bank you would like to see supported
+      placeholder: Enter the name of the bank
+      required: true
+
+  - type: input
+    id: bank_address
+    attributes:
+      label: Bank SMS Sender Address
+      description: The SMS sender address of the bank, eg. AD-AxisBk, VM-BOBTXN, etc.
+      placeholder: Enter the SMS sender address of the bank
+      required: true
+
+  - type: textarea
+    id: bank_credit_sms
+    attributes:
+      label: Credit SMS
+      description: A sample SMS that is sent when you receive money in your account
+      placeholder: Enter a sample credit SMS
+
+  - type: textarea
+    id: bank_debit_sms
+    attributes:
+      label: Debit SMS
+      description: A sample SMS that is sent when money is deducted from your account
+      placeholder: Enter a sample debit SMS
+
+  - type: textarea
+    id: bank_widrawal_sms
+    attributes:
+      label: Withdrawal SMS
+      description: A sample SMS that is sent when you withdraw money from your account
+      placeholder: Enter a sample withdrawal SMS
+
+  - type: textarea
+    id: credit_card_spent_sms
+    attributes:
+      label: Credit Card Spent SMS
+      description: A sample SMS that is sent when you spend money using your credit card
+      placeholder: Enter a sample credit card spent SMS
+
+  - type: textarea
+    id: credit_card_payment_sms
+    attributes:
+      label: Credit Card Payment SMS
+      description: A sample SMS that is sent when you make a payment towards your credit card
+      placeholder: Enter a sample credit card payment SMS
+
+  - type: textarea
+    id: bank_other_sms
+    attributes:
+      label: Other transaction type SMS
+      description: Any other transaction type SMS that you would like to see supported
+      placeholder: Enter any other transaction type SMS
+  
