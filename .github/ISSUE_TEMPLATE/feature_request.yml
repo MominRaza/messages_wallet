@@ -1,0 +1,44 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[FEATURE]: <feature title>"
+labels:
+  - enhancement
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Please provide a clear and concise description of the feature you would like to see implemented.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: A brief summary of the feature
+      placeholder: Enter a brief summary of the feature
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A detailed description of the feature
+      placeholder: Enter a detailed description of the feature
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why do you want this feature?
+      placeholder: Enter why you want this feature
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Add any other context or screenshots about the feature request here
+      placeholder: Add any other context or screenshots about the feature request here

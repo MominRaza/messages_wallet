@@ -5,7 +5,8 @@
         ],
         "https://json.schemastore.org/github-issue-forms.json": [
             ".github/ISSUE_TEMPLATE/bank_support.yml",
-            ".github/ISSUE_TEMPLATE/bug_report.yml"
+            ".github/ISSUE_TEMPLATE/bug_report.yml",
+            ".github/ISSUE_TEMPLATE/feature_request.yml"
         ]
     }
 }
