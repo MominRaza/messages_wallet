@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/view/issue_dialog.dart';
 import 'card_view.dart';
 
 class NoBankCardView extends StatelessWidget {
@@ -8,18 +9,13 @@ class NoBankCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardView(
-      title: 'Your bank is not showing up?',
+      title: "Can't Find Your Bank?",
       description:
-          'Please raise an issue on GitHub or send a email, we will try to add support for it.',
+          "Let us know on GitHub, and we'll add it as soon as possible.",
       actions: [
-        OutlinedButton(
-          onPressed: () {},
-          child: const Text('Open GitHub Issue'),
-        ),
-        const SizedBox(width: 8),
         FilledButton(
-          onPressed: () {},
-          child: const Text('Send Email'),
+          onPressed: () => showIssueDialog(context),
+          child: const Text('Report an Issue'),
         ),
       ],
     );
