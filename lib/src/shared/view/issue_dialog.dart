@@ -7,16 +7,16 @@ class IssueDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Raise an issue on GitHub'),
+      title: const Text('Report an Issue on GitHub'),
       content: const Text(
-        'If you have found a bug or have a feature request or your bank is not showing up, please raise an issue on GitHub.',
+        "If you've found a bug, have a feature request, or can't find your bank, please report it on GitHub.",
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cancel'),
         ),
-        TextButton(
+        FilledButton.tonal(
           onPressed: () {
             launchUrl(
               Uri.https(
@@ -32,3 +32,8 @@ class IssueDialog extends StatelessWidget {
     );
   }
 }
+
+void showIssueDialog(BuildContext context) => showDialog(
+      context: context,
+      builder: (_) => const IssueDialog(),
+    );

@@ -7,13 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app_router.gr.dart';
 import '../../shared/models/spending_model.dart';
+import '../../shared/view/issue_dialog.dart';
 import 'bank_card_view.dart';
 import 'no_bank_card_view.dart';
 
 enum MoreMenuOption {
-  openGitHub,
   settings,
-  about,
+  repo,
+  feedback,
 }
 
 class Messages extends StatelessWidget {
@@ -35,31 +36,31 @@ class Messages extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<MoreMenuOption>>[
                 const PopupMenuItem<MoreMenuOption>(
-                  value: MoreMenuOption.openGitHub,
-                  child: Text('Open GitHub'),
-                ),
-                const PopupMenuItem<MoreMenuOption>(
                   value: MoreMenuOption.settings,
                   child: Text('Settings'),
                 ),
                 const PopupMenuItem<MoreMenuOption>(
-                  value: MoreMenuOption.about,
-                  child: Text('About'),
+                  value: MoreMenuOption.repo,
+                  child: Text('Star GitHub Repo'),
+                ),
+                const PopupMenuItem<MoreMenuOption>(
+                  value: MoreMenuOption.feedback,
+                  child: Text('Feedback'),
                 ),
               ];
             },
             onSelected: (MoreMenuOption value) {
               switch (value) {
-                case MoreMenuOption.openGitHub:
+                case MoreMenuOption.settings:
+                  context.router.push(const SettingsRoute());
+                  break;
+                case MoreMenuOption.repo:
                   launchUrl(
                     Uri.https('github.com', '/MominRaza/messages_wallet'),
                   );
                   break;
-                case MoreMenuOption.settings:
-                  context.router.push(const SettingsRoute());
-                  break;
-                case MoreMenuOption.about:
-                  launchUrl(Uri.https('mominraza.dev', '/messages_wallet'));
+                case MoreMenuOption.feedback:
+                  showIssueDialog(context);
                   break;
               }
             },

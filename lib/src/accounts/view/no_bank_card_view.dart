@@ -9,16 +9,13 @@ class NoBankCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardView(
-      title: 'Your bank is not showing up?',
+      title: "Can't Find Your Bank?",
       description:
-          'Please raise an issue on GitHub and we will add your bank as soon as possible.',
+          "Let us know on GitHub, and we'll add it as soon as possible.",
       actions: [
         FilledButton(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (_) => const IssueDialog(),
-          ),
-          child: const Text('Open GitHub Issue'),
+          onPressed: () => showIssueDialog(context),
+          child: const Text('Report an Issue'),
         ),
       ],
     );
