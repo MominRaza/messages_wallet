@@ -21,7 +21,7 @@ class IssueDialog extends StatelessWidget {
             launchUrl(
               Uri.https(
                 'github.com',
-                'MominRaza/messages_wallet/issues/new',
+                'MominRaza/messages_wallet/issues/new/choose',
               ),
             );
             Navigator.of(context).pop();
