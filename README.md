@@ -3,6 +3,13 @@
 This open-source Android app simplifies your banking experience by extracting transaction details from SMS messages - all processed directly on your device. Easily view and organize your financial activity in a straightforward list format. Take control of your transactions effortlessly with this user-friendly tool.
 
 
+## Screenshots
+
+![Permission Screen](screenshots/messages_wallet_1.png)
+![Home Screen](screenshots/messages_wallet_2.png)
+![Bank Details](screenshots/messages_wallet_3.png)
+![Card Details](screenshots/messages_wallet_4.png)
+
 ## Download and Install
 
 To download and install Messages Wallet, follow these steps:
