@@ -5,10 +5,12 @@ This open-source Android app simplifies your banking experience by extracting tr
 
 ## Screenshots
 
-![Permission Screen](screenshots/messages_wallet_1.png)
-![Home Screen](screenshots/messages_wallet_2.png)
-![Bank Details](screenshots/messages_wallet_3.png)
-![Card Details](screenshots/messages_wallet_4.png)
+<p float="left">
+  <img src="screenshots/messages_wallet_1.png" width="240" alt="Permission Screen"/>
+    <img src="screenshots/messages_wallet_2.png" width="240" alt="Home Screen"/>
+    <img src="screenshots/messages_wallet_3.png" width="240" alt="Bank Details"/>
+    <img src="screenshots/messages_wallet_4.png" width="240" alt="Card Details"/>
+</p>
 
 ## Download and Install
 
