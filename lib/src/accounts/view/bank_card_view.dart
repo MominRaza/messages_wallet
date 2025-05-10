@@ -32,16 +32,14 @@ class BankCardView extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var transaction
-                      in entry.value.reversed.take(3).toList().reversed)
+                  for (var transaction in entry.value.reversed.take(3))
                     Text(formatDateTime(transaction.dateTime)),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  for (var transaction
-                      in entry.value.reversed.take(3).toList().reversed)
+                  for (var transaction in entry.value.reversed.take(3))
                     Text(
                       currencyFormat(
                         transaction.transactionAmount *
