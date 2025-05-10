@@ -46,23 +46,27 @@ class _AccountsScreenState extends State<AccountsScreen> {
             message.address?.toLowerCase().contains('-cosmos') ?? false,
       );
 
-      Iterable<Transaction> bobTransactions =
-          extractBOBMessages(bobMessages.map((e) => e.body ?? ''));
-      Iterable<Transaction> axisTransactions =
-          extractAxisMessages(axisMessages.map((e) => e.body ?? ''));
-      Iterable<Transaction> cosmosTransactions =
-          extractCosmosMessages(cosmosMessages.map((e) => e.body ?? ''));
-
-      Map<String, List<Transaction>> transactionsGroup = groupBy(
-        [...bobTransactions, ...axisTransactions, ...cosmosTransactions],
-        (Transaction transaction) => transaction.accountNumber,
+      Iterable<Transaction> bobTransactions = extractBOBMessages(
+        bobMessages.map((e) => e.body ?? ''),
       );
+      Iterable<Transaction> axisTransactions = extractAxisMessages(
+        axisMessages.map((e) => e.body ?? ''),
+      );
+      Iterable<Transaction> cosmosTransactions = extractCosmosMessages(
+        cosmosMessages.map((e) => e.body ?? ''),
+      );
+
+      Map<String, List<Transaction>> transactionsGroup = groupBy([
+        ...bobTransactions,
+        ...axisTransactions,
+        ...cosmosTransactions,
+      ], (Transaction transaction) => transaction.accountNumber);
 
       Map<String, List<Transaction>> shortedTransactions = {};
 
       transactionsGroup.forEach((key, value) {
-        shortedTransactions[key] = value
-          ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+        shortedTransactions[key] =
+            value..sort((a, b) => a.dateTime.compareTo(b.dateTime));
       });
 
       setState(() {

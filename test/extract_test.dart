@@ -15,10 +15,7 @@ void main() {
       expect(transaction.finalAmount, 92.1);
       expect(transaction.accountNumber, 'Bank of Baroda 7544');
       expect(transaction.body, bobMessages[0]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-08-09 22:40:20'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-08-09 22:40:20'));
     });
 
     test('withdrawn', () {
@@ -28,10 +25,7 @@ void main() {
       expect(transaction.finalAmount, 496.1);
       expect(transaction.accountNumber, 'Bank of Baroda 7544');
       expect(transaction.body, bobMessages[1]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-11-29 16:48:04'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-11-29 16:48:04'));
     });
 
     test('transferred', () {
@@ -41,10 +35,7 @@ void main() {
       expect(transaction.finalAmount, 3352.1);
       expect(transaction.accountNumber, 'Bank of Baroda 7544');
       expect(transaction.body, bobMessages[2]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-10-31 21:19:22'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-10-31 21:19:22'));
     });
   });
 
@@ -56,10 +47,7 @@ void main() {
       expect(transaction.finalAmount, 65789.44);
       expect(transaction.accountNumber, 'Axis Bank 5237');
       expect(transaction.body, axisMessages[0]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-08-30 05:31:41'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-08-30 05:31:41'));
     });
 
     test('Debit ATM-WDL/', () {
@@ -69,10 +57,7 @@ void main() {
       expect(transaction.finalAmount, 4384.44);
       expect(transaction.accountNumber, 'Axis Bank 5237');
       expect(transaction.body, axisMessages[1]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-08-31 19:15:15'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-08-31 19:15:15'));
     });
 
     test('Debit UPI/', () {
@@ -82,10 +67,7 @@ void main() {
       expect(transaction.finalAmount, isNull);
       expect(transaction.accountNumber, 'Axis Bank 5237');
       expect(transaction.body, axisMessages[2]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-09-20 16:47:23'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-09-20 16:47:23'));
     });
 
     test('credited 2', () {
@@ -95,10 +77,7 @@ void main() {
       expect(transaction.finalAmount, isNull);
       expect(transaction.accountNumber, 'Axis Bank 5237');
       expect(transaction.body, axisMessages[3]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2024-10-07 07:32:10'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2024-10-07 07:32:10'));
     });
 
     test('creditCardSpent', () {
@@ -108,10 +87,7 @@ void main() {
       expect(transaction.finalAmount, 34985);
       expect(transaction.accountNumber, 'Axis Bank Credit Card 3348');
       expect(transaction.body, axisMessages[4]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2024-10-07 21:52:10'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2024-10-07 21:52:10'));
     });
   });
 
@@ -123,10 +99,7 @@ void main() {
       expect(transaction.finalAmount, 3456.45);
       expect(transaction.accountNumber, 'Cosmos Bank 2345');
       expect(transaction.body, cosmosMessages[0]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-11-23 00:00:00'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-11-23 00:00:00'));
     });
 
     test('Debited Cheque', () {
@@ -136,10 +109,7 @@ void main() {
       expect(transaction.finalAmount, 4567.89);
       expect(transaction.accountNumber, 'Cosmos Bank 2345');
       expect(transaction.body, cosmosMessages[1]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-12-01 00:00:00'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-12-01 00:00:00'));
     });
 
     test('Credited UPI', () {
@@ -149,10 +119,7 @@ void main() {
       expect(transaction.finalAmount, 3456.45);
       expect(transaction.accountNumber, 'Cosmos Bank 2345');
       expect(transaction.body, cosmosMessages[2]);
-      expect(
-        transaction.dateTime,
-        DateTime.parse('2023-11-23 00:00:00'),
-      );
+      expect(transaction.dateTime, DateTime.parse('2023-11-23 00:00:00'));
     });
   });
 }

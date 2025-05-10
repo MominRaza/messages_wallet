@@ -8,8 +8,11 @@ import 'transactions_list_item.dart';
 
 @RoutePage()
 class AccountScreen extends StatelessWidget {
-  const AccountScreen(
-      {required this.transactions, required this.title, super.key});
+  const AccountScreen({
+    required this.transactions,
+    required this.title,
+    super.key,
+  });
 
   final String title;
   final List<Transaction> transactions;
@@ -29,8 +32,8 @@ class AccountScreen extends StatelessWidget {
           return spending is Transaction
               ? TransactionListItem(transaction: spending)
               : spending is MonthlySpending
-                  ? MonthlySpendingListItem(monthlySpending: spending)
-                  : null;
+              ? MonthlySpendingListItem(monthlySpending: spending)
+              : null;
         },
       ),
     );

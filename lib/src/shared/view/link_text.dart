@@ -15,10 +15,7 @@ class LinkText extends StatelessWidget {
     );
     final match = urlRegExp.firstMatch(text);
     if (match == null) {
-      return Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium,
-      );
+      return Text(text, style: Theme.of(context).textTheme.bodyMedium);
     }
 
     final url = match.group(0)!;
@@ -32,19 +29,18 @@ class LinkText extends StatelessWidget {
           TextSpan(text: beforeUrl),
           TextSpan(
             text: url,
-            style: const TextStyle(
-              decoration: TextDecoration.underline,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () async {
-                if (!await launchUrlString(url)) {
-                  if (!context.mounted) return;
+            style: const TextStyle(decoration: TextDecoration.underline),
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () async {
+                    if (!await launchUrlString(url)) {
+                      if (!context.mounted) return;
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Could not launch $url')),
-                  );
-                }
-              },
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Could not launch $url')),
+                      );
+                    }
+                  },
           ),
           TextSpan(text: afterUrl),
         ],

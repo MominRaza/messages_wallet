@@ -41,16 +41,12 @@ class _PermissionScreenState extends State<PermissionScreen> {
       appBar: AppBar(),
       body: Column(
         children: [
-          const Spacer(
-            flex: 2,
-          ),
+          const Spacer(flex: 2),
           Text(
             'Messages Wallet',
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          const SizedBox(
-            height: 28,
-          ),
+          const SizedBox(height: 28),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -59,9 +55,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                   'To use this app, you must grant permission to read SMS messages.',
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 12,
-                ),
+                SizedBox(height: 12),
                 Text('Messages are processed on your device only.'),
               ],
             ),
@@ -71,9 +65,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
             onPressed: _handleReadSMSPermission,
             child: const Text('Allow Read SMS Permission'),
           ),
-          const Spacer(
-            flex: 4,
-          ),
+          const Spacer(flex: 4),
         ],
       ),
     );
@@ -81,36 +73,34 @@ class _PermissionScreenState extends State<PermissionScreen> {
 
   void _handleReadSMSPermission() {
     Permission.sms
-        .onGrantedCallback(
-      () => context.router.replace(const AccountsRoute()),
-    )
+        .onGrantedCallback(() => context.router.replace(const AccountsRoute()))
         .onDeniedCallback(() {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('SMS permission denied'),
-        ),
-      );
-    }).onPermanentlyDeniedCallback(
-      () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.floating,
-            content: const Text(
-              'SMS permission permanently denied. Enable in settings.',
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              content: Text('SMS permission denied'),
             ),
-            action: SnackBarAction(
-              label: 'Open',
-              onPressed: () {
-                openAppSettings();
-                setState(() => _shouldReload = true);
-              },
+          );
+        })
+        .onPermanentlyDeniedCallback(() {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              content: const Text(
+                'SMS permission permanently denied. Enable in settings.',
+              ),
+              action: SnackBarAction(
+                label: 'Open',
+                onPressed: () {
+                  openAppSettings();
+                  setState(() => _shouldReload = true);
+                },
+              ),
             ),
-          ),
-        );
-      },
-    ).request();
+          );
+        })
+        .request();
   }
 }

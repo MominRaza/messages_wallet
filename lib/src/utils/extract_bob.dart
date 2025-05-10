@@ -1,13 +1,16 @@
 import '../shared/models/spending_model.dart';
 
-Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
-    bobMessages.map((message) {
+Iterable<Transaction> extractBOBMessages(
+  Iterable<String> bobMessages,
+) => bobMessages
+    .map((message) {
       RegExp typeRegex = RegExp(r'(Credited|withdrawn|transferred)');
       RegExp amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{2})?)');
       RegExp finalAmountRegex = RegExp(r'Avlbl Amt:Rs\.([\d,]+(?:\.\d{1,2})?)');
       RegExp accountNumberRegex = RegExp(r'A/c \.{3}(\d+)');
-      RegExp dateTimeRegex =
-          RegExp(r'(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})');
+      RegExp dateTimeRegex = RegExp(
+        r'(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})',
+      );
 
       String? transactionType = typeRegex.firstMatch(message)?.group(1);
       String? transactionAmount = amountRegex.firstMatch(message)?.group(1);
@@ -37,7 +40,8 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),
       );
-    }).where(
+    })
+    .where(
       (element) =>
           element.transactionAmount != 0 &&
           element.accountNumber.isNotEmpty &&

@@ -2,20 +2,23 @@ import '../shared/models/spending_model.dart';
 
 Iterable<Transaction> extractAxisMessages(
   Iterable<String> axisMessages,
-) =>
-    axisMessages.map((message) {
+) => axisMessages
+    .map((message) {
       RegExp typeRegex = RegExp(r'(credited|Debit|Spent)');
       RegExp debitTypeRegex = RegExp(r'(UPI/|ATM-WDL/)');
       RegExp amountRegex = RegExp(r'INR (\d+(\.\d{2})?)');
-      RegExp finalAmountRegex =
-          RegExp(r'(Avl Bal-|Bal|Avl Lmt) INR (\d+(\.\d{2})?)');
+      RegExp finalAmountRegex = RegExp(
+        r'(Avl Bal-|Bal|Avl Lmt) INR (\d+(\.\d{2})?)',
+      );
       RegExp accountNumberRegex = RegExp(r'(A/c no|Card no)\. XX(\d+)');
-      RegExp dateTimeRegex =
-          RegExp(r'(\d{2})-(\d{2})-(\d{2}|\d{4}) (at )?(\d{2}:\d{2}:\d{2})');
+      RegExp dateTimeRegex = RegExp(
+        r'(\d{2})-(\d{2})-(\d{2}|\d{4}) (at )?(\d{2}:\d{2}:\d{2})',
+      );
 
       String? transactionType = typeRegex.firstMatch(message)?.group(1);
-      String? debitTransactionType =
-          debitTypeRegex.firstMatch(message)?.group(1);
+      String? debitTransactionType = debitTypeRegex
+          .firstMatch(message)
+          ?.group(1);
       String? transactionAmount = amountRegex.firstMatch(message)?.group(1);
       String? finalAmount = finalAmountRegex.firstMatch(message)?.group(2);
       String? accountNumber = accountNumberRegex.firstMatch(message)?.group(2);
@@ -34,21 +37,24 @@ Iterable<Transaction> extractAxisMessages(
       return Transaction(
         type: switch (transactionType) {
           'credited' => TransactionType.credited,
-          'Debit' => debitTransactionType == 'ATM-WDL/'
-              ? TransactionType.withdrawn
-              : TransactionType.transferred,
+          'Debit' =>
+            debitTransactionType == 'ATM-WDL/'
+                ? TransactionType.withdrawn
+                : TransactionType.transferred,
           'Spent' => TransactionType.creditCardSpent,
           _ => TransactionType.transferred,
         },
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
-        accountNumber: accountNumber == null
-            ? ''
-            : 'Axis Bank ${transactionType == 'Spent' ? 'Credit Card ' : ''}${accountNumber.substring(accountNumber.length - 4)}',
+        accountNumber:
+            accountNumber == null
+                ? ''
+                : 'Axis Bank ${transactionType == 'Spent' ? 'Credit Card ' : ''}${accountNumber.substring(accountNumber.length - 4)}',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),
       );
-    }).where(
+    })
+    .where(
       (element) =>
           element.transactionAmount != 0 &&
           element.accountNumber.isNotEmpty &&

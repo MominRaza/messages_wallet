@@ -7,10 +7,7 @@ import '../../utils/date_time.dart';
 import '../../utils/final_balance.dart';
 
 class TransactionListItem extends StatefulWidget {
-  const TransactionListItem({
-    required this.transaction,
-    super.key,
-  });
+  const TransactionListItem({required this.transaction, super.key});
 
   final Transaction transaction;
 
@@ -39,25 +36,24 @@ class _TransactionListItemState extends State<TransactionListItem> {
               Theme.of(context).brightness == Brightness.light
                   ? Colors.greenAccent
                   : Colors.green,
-            TransactionType.transferred ||
-            TransactionType.creditCardSpent =>
+            TransactionType.transferred || TransactionType.creditCardSpent =>
               Theme.of(context).colorScheme.errorContainer,
             TransactionType.withdrawn => null,
           },
-          child: Icon(
-            switch (transaction.type) {
-              TransactionType.credited => Icons.south_west,
-              TransactionType.transferred => Icons.north_east,
-              TransactionType.withdrawn => Icons.money_rounded,
-              TransactionType.creditCardSpent => Icons.credit_card_rounded,
-            },
-          ),
+          child: Icon(switch (transaction.type) {
+            TransactionType.credited => Icons.south_west,
+            TransactionType.transferred => Icons.north_east,
+            TransactionType.withdrawn => Icons.money_rounded,
+            TransactionType.creditCardSpent => Icons.credit_card_rounded,
+          }),
         ),
         title: Text(formatDateTime(transaction.dateTime)),
         subtitle: Text(finalBalance(transaction.type, transaction.finalAmount)),
         trailing: Text(
-          currencyFormat(transaction.transactionAmount *
-              (transaction.type == TransactionType.credited ? 1 : -1)),
+          currencyFormat(
+            transaction.transactionAmount *
+                (transaction.type == TransactionType.credited ? 1 : -1),
+          ),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),

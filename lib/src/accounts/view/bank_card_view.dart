@@ -24,10 +24,7 @@ class BankCardView extends StatelessWidget {
       transactions: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Transactions',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text('Transactions', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,10 +41,12 @@ class BankCardView extends StatelessWidget {
                 children: [
                   for (var transaction in entry.value.take(3))
                     Text(
-                      currencyFormat(transaction.transactionAmount *
-                          (transaction.type == TransactionType.credited
-                              ? 1
-                              : -1)),
+                      currencyFormat(
+                        transaction.transactionAmount *
+                            (transaction.type == TransactionType.credited
+                                ? 1
+                                : -1),
+                      ),
                     ),
                 ],
               ),
@@ -57,12 +56,10 @@ class BankCardView extends StatelessWidget {
       ),
       actions: [
         FilledButton(
-          onPressed: () => context.router.push(
-            AccountRoute(
-              title: entry.key,
-              transactions: entry.value,
-            ),
-          ),
+          onPressed:
+              () => context.router.push(
+                AccountRoute(title: entry.key, transactions: entry.value),
+              ),
           child: const Text('View All'),
         ),
       ],
