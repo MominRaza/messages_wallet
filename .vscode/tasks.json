@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "scrcpy",
+			"type": "shell",
+			"command": "scrcpy",
+			"args": [
+				"--turn-screen-off",
+				"--stay-awake",
+			],
+			"isBackground": true
+		}
+	]
+}
