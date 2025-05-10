@@ -51,10 +51,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         title: Text(formatDateTime(transaction.dateTime)),
         subtitle: Text(finalBalance(transaction.type, transaction.finalAmount)),
         trailing: Text(
-          currencyFormat(
-            transaction.transactionAmount *
-                (transaction.type == TransactionType.credited ? 1 : -1),
-          ),
+          currencyFormat(transaction.transactionAmount, transaction.type),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),
