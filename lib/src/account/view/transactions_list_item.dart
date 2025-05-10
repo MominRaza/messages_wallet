@@ -32,7 +32,7 @@ class _TransactionListItemState extends State<TransactionListItem> {
         onExpansionChanged: (value) => setState(() => _isExpended = value),
         leading: CircleAvatar(
           backgroundColor: switch (transaction.type) {
-            TransactionType.credited =>
+            TransactionType.credited || TransactionType.creditCardReversed =>
               Theme.of(context).brightness == Brightness.light
                   ? Colors.greenAccent
                   : Colors.green,
@@ -45,15 +45,13 @@ class _TransactionListItemState extends State<TransactionListItem> {
             TransactionType.transferred => Icons.north_east,
             TransactionType.withdrawn => Icons.money_rounded,
             TransactionType.creditCardSpent => Icons.credit_card_rounded,
+            TransactionType.creditCardReversed => Icons.undo,
           }),
         ),
         title: Text(formatDateTime(transaction.dateTime)),
         subtitle: Text(finalBalance(transaction.type, transaction.finalAmount)),
         trailing: Text(
-          currencyFormat(
-            transaction.transactionAmount *
-                (transaction.type == TransactionType.credited ? 1 : -1),
-          ),
+          currencyFormat(transaction.transactionAmount, transaction.type),
           style: Theme.of(context).textTheme.titleMedium,
         ),
         childrenPadding: const EdgeInsets.only(top: 8, bottom: 12),

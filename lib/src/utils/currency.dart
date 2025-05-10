@@ -1,6 +1,16 @@
 import 'package:intl/intl.dart';
 
-String currencyFormat(double amount) {
+import '../shared/models/spending_model.dart';
+
+String currencyFormat(double amount, [TransactionType? type]) {
+  if (type != null) {
+    bool shouldBePositive =
+        type == TransactionType.credited ||
+        type == TransactionType.creditCardReversed;
+
+    amount = shouldBePositive ? amount.abs() : -amount.abs();
+  }
+
   String formattedAmount;
 
   if (amount == amount.toInt()) {

@@ -1,4 +1,10 @@
-enum TransactionType { credited, withdrawn, transferred, creditCardSpent }
+enum TransactionType {
+  credited,
+  withdrawn,
+  transferred,
+  creditCardSpent,
+  creditCardReversed,
+}
 
 abstract class Spending {}
 

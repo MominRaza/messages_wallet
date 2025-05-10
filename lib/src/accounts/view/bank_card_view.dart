@@ -42,10 +42,8 @@ class BankCardView extends StatelessWidget {
                   for (var transaction in entry.value.reversed.take(3))
                     Text(
                       currencyFormat(
-                        transaction.transactionAmount *
-                            (transaction.type == TransactionType.credited
-                                ? 1
-                                : -1),
+                        transaction.transactionAmount,
+                        transaction.type,
                       ),
                     ),
                 ],

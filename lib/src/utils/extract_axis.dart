@@ -4,6 +4,44 @@ Iterable<Transaction> extractAxisMessages(
   Iterable<String> axisMessages,
 ) => axisMessages
     .map((message) {
+      if (message.contains('has been reversed')) {
+        RegExp reversedRegex = RegExp(
+          r'Transaction of INR (\d+(?:\.\d{1,2})?) on Axis Bank Credit Card no\. XX(\d+)',
+        );
+        RegExp reversedDateRegex = RegExp(
+          r'(\d{2})-(\d{2})-(\d{2}) (\d{2}:\d{2}:\d{2})',
+        );
+        RegExp reversedLimitRegex = RegExp(
+          r'Available limit: INR (\d+(?:\.\d{1,2})?)',
+        );
+
+        String? amount = reversedRegex.firstMatch(message)?.group(1);
+        String? cardNumber = reversedRegex.firstMatch(message)?.group(2);
+        RegExpMatch? dateMatch = reversedDateRegex.firstMatch(message);
+        String? availableLimit = reversedLimitRegex
+            .firstMatch(message)
+            ?.group(1);
+
+        String? day = dateMatch?.group(1);
+        String? month = dateMatch?.group(2);
+        String? year = dateMatch?.group(3);
+        year = year?.length == 2 ? '20$year' : year;
+        String? time = dateMatch?.group(4);
+
+        String formattedDateTime = '$year-$month-$day $time';
+        DateTime? dateTime = DateTime.tryParse(formattedDateTime);
+
+        return Transaction(
+          type: TransactionType.creditCardReversed,
+          transactionAmount: double.tryParse(amount ?? '') ?? 0,
+          accountNumber:
+              cardNumber == null ? '' : 'Axis Bank Credit Card $cardNumber',
+          body: message,
+          dateTime: dateTime ?? DateTime(0),
+          finalAmount: double.tryParse(availableLimit ?? ''),
+        );
+      }
+
       RegExp typeRegex = RegExp(r'(credited|Debit|Spent)');
       RegExp debitTypeRegex = RegExp(r'(UPI/|ATM-WDL/)');
       RegExp amountRegex = RegExp(r'INR (\d+(?:\.\d{1,2})?)');
