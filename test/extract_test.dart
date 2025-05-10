@@ -122,4 +122,34 @@ void main() {
       expect(transaction.dateTime, DateTime.parse('2023-11-23 00:00:00'));
     });
   });
+
+  group('Defect #10: Single digit after decimal', () {
+    test('BOB single digit decimal', () {
+      var transaction = extractBOBMessages([bobMessages.last]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 100.1);
+      expect(transaction.finalAmount, 200.1);
+      expect(transaction.accountNumber, 'Bank of Baroda 1234');
+      expect(transaction.body, bobMessages.last);
+      expect(transaction.dateTime, DateTime.parse('2025-05-10 10:10:10'));
+    });
+    test('Axis single digit decimal', () {
+      var transaction = extractAxisMessages([axisMessages.last]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 100.1);
+      expect(transaction.finalAmount, 200.1);
+      expect(transaction.accountNumber, 'Axis Bank 5678');
+      expect(transaction.body, axisMessages.last);
+      expect(transaction.dateTime, DateTime.parse('2025-05-10 10:10:10'));
+    });
+    test('Cosmos single digit decimal', () {
+      var transaction = extractCosmosMessages([cosmosMessages.last]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 100.1);
+      expect(transaction.finalAmount, 200.1);
+      expect(transaction.accountNumber, 'Cosmos Bank 9999');
+      expect(transaction.body, cosmosMessages.last);
+      expect(transaction.dateTime, DateTime.parse('2025-05-10 00:00:00'));
+    });
+  });
 }

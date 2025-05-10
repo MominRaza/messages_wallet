@@ -4,9 +4,9 @@ Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
     bobMessages
         .map((message) {
           RegExp typeRegex = RegExp(r'(debited|credited)');
-          RegExp amountRegex = RegExp(r'INR\.? ([\d,]+(?:\.\d{2})?)');
+          RegExp amountRegex = RegExp(r'INR\.? ([\d,]+(?:\.\d{1,2})?)');
           RegExp finalAmountRegex = RegExp(
-            r'A/c (balance is INR|bal is INR)\.? (\d+\.\d+)',
+            r'A/c (balance is INR|bal is INR)\.? (\d+(?:\.\d{1,2})?)',
           );
 
           RegExp accountNumberRegex = RegExp(r'A/c (no )?X{1,2}(\d+)');

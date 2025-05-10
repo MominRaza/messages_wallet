@@ -6,9 +6,9 @@ Iterable<Transaction> extractAxisMessages(
     .map((message) {
       RegExp typeRegex = RegExp(r'(credited|Debit|Spent)');
       RegExp debitTypeRegex = RegExp(r'(UPI/|ATM-WDL/)');
-      RegExp amountRegex = RegExp(r'INR (\d+(\.\d{2})?)');
+      RegExp amountRegex = RegExp(r'INR (\d+(?:\.\d{1,2})?)');
       RegExp finalAmountRegex = RegExp(
-        r'(Avl Bal-|Bal|Avl Lmt) INR (\d+(\.\d{2})?)',
+        r'(Avl Bal-|Bal|Avl Lmt) INR (\d+(?:\.\d{1,2})?)',
       );
       RegExp accountNumberRegex = RegExp(r'(A/c no|Card no)\. XX(\d+)');
       RegExp dateTimeRegex = RegExp(

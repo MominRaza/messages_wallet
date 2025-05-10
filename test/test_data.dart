@@ -2,6 +2,7 @@ List<String> bobMessages = [
   'Rs.30 Credited to A/c ...7544 thru UPI/************ by **********_axl. Total Bal:Rs.92.1CR. Avlbl Amt:Rs.92.1(09-08-2023 22:40:20) - Bank of Baroda',
   'Rs.5500 withdrawn from A/c ...7544 at ATM TID ********** Ref.00000000**** Avlbl Amt:Rs.496.1(29-11-2023 16:48:04). If not used by you, call 18002584455 - Bank of Baroda',
   'Rs.20 transferred from A/c ...7544 to:UPI/************. Total Bal:Rs.3352.1CR. Avlbl Amt:Rs.3352.1(31-10-2023 21:19:22) - Bank of Baroda',
+  'Rs.100.1 Credited to A/c ...1234 thru UPI/************ by test_user. Total Bal:Rs.200.1CR. Avlbl Amt:Rs.200.1(10-05-2025 10:10:10) - Bank of Baroda',
 ];
 
 List<String> axisMessages = [
@@ -16,10 +17,12 @@ INR 50
 AARISH AHAM
 Avl Lmt INR 34985
 SMS BLOCK 3348 to 919951860002, if not you - Axis Bank''',
+  'INR 100.1 credited to A/c no. XX5678 on 10-05-25 at 10:10:10 IST. Info- NEFT/************/TEST/AXIS BANK. Avl Bal- INR 200.1 - Axis Bank',
 ];
 
 List<String> cosmosMessages = [
   'Your A/c X2345 is debited by INR. 123.45 on 23/11/23 for UPI/************/razor. A/c bal is INR. 3456.45 Cr -Cosmos Bank',
   'Your Chq  ****** of INR 10000/- is debited for A/c no XX2345 on 01-12-2023. A/c balance is INR 4567.89./-Cr.-Cosmos Bank',
   'Your A/c XX2345 is credited by INR 123.45 on 23-11-2023 for UPI-CR/************/sheet. A/c bal is INR 3456.45Cr.-Cosmos Bank',
+  'Your A/c XX9999 is credited by INR 100.1 on 10/05/25 for UPI-CR/************/test. A/c bal is INR 200.1Cr.-Cosmos Bank',
 ];
