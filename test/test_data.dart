@@ -15,7 +15,7 @@ INR 50
 07-10-24 21:52:10
 AARISH AHAM
 Avl Lmt INR 34985
-SMS BLOCK 3348 to 919951860002, if not you - Axis Bank'''
+SMS BLOCK 3348 to 919951860002, if not you - Axis Bank''',
 ];
 
 List<String> cosmosMessages = [

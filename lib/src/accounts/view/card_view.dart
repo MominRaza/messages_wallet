@@ -23,19 +23,13 @@ class CardView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             Text(description),
             const SizedBox(height: 16),
             if (transactions != null) transactions!,
             if (transactions != null) const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: actions,
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: actions),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -27,14 +28,14 @@ class AccountRoute extends _i6.PageRouteInfo<AccountRouteArgs> {
     _i8.Key? key,
     List<_i6.PageRouteInfo>? children,
   }) : super(
-          AccountRoute.name,
-          args: AccountRouteArgs(
-            transactions: transactions,
-            title: title,
-            key: key,
-          ),
-          initialChildren: children,
-        );
+         AccountRoute.name,
+         args: AccountRouteArgs(
+           transactions: transactions,
+           title: title,
+           key: key,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'AccountRoute';
 
@@ -74,10 +75,7 @@ class AccountRouteArgs {
 /// [_i2.AccountsScreen]
 class AccountsRoute extends _i6.PageRouteInfo<void> {
   const AccountsRoute({List<_i6.PageRouteInfo>? children})
-      : super(
-          AccountsRoute.name,
-          initialChildren: children,
-        );
+    : super(AccountsRoute.name, initialChildren: children);
 
   static const String name = 'AccountsRoute';
 
@@ -93,10 +91,7 @@ class AccountsRoute extends _i6.PageRouteInfo<void> {
 /// [_i3.HomeScreen]
 class HomeRoute extends _i6.PageRouteInfo<void> {
   const HomeRoute({List<_i6.PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -112,10 +107,7 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 /// [_i4.PermissionScreen]
 class PermissionRoute extends _i6.PageRouteInfo<void> {
   const PermissionRoute({List<_i6.PageRouteInfo>? children})
-      : super(
-          PermissionRoute.name,
-          initialChildren: children,
-        );
+    : super(PermissionRoute.name, initialChildren: children);
 
   static const String name = 'PermissionRoute';
 
@@ -131,10 +123,7 @@ class PermissionRoute extends _i6.PageRouteInfo<void> {
 /// [_i5.SettingsScreen]
 class SettingsRoute extends _i6.PageRouteInfo<void> {
   const SettingsRoute({List<_i6.PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
+    : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 

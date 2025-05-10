@@ -4,11 +4,7 @@ import 'package:messages_wallet/src/shared/view/link_text.dart';
 
 void main() {
   Widget buildTestableWidget(Widget child) {
-    return MaterialApp(
-      home: Scaffold(
-        body: child,
-      ),
-    );
+    return MaterialApp(home: Scaffold(body: child));
   }
 
   testWidgets('Displays plain text without URL', (tester) async {

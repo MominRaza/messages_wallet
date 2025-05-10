@@ -1,27 +1,27 @@
 name: messages_wallet
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.0.1+1
+version: 0.1.0
 
 environment:
-  sdk: ^3.5.3
+  sdk: ^3.7.2
 
 dependencies:
   flutter:
     sdk: flutter
-  collection: ^1.18.0
-  flutter_sms_inbox: ^1.0.3
-  intl: ^0.19.0
-  permission_handler: ^11.3.1
-  url_launcher: ^6.3.0
-  auto_route: ^9.2.2
+  collection: ^1.19.1
+  flutter_sms_inbox: ^1.0.4
+  intl: ^0.20.2
+  permission_handler: ^12.0.0+1
+  url_launcher: ^6.3.1
+  auto_route: ^10.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  auto_route_generator: ^9.0.0
-  build_runner: ^2.4.13
+  auto_route_generator: ^10.0.1
+  build_runner: ^2.4.15
 
 flutter:
   uses-material-design: true

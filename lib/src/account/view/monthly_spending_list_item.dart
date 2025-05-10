@@ -59,12 +59,8 @@ class MonthlySpendingListItem extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    currencyFormat(monthlySpending.totalCredit),
-                  ),
-                  Text(
-                    currencyFormat(monthlySpending.totalDebit * -1),
-                  ),
+                  Text(currencyFormat(monthlySpending.totalCredit)),
+                  Text(currencyFormat(monthlySpending.totalDebit * -1)),
                 ],
               ),
             ],

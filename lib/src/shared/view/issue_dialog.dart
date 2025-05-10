@@ -33,7 +33,5 @@ class IssueDialog extends StatelessWidget {
   }
 }
 
-void showIssueDialog(BuildContext context) => showDialog(
-      context: context,
-      builder: (_) => const IssueDialog(),
-    );
+void showIssueDialog(BuildContext context) =>
+    showDialog(context: context, builder: (_) => const IssueDialog());

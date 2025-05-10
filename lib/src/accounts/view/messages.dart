@@ -11,11 +11,7 @@ import '../../shared/view/issue_dialog.dart';
 import 'bank_card_view.dart';
 import 'no_bank_card_view.dart';
 
-enum MoreMenuOption {
-  settings,
-  repo,
-  feedback,
-}
+enum MoreMenuOption { settings, repo, feedback }
 
 class Messages extends StatelessWidget {
   const Messages({
