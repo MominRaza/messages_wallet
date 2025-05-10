@@ -5,7 +5,7 @@ Iterable<Transaction> extractBOBMessages(
 ) => bobMessages
     .map((message) {
       RegExp typeRegex = RegExp(r'(Credited|withdrawn|transferred)');
-      RegExp amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{2})?)');
+      RegExp amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{1,2})?)');
       RegExp finalAmountRegex = RegExp(r'Avlbl Amt:Rs\.([\d,]+(?:\.\d{1,2})?)');
       RegExp accountNumberRegex = RegExp(r'A/c \.{3}(\d+)');
       RegExp dateTimeRegex = RegExp(
