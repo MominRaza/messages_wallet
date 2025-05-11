@@ -7,7 +7,7 @@
 			"command": "scrcpy",
 			"args": [
 				"--turn-screen-off",
-				"--stay-awake",
+				"--stay-awake"
 			],
 			"isBackground": true,
 			"problemMatcher": [
@@ -51,6 +51,20 @@
 				"scrcpy",
 				"build_runner"
 			]
+		},
+		{
+			"type": "flutter",
+			"command": "flutter",
+			"args": [
+				"test"
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "flutter: flutter test",
+			"detail": ""
 		}
 	]
 }
