@@ -8,7 +8,7 @@
             "name": "messages_wallet",
             "request": "launch",
             "type": "dart",
-            "preLaunchTask": "scrcpy"
+            "preLaunchTask": "scrcpy_and_build_runner"
         }
     ]
 }
