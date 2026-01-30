@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  format:
+  debug:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,51 +22,11 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'beta'
-
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Analyze project source
         run: flutter analyze --fatal-infos
 
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'beta'
-
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Run tests
         run: flutter test
-  
-  debug:
-    runs-on: ubuntu-latest
-    needs:
-      - format
-      - lint
-      - test
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'beta'
-
-      - name: Install dependencies
-        run: flutter pub get
 
       - name: Build Debug APK
         run: flutter build apk --debug
