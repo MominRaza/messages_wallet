@@ -65,8 +65,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
       Map<String, List<Transaction>> shortedTransactions = {};
 
       transactionsGroup.forEach((key, value) {
-        shortedTransactions[key] =
-            value..sort((a, b) => a.dateTime.compareTo(b.dateTime));
+        shortedTransactions[key] = value
+          ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
       });
 
       setState(() {

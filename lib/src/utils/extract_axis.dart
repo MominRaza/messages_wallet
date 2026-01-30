@@ -34,8 +34,9 @@ Iterable<Transaction> extractAxisMessages(
         return Transaction(
           type: TransactionType.creditCardReversed,
           transactionAmount: double.tryParse(amount ?? '') ?? 0,
-          accountNumber:
-              cardNumber == null ? '' : 'Axis Bank Credit Card $cardNumber',
+          accountNumber: cardNumber == null
+              ? ''
+              : 'Axis Bank Credit Card $cardNumber',
           body: message,
           dateTime: dateTime ?? DateTime(0),
           finalAmount: double.tryParse(availableLimit ?? ''),
@@ -83,10 +84,9 @@ Iterable<Transaction> extractAxisMessages(
           _ => TransactionType.transferred,
         },
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
-        accountNumber:
-            accountNumber == null
-                ? ''
-                : 'Axis Bank ${transactionType == 'Spent' ? 'Credit Card ' : ''}${accountNumber.substring(accountNumber.length - 4)}',
+        accountNumber: accountNumber == null
+            ? ''
+            : 'Axis Bank ${transactionType == 'Spent' ? 'Credit Card ' : ''}${accountNumber.substring(accountNumber.length - 4)}',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),

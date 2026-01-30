@@ -54,10 +54,9 @@ class BankCardView extends StatelessWidget {
       ),
       actions: [
         FilledButton(
-          onPressed:
-              () => context.router.push(
-                AccountRoute(title: entry.key, transactions: entry.value),
-              ),
+          onPressed: () => context.router.push(
+            AccountRoute(title: entry.key, transactions: entry.value),
+          ),
           child: const Text('View All'),
         ),
       ],

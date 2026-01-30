@@ -9,8 +9,9 @@ import 'test_data.dart';
 void main() {
   group('BOB Extract', () {
     test('Credited', () {
-      var transaction =
-          extractBOBMessages([bobMessages['bob_credited']!]).first;
+      var transaction = extractBOBMessages([
+        bobMessages['bob_credited']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 30);
       expect(transaction.finalAmount, 92.1);
@@ -20,8 +21,9 @@ void main() {
     });
 
     test('withdrawn', () {
-      var transaction =
-          extractBOBMessages([bobMessages['bob_withdrawn']!]).first;
+      var transaction = extractBOBMessages([
+        bobMessages['bob_withdrawn']!,
+      ]).first;
       expect(transaction.type, TransactionType.withdrawn);
       expect(transaction.transactionAmount, 5500);
       expect(transaction.finalAmount, 496.1);
@@ -31,8 +33,9 @@ void main() {
     });
 
     test('transferred', () {
-      var transaction =
-          extractBOBMessages([bobMessages['bob_transferred']!]).first;
+      var transaction = extractBOBMessages([
+        bobMessages['bob_transferred']!,
+      ]).first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 20);
       expect(transaction.finalAmount, 3352.1);
@@ -44,8 +47,9 @@ void main() {
 
   group('Axis Extract', () {
     test('credited', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_credited']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_credited']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 42476);
       expect(transaction.finalAmount, 65789.44);
@@ -55,8 +59,9 @@ void main() {
     });
 
     test('Debit ATM-WDL/', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_withdrawn']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_withdrawn']!,
+      ]).first;
       expect(transaction.type, TransactionType.withdrawn);
       expect(transaction.transactionAmount, 5000);
       expect(transaction.finalAmount, 4384.44);
@@ -66,8 +71,9 @@ void main() {
     });
 
     test('Debit UPI/', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_transferred']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_transferred']!,
+      ]).first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 435);
       expect(transaction.finalAmount, isNull);
@@ -77,8 +83,9 @@ void main() {
     });
 
     test('credited 2', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_credited2']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_credited2']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 1000);
       expect(transaction.finalAmount, isNull);
@@ -88,8 +95,9 @@ void main() {
     });
 
     test('creditCardSpent', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_creditCardSpent']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_creditCardSpent']!,
+      ]).first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 50);
       expect(transaction.finalAmount, 34985);
@@ -99,8 +107,9 @@ void main() {
     });
 
     test('creditCardReversed transaction', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_creditCardReversed']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_creditCardReversed']!,
+      ]).first;
       expect(transaction.type, TransactionType.creditCardReversed);
       expect(transaction.transactionAmount, 1);
       expect(transaction.finalAmount, 97678.37);
@@ -112,8 +121,9 @@ void main() {
 
   group('Cosmos Extract', () {
     test('Debited UPI', () {
-      var transaction =
-          extractCosmosMessages([cosmosMessages['cosmos_debited_upi']!]).first;
+      var transaction = extractCosmosMessages([
+        cosmosMessages['cosmos_debited_upi']!,
+      ]).first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 123.45);
       expect(transaction.finalAmount, 3456.45);
@@ -123,10 +133,9 @@ void main() {
     });
 
     test('Debited Cheque', () {
-      var transaction =
-          extractCosmosMessages([
-            cosmosMessages['cosmos_debited_cheque']!,
-          ]).first;
+      var transaction = extractCosmosMessages([
+        cosmosMessages['cosmos_debited_cheque']!,
+      ]).first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 10000);
       expect(transaction.finalAmount, 4567.89);
@@ -136,8 +145,9 @@ void main() {
     });
 
     test('Credited UPI', () {
-      var transaction =
-          extractCosmosMessages([cosmosMessages['cosmos_credited_upi']!]).first;
+      var transaction = extractCosmosMessages([
+        cosmosMessages['cosmos_credited_upi']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 123.45);
       expect(transaction.finalAmount, 3456.45);
@@ -149,8 +159,9 @@ void main() {
 
   group('Defect #10: Single digit after decimal', () {
     test('BOB single digit decimal', () {
-      var transaction =
-          extractBOBMessages([bobMessages['bob_single_decimal']!]).first;
+      var transaction = extractBOBMessages([
+        bobMessages['bob_single_decimal']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 100.1);
       expect(transaction.finalAmount, 200.1);
@@ -159,8 +170,9 @@ void main() {
       expect(transaction.dateTime, DateTime.parse('2025-05-10 10:10:10'));
     });
     test('Axis single digit decimal', () {
-      var transaction =
-          extractAxisMessages([axisMessages['axis_single_decimal']!]).first;
+      var transaction = extractAxisMessages([
+        axisMessages['axis_single_decimal']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 100.1);
       expect(transaction.finalAmount, 200.1);
@@ -169,10 +181,9 @@ void main() {
       expect(transaction.dateTime, DateTime.parse('2025-05-10 10:10:10'));
     });
     test('Cosmos single digit decimal', () {
-      var transaction =
-          extractCosmosMessages([
-            cosmosMessages['cosmos_single_decimal']!,
-          ]).first;
+      var transaction = extractCosmosMessages([
+        cosmosMessages['cosmos_single_decimal']!,
+      ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 100.1);
       expect(transaction.finalAmount, 200.1);

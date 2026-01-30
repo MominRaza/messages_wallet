@@ -34,8 +34,9 @@ Iterable<Transaction> extractBOBMessages(
           _ => TransactionType.withdrawn,
         },
         transactionAmount: double.tryParse(transactionAmount ?? '') ?? 0,
-        accountNumber:
-            accountNumber == null ? '' : 'Bank of Baroda $accountNumber',
+        accountNumber: accountNumber == null
+            ? ''
+            : 'Bank of Baroda $accountNumber',
         body: message,
         dateTime: dateTime ?? DateTime(0),
         finalAmount: double.tryParse(finalAmount ?? ''),

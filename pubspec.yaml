@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.11.0-296.4.beta
 
 dependencies:
   flutter:
@@ -14,12 +14,12 @@ dependencies:
   intl: ^0.20.2
   permission_handler: ^12.0.0+1
   url_launcher: ^6.3.1
-  auto_route: ^10.0.1
+  auto_route: ^11.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   auto_route_generator: ^10.0.1
   build_runner: ^2.4.15
 

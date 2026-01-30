@@ -30,17 +30,16 @@ class LinkText extends StatelessWidget {
           TextSpan(
             text: url,
             style: const TextStyle(decoration: TextDecoration.underline),
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () async {
-                    if (!await launchUrlString(url)) {
-                      if (!context.mounted) return;
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                if (!await launchUrlString(url)) {
+                  if (!context.mounted) return;
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Could not launch $url')),
-                      );
-                    }
-                  },
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Could not launch $url')),
+                  );
+                }
+              },
           ),
           TextSpan(text: afterUrl),
         ],
