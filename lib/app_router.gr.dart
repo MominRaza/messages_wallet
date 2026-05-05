@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:collection/collection.dart' as _i9;
 import 'package:flutter/material.dart' as _i8;
 import 'package:messages_wallet/src/account/view/account_screen.dart' as _i1;
 import 'package:messages_wallet/src/accounts/view/accounts_screen.dart' as _i2;
@@ -69,6 +70,24 @@ class AccountRouteArgs {
   String toString() {
     return 'AccountRouteArgs{transactions: $transactions, title: $title, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! AccountRouteArgs) return false;
+    return const _i9.ListEquality<_i7.Transaction>().equals(
+          transactions,
+          other.transactions,
+        ) &&
+        title == other.title &&
+        key == other.key;
+  }
+
+  @override
+  int get hashCode =>
+      const _i9.ListEquality<_i7.Transaction>().hash(transactions) ^
+      title.hashCode ^
+      key.hashCode;
 }
 
 /// generated route for

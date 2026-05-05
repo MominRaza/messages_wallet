@@ -1,7 +1,7 @@
 name: messages_wallet
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.2.9+10
 
 environment:
   sdk: ^3.11.0-296.4.beta
@@ -15,6 +15,8 @@ dependencies:
   permission_handler: ^12.0.0+1
   url_launcher: ^6.3.1
   auto_route: ^11.1.0
+  share_plus: 13.1.0
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_test:

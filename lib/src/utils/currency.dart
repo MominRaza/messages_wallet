@@ -15,11 +15,11 @@ String currencyFormat(double amount, [TransactionType? type]) {
 
   if (amount == amount.toInt()) {
     formattedAmount = NumberFormat.simpleCurrency(
-      locale: 'HI',
+      locale: 'en_IN',
       decimalDigits: 0,
     ).format(amount);
   } else {
-    formattedAmount = NumberFormat.simpleCurrency(locale: 'HI').format(amount);
+    formattedAmount = NumberFormat.simpleCurrency(locale: 'en_IN').format(amount);
   }
 
   return formattedAmount.replaceAll('-', '\u2212 ');
