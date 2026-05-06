@@ -11,10 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: subosito/flutter-action@v2
         with:
           channel: 'beta'
+          cache: true
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Install dependencies
         run: flutter pub get
@@ -23,16 +34,16 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze project source
-        run: flutter analyze --fatal-infos
+        run: flutter analyze --fatal-infos --no-pub
 
       - name: Run tests
-        run: flutter test
+        run: flutter test --no-pub
 
       - name: Build Debug APK
-        run: flutter build apk --debug
+        run: flutter build apk --debug --no-pub
 
       - name: Upload Debug APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
+          archive: false
