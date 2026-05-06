@@ -90,5 +90,6 @@ jobs:
           serviceAccountJsonPlainText: '${{ secrets.SERVICE_ACCOUNT_JSON }}'
           packageName: com.mominraza.messages_wallet
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          track: ${{ steps.track.outputs.track }}
+          tracks: ${{ steps.track.outputs.track }}
           whatsNewDirectory: distribution/whatsnew
+          changesNotSentForReview: true
