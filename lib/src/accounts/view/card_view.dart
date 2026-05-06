@@ -27,7 +27,7 @@ class CardView extends StatelessWidget {
             const SizedBox(height: 8),
             Text(description),
             const SizedBox(height: 16),
-            if (transactions != null) transactions!,
+            ?transactions,
             if (transactions != null) const SizedBox(height: 16),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: actions),
           ],
