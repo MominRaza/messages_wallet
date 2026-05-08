@@ -92,4 +92,3 @@ jobs:
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           tracks: ${{ steps.track.outputs.track }}
           whatsNewDirectory: distribution/whatsnew
-          changesNotSentForReview: true
