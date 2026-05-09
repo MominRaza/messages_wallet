@@ -1,61 +1,55 @@
 import 'package:intl/intl.dart';
-
 import '../shared/models/spending_model.dart';
 
-List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
-  List<Spending> items = [];
-  String? runningMonth;
-  double runningMonthCredit = 0;
-  double runningMonthDebit = 0;
+class TransactionGroup {
+  final String monthYear;
+  final DateTime date;
+  final List<Transaction> transactions;
+  
+  double get totalCredit => transactions
+      .where((t) => t.type == TransactionType.credited || t.type == TransactionType.creditCardReversed)
+      .fold(0, (sum, t) => sum + t.transactionAmount);
+  
+  double get totalDebit => transactions
+      .where((t) => t.type != TransactionType.credited && t.type != TransactionType.creditCardReversed)
+      .fold(0, (sum, t) => sum + t.transactionAmount);
+  
+  double get totalAmount => totalCredit - totalDebit;
+  
+  String get month => monthYear.split(' ')[0];
+  String get year => monthYear.split(' ')[1];
+  
+  TransactionGroup({
+    required this.monthYear,
+    required this.date,
+    required this.transactions,
+  });
+}
 
+List<TransactionGroup> groupTransactionsByMonth(List<Transaction> transactions) {
+  final Map<String, TransactionGroup> groups = {};
+  
   for (var transaction in transactions) {
-    final month = DateFormat('MMMM yyyy').format(transaction.dateTime);
-    final amount = transaction.transactionAmount;
-
-    runningMonth ??= month;
-
-    if (runningMonth == month) {
-      items.add(transaction);
-
-      if (transaction.type == TransactionType.credited) {
-        runningMonthCredit += amount;
-      } else {
-        runningMonthDebit += amount;
-      }
-    }
-
-    if (runningMonth != month) {
-      items.add(
-        MonthlySpending(
-          monthYear: runningMonth,
-          totalCredit: runningMonthCredit,
-          totalDebit: runningMonthDebit,
-        ),
-      );
-
-      items.add(transaction);
-
-      runningMonth = month;
-
-      if (transaction.type == TransactionType.credited) {
-        runningMonthCredit = amount;
-        runningMonthDebit = 0;
-      } else {
-        runningMonthCredit = 0;
-        runningMonthDebit = amount;
-      }
-    }
-
-    if (transaction == transactions.last) {
-      items.add(
-        MonthlySpending(
-          monthYear: runningMonth,
-          totalCredit: runningMonthCredit,
-          totalDebit: runningMonthDebit,
-        ),
+    final monthYear = DateFormat('MMMM yyyy').format(transaction.dateTime);
+    final date = DateTime(transaction.dateTime.year, transaction.dateTime.month);
+    
+    if (!groups.containsKey(monthYear)) {
+      groups[monthYear] = TransactionGroup(
+        monthYear: monthYear,
+        date: date,
+        transactions: [],
       );
     }
+    
+    groups[monthYear]!.transactions.add(transaction);
   }
+  
+  final sortedGroups = groups.values.toList()
+    ..sort((a, b) => b.date.compareTo(a.date));
 
-  return items.reversed.toList();
+  for (var group in sortedGroups) {
+    group.transactions.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+  }
+  
+  return sortedGroups;
 }
