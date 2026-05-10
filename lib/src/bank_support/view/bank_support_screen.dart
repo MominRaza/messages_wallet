@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
@@ -33,7 +32,6 @@ String _groupKey(String address) {
 
 bool _isNumericOnly(String key) => _allDigitsRegex.hasMatch(key);
 
-@RoutePage()
 class BankSupportScreen extends StatefulWidget {
   const BankSupportScreen({super.key});
 

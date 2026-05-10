@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/models/spending_model.dart';
@@ -6,7 +5,6 @@ import '../../utils/group_transactions_by_month.dart';
 import 'monthly_spending_list_item.dart';
 import 'transactions_list_item.dart';
 
-@RoutePage()
 class AccountScreen extends StatelessWidget {
   const AccountScreen({
     required this.transactions,

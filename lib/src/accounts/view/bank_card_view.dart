@@ -1,7 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../app_router.gr.dart';
 import '../../shared/models/spending_model.dart';
 import '../../utils/currency.dart';
 import '../../utils/date_time.dart';
@@ -54,8 +53,9 @@ class BankCardView extends StatelessWidget {
       ),
       actions: [
         FilledButton(
-          onPressed: () => context.router.push(
-            AccountRoute(title: entry.key, transactions: entry.value),
+          onPressed: () => context.push(
+            '/account',
+            extra: {'title': entry.key, 'transactions': entry.value},
           ),
           child: const Text('View All'),
         ),
