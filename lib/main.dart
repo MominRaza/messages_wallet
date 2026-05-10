@@ -16,13 +16,11 @@ void main() {
     ),
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final _appRouter = AppRouter();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         brightness: Brightness.dark,
       ),
-      routerConfig: _appRouter.config(),
+      routerConfig: appRouter,
     );
   }
 }

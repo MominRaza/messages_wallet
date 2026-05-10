@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
@@ -10,7 +9,6 @@ import '../../utils/extract_bob.dart';
 import '../../utils/extract_cosmos.dart';
 import 'messages.dart';
 
-@RoutePage()
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
 

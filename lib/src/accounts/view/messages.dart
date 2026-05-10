@@ -1,11 +1,10 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../app_router.gr.dart';
 import '../../shared/models/spending_model.dart';
 import '../../shared/view/issue_dialog.dart';
 import 'bank_card_view.dart';
@@ -48,7 +47,7 @@ class Messages extends StatelessWidget {
             onSelected: (MoreMenuOption value) {
               switch (value) {
                 case MoreMenuOption.settings:
-                  context.router.push(const SettingsRoute());
+                  context.push('/settings');
                   break;
                 case MoreMenuOption.repo:
                   launchUrl(

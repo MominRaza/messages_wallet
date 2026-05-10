@@ -1,10 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../app_router.gr.dart';
-
-@RoutePage()
 class PermissionScreen extends StatefulWidget {
   const PermissionScreen({super.key});
 
@@ -73,7 +70,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
 
   void _handleReadSMSPermission() {
     Permission.sms
-        .onGrantedCallback(() => context.router.replace(const AccountsRoute()))
+        .onGrantedCallback(() => context.go('/accounts'))
         .onDeniedCallback(() {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
