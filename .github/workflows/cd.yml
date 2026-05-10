@@ -46,10 +46,10 @@ jobs:
             echo "track=internal" >> $GITHUB_OUTPUT
             echo "prerelease=true" >> $GITHUB_OUTPUT
           elif [[ "$VERSION" =~ -beta\. ]]; then
-            echo "track=beta" >> $GITHUB_OUTPUT
+            echo "track=beta,internal" >> $GITHUB_OUTPUT
             echo "prerelease=true" >> $GITHUB_OUTPUT
           else
-            echo "track=production" >> $GITHUB_OUTPUT
+            echo "track=production,internal" >> $GITHUB_OUTPUT
             echo "prerelease=false" >> $GITHUB_OUTPUT
           fi
 
