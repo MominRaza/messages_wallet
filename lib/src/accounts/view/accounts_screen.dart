@@ -1,84 +1,30 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../shared/models/spending_model.dart';
-import '../../utils/extract_axis.dart';
-import '../../utils/extract_bob.dart';
-import '../../utils/extract_cosmos.dart';
+import '../../shared/providers/sms_providers.dart';
 import 'messages.dart';
 
-class AccountsScreen extends StatefulWidget {
+class AccountsScreen extends ConsumerWidget {
   const AccountsScreen({super.key});
 
   @override
-  State<AccountsScreen> createState() => _AccountsScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final messagesAsync = ref.watch(smsMessagesProvider);
+    final transactionsGroup = ref.watch(transactionsGroupProvider);
 
-class _AccountsScreenState extends State<AccountsScreen> {
-  final SmsQuery _query = SmsQuery();
-  Iterable<SmsMessage> _allMessages = [];
-  Map<String, List<Transaction>> _transactionsGroup = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _loadMessages();
-  }
-
-  Future<void> _loadMessages() async {
-    var permission = await Permission.sms.status;
-    if (permission.isGranted) {
-      final messages = await _query.querySms();
-      final axisMessages = messages.where(
-        (message) =>
-            message.address?.toLowerCase().contains('-axisbk') ?? false,
-      );
-      final bobMessages = messages.where(
-        (message) =>
-            message.address?.toLowerCase().contains('-bobtxn') ?? false,
-      );
-      final cosmosMessages = messages.where(
-        (message) =>
-            message.address?.toLowerCase().contains('-cosmos') ?? false,
-      );
-
-      Iterable<Transaction> bobTransactions = extractBOBMessages(
-        bobMessages.map((e) => e.body ?? ''),
-      );
-      Iterable<Transaction> axisTransactions = extractAxisMessages(
-        axisMessages.map((e) => e.body ?? ''),
-      );
-      Iterable<Transaction> cosmosTransactions = extractCosmosMessages(
-        cosmosMessages.map((e) => e.body ?? ''),
-      );
-
-      Map<String, List<Transaction>> transactionsGroup = groupBy([
-        ...bobTransactions,
-        ...axisTransactions,
-        ...cosmosTransactions,
-      ], (Transaction transaction) => transaction.accountNumber);
-
-      Map<String, List<Transaction>> shortedTransactions = {};
-
-      transactionsGroup.forEach((key, value) {
-        shortedTransactions[key] = value
-          ..sort((a, b) => a.dateTime.compareTo(b.dateTime));
-      });
-
-      setState(() {
-        _allMessages = messages;
-        _transactionsGroup = shortedTransactions;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Messages(
-      allMessages: _allMessages,
-      transactionsGroup: _transactionsGroup,
+    return messagesAsync.when(
+      data: (allMessages) => Messages(
+        allMessages: allMessages,
+        transactionsGroup: transactionsGroup,
+      ),
+      loading: () => Scaffold(
+        appBar: AppBar(title: const Text('Messages Wallet')),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (_, _) => Scaffold(
+        appBar: AppBar(title: const Text('Messages Wallet')),
+        body: const Center(child: Text('Failed to load messages')),
+      ),
     );
   }
 }
