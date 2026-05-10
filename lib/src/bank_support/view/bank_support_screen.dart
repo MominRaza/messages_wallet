@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/providers/sms_providers.dart';
@@ -18,34 +17,32 @@ class BankSupportScreen extends ConsumerStatefulWidget {
 }
 
 class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
-  final Set<String> _selectedSenders = {};
-  final Set<int> _selectedIndices = {};
-  bool _showAll = false;
+  final Set<SmsMessage> _selectedMessages = {};
+  bool _hideSupported = false;
 
-  List<SmsMessage> _visibleMessages(
-    Map<String, List<SmsMessage>> senderGroups,
+  List<SmsMessage> _messagesForSender(
+    String key,
     Map<String, List<SmsMessage>> filteredGroups,
-  ) => _selectedSenders
-      .expand(
-        (s) =>
-            (_showAll ? senderGroups[s] : filteredGroups[s]) ?? <SmsMessage>[],
-      )
-      .toList();
+  ) => filteredGroups[key] ?? [];
 
-  List<SmsMessage> _checkedMessages(List<SmsMessage> visible) => [
-    for (var i = 0; i < visible.length; i++)
-      if (_selectedIndices.contains(i)) visible[i],
-  ];
+  List<SmsMessage> _visibleMessagesForSender(
+    String key,
+    Map<String, List<SmsMessage>> filteredGroups,
+    Set<String> transactionBodies,
+  ) {
+    final msgs = _messagesForSender(key, filteredGroups);
+    if (_hideSupported && isSupported(key)) {
+      return msgs
+          .where((m) => !transactionBodies.contains(m.body ?? ''))
+          .toList();
+    }
+    return msgs;
+  }
 
   String _formatMessages(List<SmsMessage> messages) {
     final buf = StringBuffer();
     for (final msg in messages) {
       buf.writeln('Sender: ${msg.address ?? ''}');
-      if (msg.date != null) {
-        buf.writeln(
-          'Date: ${DateFormat('dd-MM-yyyy HH:mm:ss').format(msg.date!)}',
-        );
-      }
       buf.writeln('---');
       buf.writeln(msg.body ?? '');
       buf.writeln('===');
@@ -53,11 +50,11 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
     return buf.toString().trim();
   }
 
-  void _copy(List<SmsMessage> visible) {
-    final selected = _checkedMessages(visible);
+  void _copy() {
+    final selected = _selectedMessages.toList();
     if (selected.isEmpty) return;
     final formatted = _formatMessages(selected);
-    log('[BankSupport] ${selected.length} message(s) copied:\n$formatted');
+    log(formatted);
     Clipboard.setData(ClipboardData(text: formatted));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -67,42 +64,18 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
     );
   }
 
-  void _email(List<SmsMessage> visible) {
-    final selected = _checkedMessages(visible);
+  void _email() {
+    final selected = _selectedMessages.toList();
     if (selected.isEmpty) return;
-    final senders = _selectedSenders.join(', ');
+    final senders = selected
+        .map((m) => groupKey(m.address ?? ''))
+        .toSet()
+        .join(', ');
     final formatted = _formatMessages(selected);
-    log('[BankSupport] Emailing ${selected.length} message(s) for: $senders');
+    const recipient = 'mominraza.dev@gmail.com';
     final subject = Uri.encodeComponent('Bank Support Request - $senders');
     final body = Uri.encodeComponent(formatted);
-    launchUrl(Uri.parse('mailto:?subject=$subject&body=$body'));
-  }
-
-  bool _allSelected(List<SmsMessage> visible) {
-    final count = visible.length;
-    return count > 0 && _selectedIndices.length == count;
-  }
-
-  void _toggleAll(List<SmsMessage> visible) {
-    final count = visible.length;
-    setState(() {
-      if (_allSelected(visible)) {
-        _selectedIndices.clear();
-      } else {
-        _selectedIndices.addAll(List.generate(count, (i) => i));
-      }
-    });
-  }
-
-  void _onSenderToggled(String key, bool selected) {
-    setState(() {
-      if (selected) {
-        _selectedSenders.add(key);
-      } else {
-        _selectedSenders.remove(key);
-      }
-      _selectedIndices.clear();
-    });
+    launchUrl(Uri.parse('mailto:$recipient?subject=$subject&body=$body'));
   }
 
   @override
@@ -112,30 +85,29 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
     final filteredGroups = ref.watch(filteredSenderGroupsProvider);
     final transactionBodies = ref.watch(transactionBodiesProvider);
 
-    final messages = _visibleMessages(senderGroups, filteredGroups);
-    final anyChecked = _selectedIndices.isNotEmpty;
-    final allSel = _allSelected(messages);
+    final anyChecked = _selectedMessages.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Bank Support'),
-        actions: [
-          IconButton(
-            tooltip: allSel ? 'Deselect all' : 'Select all',
-            onPressed: messages.isNotEmpty ? () => _toggleAll(messages) : null,
-            icon: Icon(allSel ? Icons.deselect : Icons.select_all),
-          ),
-          IconButton(
-            tooltip: 'Copy selected',
-            onPressed: anyChecked ? () => _copy(messages) : null,
-            icon: const Icon(Icons.copy),
-          ),
-          IconButton(
-            tooltip: 'Email selected',
-            onPressed: anyChecked ? () => _email(messages) : null,
-            icon: const Icon(Icons.email_outlined),
-          ),
-        ],
+        title: Text(
+          anyChecked
+              ? '${_selectedMessages.length} selected'
+              : 'Select messages to share',
+        ),
+        actions: anyChecked
+            ? [
+                IconButton(
+                  tooltip: 'Copy selected',
+                  onPressed: _copy,
+                  icon: const Icon(Icons.copy),
+                ),
+                IconButton(
+                  tooltip: 'Email selected',
+                  onPressed: _email,
+                  icon: const Icon(Icons.email_outlined),
+                ),
+              ]
+            : [],
       ),
       body: messagesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -153,118 +125,54 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _SenderChipBar(
-                    senderGroups: senderGroups,
-                    filteredGroups: filteredGroups,
-                    selectedSenders: _selectedSenders,
-                    showAll: _showAll,
-                    onSenderToggled: _onSenderToggled,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(16, 4, 8, 4),
                     child: Row(
                       children: [
                         Text(
-                          'Show all messages',
+                          'Hide supported messages',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const Spacer(),
                         Switch.adaptive(
-                          value: _showAll,
-                          onChanged: (v) => setState(() {
-                            _showAll = v;
-                            _selectedIndices.clear();
-                          }),
+                          value: _hideSupported,
+                          onChanged: (v) => setState(() => _hideSupported = v),
                         ),
                       ],
                     ),
                   ),
                   const Divider(height: 1),
                   Expanded(
-                    child: _selectedSenders.isEmpty
-                        ? const Center(
-                            child: Text(
-                              'Select a sender above to view messages',
-                            ),
-                          )
-                        : messages.isEmpty
-                        ? const Center(
-                            child: Text('No transaction messages found'),
-                          )
-                        : ListView.separated(
-                            itemCount: messages.length,
-                            separatorBuilder: (_, _) =>
-                                const Divider(height: 1),
-                            itemBuilder: (context, index) {
-                              final msg = messages[index];
-                              final addr = msg.address ?? '';
-                              final senderKey = groupKey(addr);
-                              final supported = isSupported(senderKey);
-                              final isTx =
-                                  supported &&
-                                  transactionBodies.contains(msg.body ?? '');
-
-                              return CheckboxListTile(
-                                value: _selectedIndices.contains(index),
-                                onChanged: (v) => setState(() {
-                                  if (v == true) {
-                                    _selectedIndices.add(index);
+                    child: ListView(
+                      children: [
+                        for (final key in senderGroups.keys)
+                          if (_visibleMessagesForSender(
+                            key,
+                            filteredGroups,
+                            transactionBodies,
+                          ).isNotEmpty)
+                            _SenderExpansionTile(
+                              senderKey: key,
+                              messages: _visibleMessagesForSender(
+                                key,
+                                filteredGroups,
+                                transactionBodies,
+                              ),
+                              selectedMessages: _selectedMessages,
+                              transactionBodies: transactionBodies,
+                              hideSupported: _hideSupported,
+                              onMessageToggled: (msg, selected) {
+                                setState(() {
+                                  if (selected) {
+                                    _selectedMessages.add(msg);
                                   } else {
-                                    _selectedIndices.remove(index);
+                                    _selectedMessages.remove(msg);
                                   }
-                                }),
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                title: Row(
-                                  children: [
-                                    Chip(
-                                      label: Text(
-                                        addr,
-                                        style: const TextStyle(fontSize: 11),
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      visualDensity: VisualDensity.compact,
-                                    ),
-                                    if (supported) ...[
-                                      const SizedBox(width: 4),
-                                      Chip(
-                                        label: Text(
-                                          isTx ? 'Transaction' : 'Skipped',
-                                          style: const TextStyle(fontSize: 11),
-                                        ),
-                                        backgroundColor: isTx
-                                            ? Theme.of(
-                                                context,
-                                              ).colorScheme.primaryContainer
-                                            : null,
-                                        padding: EdgeInsets.zero,
-                                        visualDensity: VisualDensity.compact,
-                                      ),
-                                    ],
-                                    const Spacer(),
-                                    if (msg.date != null)
-                                      Text(
-                                        DateFormat(
-                                          'dd MMM yyyy',
-                                        ).format(msg.date!),
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodySmall,
-                                      ),
-                                  ],
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Text(
-                                    msg.body ?? '',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                isThreeLine: true,
-                              );
-                            },
-                          ),
+                                });
+                              },
+                            ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -273,49 +181,120 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
   }
 }
 
-class _SenderChipBar extends StatelessWidget {
-  const _SenderChipBar({
-    required this.senderGroups,
-    required this.filteredGroups,
-    required this.selectedSenders,
-    required this.showAll,
-    required this.onSenderToggled,
+class _SenderExpansionTile extends StatelessWidget {
+  const _SenderExpansionTile({
+    required this.senderKey,
+    required this.messages,
+    required this.selectedMessages,
+    required this.transactionBodies,
+    required this.hideSupported,
+    required this.onMessageToggled,
   });
 
-  final Map<String, List<SmsMessage>> senderGroups;
-  final Map<String, List<SmsMessage>> filteredGroups;
-  final Set<String> selectedSenders;
-  final bool showAll;
-  final void Function(String key, bool selected) onSenderToggled;
+  final String senderKey;
+  final List<SmsMessage> messages;
+  final Set<SmsMessage> selectedMessages;
+  final Set<String> transactionBodies;
+  final bool hideSupported;
+  final void Function(SmsMessage msg, bool selected) onMessageToggled;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: senderGroups.keys.expand((key) {
-          final supported = isSupported(key);
-          final count = showAll
-              ? (senderGroups[key]?.length ?? 0)
-              : (filteredGroups[key]?.length ?? 0);
-          if (!supported && count == 0) return const <Widget>[];
-          final selected = selectedSenders.contains(key);
-          return [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: FilterChip(
-                label: Text(
-                  supported ? '$key · Supported ($count)' : '$key ($count)',
+    final supported = isSupported(senderKey);
+    final count = messages.length;
+    final subtitle = supported
+        ? 'Supported · $count message${count == 1 ? '' : 's'}'
+        : '$count message${count == 1 ? '' : 's'}';
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        shape: const Border(),
+        leading: CircleAvatar(
+          backgroundColor: supported
+              ? Theme.of(context).colorScheme.primaryContainer
+              : Theme.of(context).colorScheme.surfaceContainerHighest,
+          child: Icon(
+            supported ? Icons.check : Icons.sms_outlined,
+            size: 20,
+            color: supported
+                ? Theme.of(context).colorScheme.onPrimaryContainer
+                : Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+        title: Text(senderKey),
+        subtitle: Text(subtitle),
+        children: count == 0
+            ? [
+                const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text('No transaction messages found'),
                 ),
-                selected: selected,
-                onSelected: (v) => onSenderToggled(key, v),
-                visualDensity: VisualDensity.compact,
-              ),
-            ),
-          ];
-        }).toList(),
+              ]
+            : [
+                const Divider(height: 1),
+                for (final msg in messages)
+                  _MessageCheckboxTile(
+                    msg: msg,
+                    senderKey: senderKey,
+                    supported: supported,
+                    isSelected: selectedMessages.contains(msg),
+                    isTransaction:
+                        supported && transactionBodies.contains(msg.body ?? ''),
+                    hideSupported: hideSupported,
+                    onChanged: (v) => onMessageToggled(msg, v ?? false),
+                  ),
+              ],
       ),
+    );
+  }
+}
+
+class _MessageCheckboxTile extends StatelessWidget {
+  const _MessageCheckboxTile({
+    required this.msg,
+    required this.senderKey,
+    required this.supported,
+    required this.isSelected,
+    required this.isTransaction,
+    required this.hideSupported,
+    required this.onChanged,
+  });
+
+  final SmsMessage msg;
+  final String senderKey;
+  final bool supported;
+  final bool isSelected;
+  final bool isTransaction;
+  final bool hideSupported;
+  final ValueChanged<bool?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final showChip = supported && (isTransaction || !hideSupported);
+    return CheckboxListTile(
+      value: isSelected,
+      onChanged: onChanged,
+      controlAffinity: ListTileControlAffinity.leading,
+      title: showChip
+          ? Row(
+              children: [
+                Chip(
+                  label: Text(
+                    isTransaction ? 'Transaction' : 'Skipped',
+                    style: const TextStyle(fontSize: 11),
+                  ),
+                  backgroundColor: isTransaction
+                      ? Theme.of(context).colorScheme.primaryContainer
+                      : null,
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+              ],
+            )
+          : null,
+      subtitle: Text(msg.body ?? ''),
     );
   }
 }
