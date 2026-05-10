@@ -11,5 +11,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: AccountRoute.page),
     AutoRoute(page: PermissionRoute.page),
     AutoRoute(page: SettingsRoute.page),
+    AutoRoute(page: BankSupportRoute.page),
   ];
 }

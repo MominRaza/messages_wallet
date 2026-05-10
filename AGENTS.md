@@ -1,0 +1,1 @@
+- After making changes to the codebase, it is important to ensure that all code is properly formatted (`dart format .`), analyzed for issues (`flutter analyze`), and tested (`flutter test`) before finalizing your changes.
