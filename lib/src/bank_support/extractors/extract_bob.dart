@@ -3,6 +3,44 @@ import '../../shared/models/spending_model.dart';
 Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
     bobMessages
         .map((message) {
+          if (message.contains('Dear BOB UPI User')) {
+            final amountRegex = RegExp(r'INR ([\d,]+(?:\.\d{1,2})?)');
+            final accountRegex = RegExp(r'a/c no\. X+(\d{4})');
+            final dateRegex = RegExp(
+              r'(\d{4}-\d{2}-\d{2}) (\d{1,2}):(\d{2}):(\d{2}) (AM|PM)',
+            );
+
+            final amount = amountRegex.firstMatch(message)?.group(1);
+            final accountNumber = accountRegex.firstMatch(message)?.group(1);
+            final dateMatch = dateRegex.firstMatch(message);
+
+            final date = dateMatch?.group(1);
+            final minutes = dateMatch?.group(3);
+            final seconds = dateMatch?.group(4);
+            final period = dateMatch?.group(5);
+            int? hour = int.tryParse(dateMatch?.group(2) ?? '');
+            if (hour != null && period == 'PM' && hour != 12) hour += 12;
+            if (hour != null && period == 'AM' && hour == 12) hour = 0;
+
+            final time = hour == null
+                ? null
+                : '${hour.toString().padLeft(2, '0')}:$minutes:$seconds';
+            final dateTime = date != null && time != null
+                ? DateTime.tryParse('$date $time')
+                : null;
+
+            return Transaction(
+              type: TransactionType.credited,
+              transactionAmount: double.tryParse(amount ?? '') ?? 0,
+              accountNumber: accountNumber == null
+                  ? ''
+                  : 'Bank of Baroda $accountNumber',
+              body: message,
+              dateTime: dateTime ?? DateTime(0),
+              finalAmount: null,
+            );
+          }
+
           if (message.contains('Dr. from A/C')) {
             final amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{1,2})?)');
             final accountRegex = RegExp(r'A/C X+(\d{4})');
