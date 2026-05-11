@@ -119,6 +119,42 @@ void main() {
       expect(transaction.body, axisMessages['axis_creditCardReversed']);
       expect(transaction.dateTime, DateTime.parse('2025-03-15 15:10:22'));
     });
+
+    test('debited UPI (new format)', () {
+      var transaction = extractAxisMessages([
+        axisMessages['axis_debited']!,
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 84000);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'Axis Bank 5237');
+      expect(transaction.body, axisMessages['axis_debited']);
+      expect(transaction.dateTime, DateTime.parse('2026-05-11 12:45:37'));
+    });
+
+    test('debited UPI (new format 2)', () {
+      var transaction = extractAxisMessages([
+        axisMessages['axis_debited2']!,
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 133);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'Axis Bank 5237');
+      expect(transaction.body, axisMessages['axis_debited2']);
+      expect(transaction.dateTime, DateTime.parse('2026-05-04 17:30:09'));
+    });
+
+    test('credit card payment received', () {
+      var transaction = extractAxisMessages([
+        axisMessages['axis_creditCardPayment']!,
+      ]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 199);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'Axis Bank Credit Card 8695');
+      expect(transaction.body, axisMessages['axis_creditCardPayment']);
+      expect(transaction.dateTime, DateTime.parse('2026-04-16 00:00:00'));
+    });
   });
 
   group('Cosmos Extract', () {
