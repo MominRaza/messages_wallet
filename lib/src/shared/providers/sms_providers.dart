@@ -33,7 +33,9 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
         (m) => m.address.toLowerCase().contains('-axisbk'),
       );
       final bobMessages = messages.where(
-        (m) => m.address.toLowerCase().contains('-bobtxn'),
+        (m) =>
+            m.address.toLowerCase().contains('-bobtxn') ||
+            m.address.toLowerCase().contains('-bobsms'),
       );
       final cosmosMessages = messages.where(
         (m) => m.address.toLowerCase().contains('-cosmos'),

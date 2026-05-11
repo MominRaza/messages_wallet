@@ -46,6 +46,18 @@ void main() {
       expect(transaction.body, bobMessages['bob_transferred']);
       expect(transaction.dateTime, DateTime.parse('2023-10-31 21:19:22'));
     });
+
+    test('withdrawn (VK-BOBSMS-S, Avlbal Amt)', () {
+      var transaction = extractBOBMessages([
+        bobMessages['bob_bobsms_withdrawn']!,
+      ]).first;
+      expect(transaction.type, TransactionType.withdrawn);
+      expect(transaction.transactionAmount, 2000);
+      expect(transaction.finalAmount, 15.97);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_withdrawn']);
+      expect(transaction.dateTime, DateTime.parse('2025-11-02 18:45:46'));
+    });
   });
 
   group('Axis Extract', () {

@@ -7,6 +7,8 @@ Map<String, String> bobMessages = {
       'Rs.20 transferred from A/c ...7544 to:UPI/************. Total Bal:Rs.3352.1CR. Avlbl Amt:Rs.3352.1(31-10-2023 21:19:22) - Bank of Baroda',
   'bob_single_decimal':
       'Rs.100.1 Credited to A/c ...1234 thru UPI/************ by test_user. Total Bal:Rs.200.1CR. Avlbl Amt:Rs.200.1(10-05-2025 10:10:10) - Bank of Baroda',
+  'bob_bobsms_withdrawn':
+      'Rs.2000.00 withdrawn from A/c ...7544 at ATM TID XXXXXXXXXX Ref.123456789012 Avlbal Amt:Rs.15.97(02-11-2025 18:45:46).In case your a/c is debited but cash is not dispensed from the ATM, the transaction will be automatically reversed within 48 hours. TC apply. If not used by you, call 18005700-BOB',
 };
 
 Map<String, String> axisMessages = {
