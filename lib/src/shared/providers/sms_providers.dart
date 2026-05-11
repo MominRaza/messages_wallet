@@ -9,8 +9,6 @@ import '../../utils/extract_cosmos.dart';
 import '../../utils/sms_helpers.dart';
 import '../models/spending_model.dart';
 
-/// Single SMS read for the entire app. Kept alive so messages are never
-/// re-fetched across navigation.
 final smsMessagesProvider = FutureProvider<List<SmsMessage>>((ref) async {
   final permission = await Permission.sms.status;
   if (!permission.isGranted) return [];
@@ -18,8 +16,6 @@ final smsMessagesProvider = FutureProvider<List<SmsMessage>>((ref) async {
   return await query.querySms();
 });
 
-/// Transactions extracted from supported-bank messages, grouped by account
-/// number and sorted by datetime.
 final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
   ref,
 ) {
@@ -55,9 +51,6 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
   );
 });
 
-/// Set of all transaction message bodies for O(1) lookup.
-/// Used by bank support screen to show whether a message was extracted
-/// as a transaction.
 final transactionBodiesProvider = Provider<Set<String>>((ref) {
   final group = ref.watch(transactionsGroupProvider);
   return {
@@ -66,7 +59,6 @@ final transactionBodiesProvider = Provider<Set<String>>((ref) {
   };
 });
 
-/// All SMS messages grouped by DLT sender ID, sorted by key.
 final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
   final messagesAsync = ref.watch(smsMessagesProvider);
   return messagesAsync.when(
@@ -87,7 +79,6 @@ final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
   );
 });
 
-/// Likely-transaction messages grouped by sender ID (heuristic filter).
 final filteredSenderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((
   ref,
 ) {

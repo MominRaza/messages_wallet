@@ -17,3 +17,7 @@ dart format .          # Format code
 flutter analyze        # Check for issues
 flutter test           # Run tests
 ```
+
+## Code Comments Policy
+
+Never add comments in the code. Code should be self-explanatory through clear naming conventions, logical structure, and readable implementation. Write code that speaks for itself.
