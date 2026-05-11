@@ -30,3 +30,4 @@ Update the existing extractor only. Keep older message formats working and add a
 - Keep parsing narrow and explicit.
 - Do not invent missing fields.
 - Fail safely by skipping messages that do not match the provided sample.
+- Always update `README.md`: if the samples are bank/debit messages, add the bank under **Supported Banks**; if the samples are credit card messages, add the bank under **Supported Credit Cards**.

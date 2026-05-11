@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_axis.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_bob.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_cosmos.dart';
+import 'package:messages_wallet/src/bank_support/extractors/extract_icici.dart';
 import 'package:messages_wallet/src/shared/models/spending_model.dart';
 
 import 'test_data.dart';
@@ -154,6 +155,68 @@ void main() {
       expect(transaction.accountNumber, 'Cosmos Bank 2345');
       expect(transaction.body, cosmosMessages['cosmos_credited_upi']);
       expect(transaction.dateTime, DateTime.parse('2023-11-23 00:00:00'));
+    });
+  });
+
+  group('ICICI Extract', () {
+    test('spent using Card (INR)', () {
+      var transaction = extractICICIMessages([
+        iciciMessages['icici_spent']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 1607.55);
+      expect(transaction.finalAmount, 48392.45);
+      expect(transaction.accountNumber, 'ICICI Bank Credit Card 7004');
+      expect(transaction.body, iciciMessages['icici_spent']);
+      expect(transaction.dateTime, DateTime.parse('2025-02-26 00:00:00'));
+    });
+
+    test('reversed', () {
+      var transaction = extractICICIMessages([
+        iciciMessages['icici_reversed']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardReversed);
+      expect(transaction.transactionAmount, 1.00);
+      expect(transaction.finalAmount, 46844.45);
+      expect(transaction.accountNumber, 'ICICI Bank Credit Card 7004');
+      expect(transaction.body, iciciMessages['icici_reversed']);
+      expect(transaction.dateTime, DateTime.parse('2025-03-15 15:07:29'));
+    });
+
+    test('debited', () {
+      var transaction = extractICICIMessages([
+        iciciMessages['icici_debited']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 50.00);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'ICICI Bank Credit Card 5005');
+      expect(transaction.body, iciciMessages['icici_debited']);
+      expect(transaction.dateTime, DateTime.parse('2025-03-15 00:00:00'));
+    });
+
+    test('spent on Card (Rs)', () {
+      var transaction = extractICICIMessages([
+        iciciMessages['icici_spent_rs']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 5000.00);
+      expect(transaction.finalAmount, 41794.45);
+      expect(transaction.accountNumber, 'ICICI Bank Credit Card 5005');
+      expect(transaction.body, iciciMessages['icici_spent_rs']);
+      expect(transaction.dateTime, DateTime.parse('2025-03-24 00:00:00'));
+    });
+
+    test('payment received', () {
+      var transaction = extractICICIMessages([
+        iciciMessages['icici_payment']!,
+      ]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 3155.55);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'ICICI Bank Credit Card 7004');
+      expect(transaction.body, iciciMessages['icici_payment']);
+      expect(transaction.dateTime, DateTime.parse('2025-03-28 00:00:00'));
     });
   });
 
