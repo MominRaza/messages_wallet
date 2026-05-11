@@ -2,7 +2,7 @@ Map<String, String> bobMessages = {
   'bob_credited':
       'Rs.30 Credited to A/c ...7544 thru UPI/************ by **********_axl. Total Bal:Rs.92.1CR. Avlbl Amt:Rs.92.1(09-08-2023 22:40:20) - Bank of Baroda',
   'bob_withdrawn':
-      'Rs.5500 withdrawn from A/c ...7544 at ATM TID ********** Ref.00000000**** Avlbl Amt:Rs.496.1(29-11-2023 16:48:04). If not used by you, call 18002584455 - Bank of Baroda',
+      'Rs.5500 withdrawn from A/c ...7544 at ATM TID ********** Ref.00000000**** Avlbl Amt:Rs.496.1(29-11-2023 16:48:04). If not used by you, call 18001234567 - Bank of Baroda',
   'bob_transferred':
       'Rs.20 transferred from A/c ...7544 to:UPI/************. Total Bal:Rs.3352.1CR. Avlbl Amt:Rs.3352.1(31-10-2023 21:19:22) - Bank of Baroda',
   'bob_single_decimal':
@@ -13,15 +13,15 @@ Map<String, String> axisMessages = {
   'axis_credited':
       'INR 42476.00 credited to A/c no. XX5237 on 30-08-23 at 05:31:41 IST. Info- NEFT/****************/XXXXXXXXX/BANK OF. Avl Bal- INR 65789.44 - Axis Bank',
   'axis_withdrawn':
-      'Debit INR 5000.00 A/c no. XX985237 31-08-2023 19:15:15 ATM-WDL/MAIN CHOURA Bal INR 4384.44 SMS BLOCKCARD **** to +918691000002, if not you-Axis Bank',
+      'Debit INR 5000.00 A/c no. XX985237 31-08-2023 19:15:15 ATM-WDL/XXXXXXXXXX Bal INR 4384.44 SMS BLOCKCARD **** to +919999999999, if not you-Axis Bank',
   'axis_transferred':
-      'Debit INR 435.00 A/c no. XX5237 20-09-23 16:47:23 UPI/P2M/************/Flipkart Payments SMS BLOCKUPI Cust ID to 919951860002, if not you - Axis Bank',
+      'Debit INR 435.00 A/c no. XX5237 20-09-23 16:47:23 UPI/P2M/************/Flipkart Payments SMS BLOCKUPI Cust ID to 919999999999, if not you - Axis Bank',
   'axis_credited2':
-      'INR 1000.00 credited to A/c no. XX5237 on 07-10-24 at 07:32:10 IST. Info - NEFT/****************/ACCE. Chk Bal https://ccm.axbk.in/AXISBK/ltt3Dvko - Axis Bank',
+      'INR 1000.00 credited to A/c no. XX5237 on 07-10-24 at 07:32:10 IST. Info - NEFT/****************/ACCE. Chk Bal https://app.axisbank.com/XXXXXXXXXX - Axis Bank',
   'axis_creditCardSpent':
-      '''Spent\nCard no. XX3348\nINR 50\n07-10-24 21:52:10\nAARISH AHAM\nAvl Lmt INR 34985\nSMS BLOCK 3348 to 919951860002, if not you - Axis Bank''',
+      '''Spent\nCard no. XX3348\nINR 50\n07-10-24 21:52:10\nMERCHANT NAME\nAvl Lmt INR 34985\nSMS BLOCK 3348 to 919999999999, if not you - Axis Bank''',
   'axis_creditCardReversed':
-      'Transaction of INR 1 on Axis Bank Credit Card no. XX4257 on 15-03-25 15:10:22 IST at CAS*BharatN has been reversed. Available limit: INR 97678.37. Call 18001035577, if not done by you - Axis Bank',
+      'Transaction of INR 1 on Axis Bank Credit Card no. XX4257 on 15-03-25 15:10:22 IST at CAS*BharatN has been reversed. Available limit: INR 97678.37. Call 18001234567, if not done by you - Axis Bank',
   'axis_single_decimal':
       'INR 100.1 credited to A/c no. XX5678 on 10-05-25 at 10:10:10 IST. Info- NEFT/************/TEST/AXIS BANK. Avl Bal- INR 200.1 - Axis Bank',
 };
@@ -39,13 +39,13 @@ Map<String, String> cosmosMessages = {
 
 Map<String, String> iciciMessages = {
   'icici_spent':
-      'INR 1,607.55 spent using ICICI Bank Card XX7004 on 26-Feb-25 on Ing*National Te. Avl Limit: INR 48,392.45. If not you, call 1800 2662/SMS BLOCK 7004 to 9215676766.',
+      'INR 1,607.55 spent using ICICI Bank Card XX7004 on 26-Feb-25 on Mer*Chant Name. Avl Limit: INR 48,392.45. If not you, call 1800 1234/SMS BLOCK 7004 to 9999999999.',
   'icici_reversed':
       'Dear Customer, your transaction of INR 1.00 on ICICI Bank Credit Card XX7004 at BharatNXT dated 15-Mar-25 at 15:07:29 PM has been reversed. Available Credit limit is INR 46,844.45.',
   'icici_debited':
-      'ICICI Bank Credit Card XX5005 debited for INR 50.00 on 15-Mar-25 for UPI-544023631393-TAUKEER. To dispute call 18001080/SMS BLOCK 5005 to 9215676766',
+      'ICICI Bank Credit Card XX5005 debited for INR 50.00 on 15-Mar-25 for UPI-123456789012-MERCHANT. To dispute call 18001234/SMS BLOCK 5005 to 9999999999',
   'icici_spent_rs':
-      'Rs 5,000.00 spent on ICICI Bank Card XX5005 on 24-Mar-25 at UPI-50838094745. Avl Lmt: Rs 41,794.45. To dispute, call 18002662/SMS BLOCK 5005 to 9215676766. To convert this txn to EMI give a missed call on 9537667667. Know more about EMI conversion at icici.co/DUvfZI0QFMW',
+      'Rs 5,000.00 spent on ICICI Bank Card XX5005 on 24-Mar-25 at UPI-12345678901. Avl Lmt: Rs 41,794.45. To dispute, call 18001234/SMS BLOCK 5005 to 9999999999. To convert this txn to EMI give a missed call on 9999999999. Know more about EMI conversion at icici.co/XXXXXXXXXX',
   'icici_payment':
       'Payment of Rs 3,155.55 has been received on your ICICI Bank Credit Card XX7004 through Bharat Bill Payment System on 28-MAR-25.',
 };
