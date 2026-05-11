@@ -3,6 +3,7 @@ import 'package:messages_wallet/src/bank_support/extractors/extract_axis.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_bob.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_cosmos.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_icici.dart';
+import 'package:messages_wallet/src/bank_support/extractors/extract_kotak.dart';
 import 'package:messages_wallet/src/shared/models/spending_model.dart';
 
 import 'test_data.dart';
@@ -253,6 +254,44 @@ void main() {
       expect(transaction.accountNumber, 'Cosmos Bank 9999');
       expect(transaction.body, cosmosMessages['cosmos_single_decimal']);
       expect(transaction.dateTime, DateTime.parse('2025-05-10 00:00:00'));
+    });
+  });
+
+  group('Kotak Extract', () {
+    test('spent (VM-KOTAKB)', () {
+      var transaction = extractKotakMessages([
+        kotakMessages['kotak_spent_vm']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 500);
+      expect(transaction.finalAmount, 29500);
+      expect(transaction.accountNumber, 'Kotak Bank Credit Card 6746');
+      expect(transaction.body, kotakMessages['kotak_spent_vm']);
+      expect(transaction.dateTime, DateTime.parse('2025-04-27 00:00:00'));
+    });
+
+    test('payment credited (AD-KOTAKB)', () {
+      var transaction = extractKotakMessages([
+        kotakMessages['kotak_payment']!,
+      ]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 1606.4);
+      expect(transaction.finalAmount, 30000);
+      expect(transaction.accountNumber, 'Kotak Bank Credit Card 6746');
+      expect(transaction.body, kotakMessages['kotak_payment']);
+      expect(transaction.dateTime, DateTime.parse('2025-03-29 00:00:00'));
+    });
+
+    test('spent (AD-KOTAKB)', () {
+      var transaction = extractKotakMessages([
+        kotakMessages['kotak_spent_ad']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 1600);
+      expect(transaction.finalAmount, 28400);
+      expect(transaction.accountNumber, 'Kotak Bank Credit Card 6746');
+      expect(transaction.body, kotakMessages['kotak_spent_ad']);
+      expect(transaction.dateTime, DateTime.parse('2025-02-27 00:00:00'));
     });
   });
 }

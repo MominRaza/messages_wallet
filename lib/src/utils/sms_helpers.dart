@@ -1,4 +1,4 @@
-const supportedSenders = ['axisbk', 'bobtxn', 'cosmos', 'icicit'];
+const supportedSenders = ['axisbk', 'bobtxn', 'cosmos', 'icicit', 'kotakb'];
 final dltRegex = RegExp(r'^[A-Za-z]{2}-[A-Za-z0-9]{3,8}$');
 final _allDigitsRegex = RegExp(r'^\d+$');
 

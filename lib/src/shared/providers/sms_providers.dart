@@ -7,6 +7,7 @@ import '../../bank_support/extractors/extract_axis.dart';
 import '../../bank_support/extractors/extract_bob.dart';
 import '../../bank_support/extractors/extract_cosmos.dart';
 import '../../bank_support/extractors/extract_icici.dart';
+import '../../bank_support/extractors/extract_kotak.dart';
 import '../../utils/sms_helpers.dart';
 import '../models/spending_model.dart';
 
@@ -35,12 +36,16 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
       final iciciMessages = messages.where(
         (m) => m.address?.toLowerCase().contains('-icicit') ?? false,
       );
+      final kotakMessages = messages.where(
+        (m) => m.address?.toLowerCase().contains('-kotakb') ?? false,
+      );
 
       final transactions = [
         ...extractBOBMessages(bobMessages.map((e) => e.body ?? '')),
         ...extractAxisMessages(axisMessages.map((e) => e.body ?? '')),
         ...extractCosmosMessages(cosmosMessages.map((e) => e.body ?? '')),
         ...extractICICIMessages(iciciMessages.map((e) => e.body ?? '')),
+        ...extractKotakMessages(kotakMessages.map((e) => e.body ?? '')),
       ];
 
       final grouped = groupBy(transactions, (Transaction t) => t.accountNumber);

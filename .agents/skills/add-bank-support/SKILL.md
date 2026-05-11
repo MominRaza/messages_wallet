@@ -31,3 +31,4 @@ Update the existing extractor only. Keep older message formats working and add a
 - Do not invent missing fields.
 - Fail safely by skipping messages that do not match the provided sample.
 - Always update `README.md`: if the samples are bank/debit messages, add the bank under **Supported Banks**; if the samples are credit card messages, add the bank under **Supported Credit Cards**.
+- Sanitize all test data in `test/test_data.dart` before committing: replace real phone numbers, UPI reference/transaction IDs, payee/person names, and tracking URLs with obvious placeholders (e.g. `9999999999`, `123456789012`, `MERCHANT`, `XXXXXXXXXX`). Keep amounts, dates, card/account numbers, and available balances as-is since tests assert against them.
