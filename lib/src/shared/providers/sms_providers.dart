@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../utils/extract_axis.dart';
-import '../../utils/extract_bob.dart';
-import '../../utils/extract_cosmos.dart';
+import '../../bank_support/extractors/extract_axis.dart';
+import '../../bank_support/extractors/extract_bob.dart';
+import '../../bank_support/extractors/extract_cosmos.dart';
 import '../../utils/sms_helpers.dart';
 import '../models/spending_model.dart';
 

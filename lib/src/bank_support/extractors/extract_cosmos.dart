@@ -1,4 +1,4 @@
-import '../shared/models/spending_model.dart';
+import '../../shared/models/spending_model.dart';
 
 Iterable<Transaction> extractCosmosMessages(Iterable<String> cosmosMessages) =>
     cosmosMessages
