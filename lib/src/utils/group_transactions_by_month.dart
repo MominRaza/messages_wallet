@@ -17,7 +17,8 @@ List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
     if (runningMonth == month) {
       items.add(transaction);
 
-      if (transaction.type == TransactionType.credited) {
+      if (transaction.type == TransactionType.credited ||
+          transaction.type == TransactionType.creditCardReversed) {
         runningMonthCredit += amount;
       } else {
         runningMonthDebit += amount;
@@ -37,7 +38,8 @@ List<Spending> groupTransactionsByMonth(List<Transaction> transactions) {
 
       runningMonth = month;
 
-      if (transaction.type == TransactionType.credited) {
+      if (transaction.type == TransactionType.credited ||
+          transaction.type == TransactionType.creditCardReversed) {
         runningMonthCredit = amount;
         runningMonthDebit = 0;
       } else {

@@ -13,10 +13,7 @@ class AccountsScreen extends ConsumerWidget {
     final transactionsGroup = ref.watch(transactionsGroupProvider);
 
     return messagesAsync.when(
-      data: (allMessages) => Messages(
-        allMessages: allMessages,
-        transactionsGroup: transactionsGroup,
-      ),
+      data: (_) => Messages(transactionsGroup: transactionsGroup),
       loading: () => Scaffold(
         appBar: AppBar(title: const Text('Messages Wallet')),
         body: const Center(child: CircularProgressIndicator()),

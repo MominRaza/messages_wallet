@@ -1,7 +1,7 @@
 import '../shared/models/spending_model.dart';
 
-Iterable<Transaction> extractCosmosMessages(Iterable<String> bobMessages) =>
-    bobMessages
+Iterable<Transaction> extractCosmosMessages(Iterable<String> cosmosMessages) =>
+    cosmosMessages
         .map((message) {
           RegExp typeRegex = RegExp(r'(debited|credited)');
           RegExp amountRegex = RegExp(r'INR\.? ([\d,]+(?:\.\d{1,2})?)');
