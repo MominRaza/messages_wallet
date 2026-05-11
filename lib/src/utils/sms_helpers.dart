@@ -1,12 +1,11 @@
-const supportedSenders = ['axisbk', 'bobtxn', 'cosmos'];
+const supportedSenders = ['axisbk', 'bobtxn', 'cosmos', 'icicit'];
 final dltRegex = RegExp(r'^[A-Za-z]{2}-[A-Za-z0-9]{3,8}$');
 final _allDigitsRegex = RegExp(r'^\d+$');
 
-// A message is considered a likely transaction if it contains at least
-// 4 consecutive digits (e.g. account number).
-final _fourDigitsRegex = RegExp(r'\d{4}');
+final _transactionIndicatorRegex = RegExp(r'(?:\.{3}|X{1,2}|x{1,2})\d{4,6}');
 
-bool isLikelyTransaction(String body) => _fourDigitsRegex.hasMatch(body);
+bool isLikelyTransaction(String body) =>
+    _transactionIndicatorRegex.hasMatch(body);
 
 String groupKey(String address) {
   final dash = address.indexOf('-');

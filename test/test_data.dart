@@ -36,3 +36,16 @@ Map<String, String> cosmosMessages = {
   'cosmos_single_decimal':
       'Your A/c XX9999 is credited by INR 100.1 on 10/05/25 for UPI-CR/************/test. A/c bal is INR 200.1Cr.-Cosmos Bank',
 };
+
+Map<String, String> iciciMessages = {
+  'icici_spent':
+      'INR 1,607.55 spent using ICICI Bank Card XX7004 on 26-Feb-25 on Ing*National Te. Avl Limit: INR 48,392.45. If not you, call 1800 2662/SMS BLOCK 7004 to 9215676766.',
+  'icici_reversed':
+      'Dear Customer, your transaction of INR 1.00 on ICICI Bank Credit Card XX7004 at BharatNXT dated 15-Mar-25 at 15:07:29 PM has been reversed. Available Credit limit is INR 46,844.45.',
+  'icici_debited':
+      'ICICI Bank Credit Card XX5005 debited for INR 50.00 on 15-Mar-25 for UPI-544023631393-TAUKEER. To dispute call 18001080/SMS BLOCK 5005 to 9215676766',
+  'icici_spent_rs':
+      'Rs 5,000.00 spent on ICICI Bank Card XX5005 on 24-Mar-25 at UPI-50838094745. Avl Lmt: Rs 41,794.45. To dispute, call 18002662/SMS BLOCK 5005 to 9215676766. To convert this txn to EMI give a missed call on 9537667667. Know more about EMI conversion at icici.co/DUvfZI0QFMW',
+  'icici_payment':
+      'Payment of Rs 3,155.55 has been received on your ICICI Bank Credit Card XX7004 through Bharat Bill Payment System on 28-MAR-25.',
+};

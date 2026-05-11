@@ -3,14 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../utils/extract_axis.dart';
-import '../../utils/extract_bob.dart';
-import '../../utils/extract_cosmos.dart';
+import '../../bank_support/extractors/extract_axis.dart';
+import '../../bank_support/extractors/extract_bob.dart';
+import '../../bank_support/extractors/extract_cosmos.dart';
+import '../../bank_support/extractors/extract_icici.dart';
 import '../../utils/sms_helpers.dart';
 import '../models/spending_model.dart';
 
-/// Single SMS read for the entire app. Kept alive so messages are never
-/// re-fetched across navigation.
 final smsMessagesProvider = FutureProvider<List<SmsMessage>>((ref) async {
   final permission = await Permission.sms.status;
   if (!permission.isGranted) return [];
@@ -18,8 +17,6 @@ final smsMessagesProvider = FutureProvider<List<SmsMessage>>((ref) async {
   return await query.querySms();
 });
 
-/// Transactions extracted from supported-bank messages, grouped by account
-/// number and sorted by datetime.
 final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
   ref,
 ) {
@@ -35,11 +32,15 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
       final cosmosMessages = messages.where(
         (m) => m.address?.toLowerCase().contains('-cosmos') ?? false,
       );
+      final iciciMessages = messages.where(
+        (m) => m.address?.toLowerCase().contains('-icicit') ?? false,
+      );
 
       final transactions = [
         ...extractBOBMessages(bobMessages.map((e) => e.body ?? '')),
         ...extractAxisMessages(axisMessages.map((e) => e.body ?? '')),
         ...extractCosmosMessages(cosmosMessages.map((e) => e.body ?? '')),
+        ...extractICICIMessages(iciciMessages.map((e) => e.body ?? '')),
       ];
 
       final grouped = groupBy(transactions, (Transaction t) => t.accountNumber);
@@ -55,9 +56,6 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
   );
 });
 
-/// Set of all transaction message bodies for O(1) lookup.
-/// Used by bank support screen to show whether a message was extracted
-/// as a transaction.
 final transactionBodiesProvider = Provider<Set<String>>((ref) {
   final group = ref.watch(transactionsGroupProvider);
   return {
@@ -66,7 +64,6 @@ final transactionBodiesProvider = Provider<Set<String>>((ref) {
   };
 });
 
-/// All SMS messages grouped by DLT sender ID, sorted by key.
 final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
   final messagesAsync = ref.watch(smsMessagesProvider);
   return messagesAsync.when(
@@ -87,7 +84,6 @@ final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
   );
 });
 
-/// Likely-transaction messages grouped by sender ID (heuristic filter).
 final filteredSenderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((
   ref,
 ) {

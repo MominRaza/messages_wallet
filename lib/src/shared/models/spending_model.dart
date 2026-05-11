@@ -9,12 +9,12 @@ enum TransactionType {
 abstract class Spending {}
 
 class Transaction implements Spending {
-  TransactionType type;
-  double transactionAmount;
-  String accountNumber;
-  String body;
-  DateTime dateTime;
-  double? finalAmount;
+  final TransactionType type;
+  final double transactionAmount;
+  final String accountNumber;
+  final String body;
+  final DateTime dateTime;
+  final double? finalAmount;
 
   Transaction({
     required this.type,

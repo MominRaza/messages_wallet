@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,12 +12,7 @@ import 'no_bank_card_view.dart';
 enum MoreMenuOption { settings, repo, feedback }
 
 class Messages extends StatelessWidget {
-  const Messages({
-    required this.allMessages,
-    required this.transactionsGroup,
-    super.key,
-  });
-  final Iterable<SmsMessage> allMessages;
+  const Messages({required this.transactionsGroup, super.key});
   final Map<String, List<Transaction>> transactionsGroup;
 
   @override
