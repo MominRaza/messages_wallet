@@ -2,7 +2,9 @@ const supportedSenders = ['axisbk', 'bobtxn', 'cosmos', 'icicit', 'kotakb'];
 final dltRegex = RegExp(r'^[A-Z]{2}-[A-Za-z0-9]{6}(?:-[ST])?$');
 final _allDigitsRegex = RegExp(r'^\d+$');
 
-final _transactionIndicatorRegex = RegExp(r'(?:\.{3}|X{1,2}|x{1,2})\d{4,6}');
+final _transactionIndicatorRegex = RegExp(
+  r'(?:\.{3}|X{1,2}|x{1,2})\d{4,6}|[Cc]ard(?:\s+ending)?\s+\d{4}',
+);
 
 bool isLikelyTransaction(String body) =>
     _transactionIndicatorRegex.hasMatch(body);
