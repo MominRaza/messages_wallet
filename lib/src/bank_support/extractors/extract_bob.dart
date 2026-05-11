@@ -1,8 +1,10 @@
+import '../../shared/models/sms_data.dart';
 import '../../shared/models/spending_model.dart';
 
-Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
+Iterable<Transaction> extractBOBMessages(Iterable<SmsData> bobMessages) =>
     bobMessages
-        .map((message) {
+        .map((smsData) {
+          final message = smsData.body;
           if (message.contains('Dear BOB UPI User')) {
             final amountRegex = RegExp(r'INR ([\d,]+(?:\.\d{1,2})?)');
             final accountRegex = RegExp(r'a/c no\. X+(\d{4})');
@@ -69,6 +71,27 @@ Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
                   : 'Bank of Baroda $accountNumber',
               body: message,
               dateTime: dateTime ?? DateTime(0),
+              finalAmount: double.tryParse(balance ?? ''),
+            );
+          }
+
+          if (message.contains('debited from A/C')) {
+            final amountRegex = RegExp(r'Rs[. ]([\d,]+(?:\.\d{1,2})?)');
+            final accountRegex = RegExp(r'A/C X+(\d{4})');
+            final balanceRegex = RegExp(r'Avl Bal:Rs ([\d,]+(?:\.\d{1,2})?)');
+
+            final amount = amountRegex.firstMatch(message)?.group(1);
+            final accountNumber = accountRegex.firstMatch(message)?.group(1);
+            final balance = balanceRegex.firstMatch(message)?.group(1);
+
+            return Transaction(
+              type: TransactionType.transferred,
+              transactionAmount: double.tryParse(amount ?? '') ?? 0,
+              accountNumber: accountNumber == null
+                  ? ''
+                  : 'Bank of Baroda $accountNumber',
+              body: message,
+              dateTime: smsData.date ?? DateTime(0),
               finalAmount: double.tryParse(balance ?? ''),
             );
           }

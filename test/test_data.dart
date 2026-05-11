@@ -13,6 +13,10 @@ Map<String, String> bobMessages = {
       'Rs.54.00 Dr. from A/C XXXXXX7544 and Cr. to 9999999999@axl. Ref:123456789012. AvlBal:Rs2185.00(2025:12:01 11:26:13). Not you? Call 18005700/5000-BOB',
   'bob_bobsms_reversal':
       'Dear BOB UPI User, Your a/c no. XXXXXX7544 is credited with INR 200.00 on 2025-06-15 10:03:41 PM for reversal of transaction (UPI Ref no 123456789012) - BOB',
+  'bob_bobsms_debit_credited':
+      'Rs 7868.54 debited from A/C XXXXXX7544 and credited to MERCHANT@oksbi UPI Ref:123456789012. Not you? Call 18005700 -BOB',
+  'bob_bobsms_debit_trf':
+      'Rs.24.00 debited from A/C XXXXXX7544 and trf to MERCHANT@ptys. Ref:123456789012. Avl Bal:Rs 9991.00. Not you? Call 18005700/5000-BOB',
 };
 
 Map<String, String> axisMessages = {
