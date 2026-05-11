@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../bank_support/extractors/extract_axis.dart';
 import '../../bank_support/extractors/extract_bob.dart';
 import '../../bank_support/extractors/extract_cosmos.dart';
+import '../../bank_support/extractors/extract_hdfc.dart';
 import '../../bank_support/extractors/extract_icici.dart';
 import '../../bank_support/extractors/extract_kotak.dart';
 import '../../utils/sms_helpers.dart';
@@ -40,6 +41,9 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
       final iciciMessages = messages.where(
         (m) => m.address.toLowerCase().contains('-icicit'),
       );
+      final hdfcMessages = messages.where(
+        (m) => m.address.toLowerCase().contains('-hdfcbk'),
+      );
       final kotakMessages = messages.where(
         (m) => m.address.toLowerCase().contains('-kotakb'),
       );
@@ -48,6 +52,7 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
         ...extractBOBMessages(bobMessages.map((e) => e.body)),
         ...extractAxisMessages(axisMessages.map((e) => e.body)),
         ...extractCosmosMessages(cosmosMessages.map((e) => e.body)),
+        ...extractHDFCMessages(hdfcMessages.map((e) => e.body)),
         ...extractICICIMessages(iciciMessages.map((e) => e.body)),
         ...extractKotakMessages(kotakMessages.map((e) => e.body)),
       ];

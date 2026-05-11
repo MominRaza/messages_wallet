@@ -33,6 +33,7 @@ Enjoy the simplified banking experience with Messages Wallet! 🎉📱
 
 ## Supported Credit Cards
 - Axis Bank
+- HDFC Bank
 - ICICI Bank
 - Kotak Bank
 

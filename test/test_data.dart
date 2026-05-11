@@ -58,6 +58,15 @@ Map<String, String> iciciMessages = {
       'Payment of Rs 3,155.55 has been received on your ICICI Bank Credit Card XX7004 through Bharat Bill Payment System on 28-MAR-25.',
 };
 
+Map<String, String> hdfcMessages = {
+  'hdfc_upi_debit':
+      'Txn Rs.60.00\nOn HDFC Bank Card 1885\nAt 9999999999@ybl\nby UPI 123456789012\nOn 08-05\nNot You?\nCall 18002586161/SMS BLOCK CC 1885 to 7308080808\n',
+  'hdfc_payment':
+      'HDFC Bank Cardmember, Online Payment of Rs.11713 vide Ref# XXXXXXXXXX was credited to your card ending 1885 On 29/APR/2026_value Date 29/APR/2026',
+  'hdfc_spent':
+      'Spent Rs.1577 On HDFC Bank Card 0323 At MERCHANT On 2026-04-29:23:25:03.Not You? To Block+Reissue Call 18002586161/SMS BLOCK CC 0323 to 7308080808',
+};
+
 Map<String, String> kotakMessages = {
   'kotak_spent_vm':
       'INR 500 spent on Kotak Bank Card x6746 on 27-APR-2025 at MERCHANT. Avl limit INR 29500. For dispute, https://kotak.com/XXXXXXXXXX',

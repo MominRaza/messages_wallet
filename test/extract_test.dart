@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_axis.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_bob.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_cosmos.dart';
+import 'package:messages_wallet/src/bank_support/extractors/extract_hdfc.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_icici.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_kotak.dart';
 import 'package:messages_wallet/src/shared/models/spending_model.dart';
@@ -302,6 +303,44 @@ void main() {
       expect(transaction.accountNumber, 'Cosmos Bank 9999');
       expect(transaction.body, cosmosMessages['cosmos_single_decimal']);
       expect(transaction.dateTime, DateTime.parse('2025-05-10 00:00:00'));
+    });
+  });
+
+  group('HDFC Extract', () {
+    test('UPI debit (multi-line, Txn Rs.)', () {
+      final transaction = extractHDFCMessages([
+        hdfcMessages['hdfc_upi_debit']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 60.00);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'HDFC Bank Credit Card 1885');
+      expect(transaction.body, hdfcMessages['hdfc_upi_debit']);
+      expect(transaction.dateTime, DateTime(DateTime.now().year, 5, 8));
+    });
+
+    test('online payment credited (VM-HDFCBK-S)', () {
+      final transaction = extractHDFCMessages([
+        hdfcMessages['hdfc_payment']!,
+      ]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 11713);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'HDFC Bank Credit Card 1885');
+      expect(transaction.body, hdfcMessages['hdfc_payment']);
+      expect(transaction.dateTime, DateTime.parse('2026-04-29 00:00:00'));
+    });
+
+    test('merchant spent (single-line, Spent Rs.)', () {
+      final transaction = extractHDFCMessages([
+        hdfcMessages['hdfc_spent']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardSpent);
+      expect(transaction.transactionAmount, 1577);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'HDFC Bank Credit Card 0323');
+      expect(transaction.body, hdfcMessages['hdfc_spent']);
+      expect(transaction.dateTime, DateTime.parse('2026-04-29 23:25:03'));
     });
   });
 
