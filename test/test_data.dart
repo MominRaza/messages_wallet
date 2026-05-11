@@ -49,3 +49,12 @@ Map<String, String> iciciMessages = {
   'icici_payment':
       'Payment of Rs 3,155.55 has been received on your ICICI Bank Credit Card XX7004 through Bharat Bill Payment System on 28-MAR-25.',
 };
+
+Map<String, String> kotakMessages = {
+  'kotak_spent_vm':
+      'INR 500 spent on Kotak Bank Card x6746 on 27-APR-2025 at MERCHANT. Avl limit INR 29500. For dispute, https://kotak.com/XXXXXXXXXX',
+  'kotak_payment':
+      'Payment of INR 1606.4 is credited to your Kotak Bank Credit Card x6746 on 29-MAR-2025. Available Credit limit is INR 30000.',
+  'kotak_spent_ad':
+      'INR 1600 spent on Kotak Bank Card x6746 on 27-FEB-2025 at MERCHANT. Avl limit INR 28400. For dispute, https://kotak.com/XXXXXXXXXX',
+};

@@ -30,11 +30,11 @@ Enjoy the simplified banking experience with Messages Wallet! 🎉📱
 - Bank of Baroda
 - Axis Bank
 - Cosmos Bank
-- ICICI Bank
 
 ## Supported Credit Cards
 - Axis Bank
 - ICICI Bank
+- Kotak Bank
 
 
 ### Adding Support for Your Bank?
