@@ -43,6 +43,104 @@ Iterable<Transaction> extractAxisMessages(
         );
       }
 
+      if (message.contains('Txn reversal')) {
+        RegExp txnReversalRegex = RegExp(
+          r'Txn reversal of INR (\d+(?:\.\d{1,2})?)',
+        );
+        RegExp cardRegex = RegExp(r'Card no\. XX(\d+)');
+        RegExp dateRegex = RegExp(
+          r'(\d{2})-(\d{2})-(\d{2}) (\d{2}:\d{2}:\d{2})',
+        );
+        RegExp avlLimitRegex = RegExp(r'Avl Limit: INR (\d+(?:\.\d{1,2})?)');
+
+        String? amount = txnReversalRegex.firstMatch(message)?.group(1);
+        String? cardNumber = cardRegex.firstMatch(message)?.group(1);
+        RegExpMatch? dateMatch = dateRegex.firstMatch(message);
+        String? availableLimit = avlLimitRegex.firstMatch(message)?.group(1);
+
+        String? day = dateMatch?.group(1);
+        String? month = dateMatch?.group(2);
+        String? year = dateMatch?.group(3);
+        year = year?.length == 2 ? '20$year' : year;
+        String? time = dateMatch?.group(4);
+
+        String formattedDateTime = '$year-$month-$day $time';
+        DateTime? dateTime = DateTime.tryParse(formattedDateTime);
+
+        return Transaction(
+          type: TransactionType.creditCardReversed,
+          transactionAmount: double.tryParse(amount ?? '') ?? 0,
+          accountNumber: cardNumber == null
+              ? ''
+              : 'Axis Bank Credit Card $cardNumber',
+          body: message,
+          dateTime: dateTime ?? DateTime(0),
+          finalAmount: double.tryParse(availableLimit ?? ''),
+        );
+      }
+
+      if (message.contains('has been received towards')) {
+        RegExp paymentRegex = RegExp(
+          r'Payment of INR (\d+(?:\.\d{1,2})?) has been received towards your Axis Bank Credit Card XX(\d+)',
+        );
+        RegExp dateRegex = RegExp(r'on (\d{2})-(\d{2})-(\d{2})');
+
+        String? amount = paymentRegex.firstMatch(message)?.group(1);
+        String? cardNumber = paymentRegex.firstMatch(message)?.group(2);
+        RegExpMatch? dateMatch = dateRegex.firstMatch(message);
+
+        String? day = dateMatch?.group(1);
+        String? month = dateMatch?.group(2);
+        String? year = dateMatch?.group(3);
+        year = year?.length == 2 ? '20$year' : year;
+
+        String formattedDateTime = '$year-$month-$day 00:00:00';
+        DateTime? dateTime = DateTime.tryParse(formattedDateTime);
+
+        return Transaction(
+          type: TransactionType.credited,
+          transactionAmount: double.tryParse(amount ?? '') ?? 0,
+          accountNumber: cardNumber == null
+              ? ''
+              : 'Axis Bank Credit Card $cardNumber',
+          body: message,
+          dateTime: dateTime ?? DateTime(0),
+          finalAmount: null,
+        );
+      }
+
+      if (message.contains('debited\n')) {
+        RegExp amountRegex = RegExp(r'INR (\d+(?:\.\d{1,2})?) debited');
+        RegExp accountRegex = RegExp(r'A/c no\. XX(\d+)');
+        RegExp dateRegex = RegExp(
+          r'(\d{2})-(\d{2})-(\d{2}), (\d{2}:\d{2}:\d{2})',
+        );
+
+        String? amount = amountRegex.firstMatch(message)?.group(1);
+        String? accountNumber = accountRegex.firstMatch(message)?.group(1);
+        RegExpMatch? dateMatch = dateRegex.firstMatch(message);
+
+        String? day = dateMatch?.group(1);
+        String? month = dateMatch?.group(2);
+        String? year = dateMatch?.group(3);
+        year = year?.length == 2 ? '20$year' : year;
+        String? time = dateMatch?.group(4);
+
+        String formattedDateTime = '$year-$month-$day $time';
+        DateTime? dateTime = DateTime.tryParse(formattedDateTime);
+
+        return Transaction(
+          type: TransactionType.transferred,
+          transactionAmount: double.tryParse(amount ?? '') ?? 0,
+          accountNumber: accountNumber == null
+              ? ''
+              : 'Axis Bank $accountNumber',
+          body: message,
+          dateTime: dateTime ?? DateTime(0),
+          finalAmount: null,
+        );
+      }
+
       RegExp typeRegex = RegExp(r'(credited|Debit|Spent)');
       RegExp debitTypeRegex = RegExp(r'(UPI/|ATM-WDL/)');
       RegExp amountRegex = RegExp(r'INR (\d+(?:\.\d{1,2})?)');

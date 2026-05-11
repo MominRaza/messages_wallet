@@ -24,6 +24,14 @@ Map<String, String> axisMessages = {
       'Transaction of INR 1 on Axis Bank Credit Card no. XX4257 on 15-03-25 15:10:22 IST at CAS*BharatN has been reversed. Available limit: INR 97678.37. Call 18001234567, if not done by you - Axis Bank',
   'axis_single_decimal':
       'INR 100.1 credited to A/c no. XX5678 on 10-05-25 at 10:10:10 IST. Info- NEFT/************/TEST/AXIS BANK. Avl Bal- INR 200.1 - Axis Bank',
+  'axis_debited':
+      'INR 84000.00 debited\nA/c no. XX5237\n11-05-26, 12:45:37\nUPI/P2M/123456789012/MERCHANT\nNot you? SMS BLOCKUPI Cust ID to 919999999999\nAxis Bank',
+  'axis_debited2':
+      'INR 133.00 debited\nA/c no. XX5237\n04-05-26, 17:30:09\nUPI/P2M/123456789012/MERCHANT\nNot you? SMS BLOCKUPI Cust ID to 919999999999\nAxis Bank',
+  'axis_creditCardPayment':
+      'Payment of INR 199 has been received towards your Axis Bank Credit Card XX8695 on 16-04-26 - Axis Bank',
+  'axis_txnReversal':
+      'Txn reversal of INR 22.16 at MERCHANT. was successful. \nCard no. XX8695\n20-11-25 14:11:51 IST\nAvl Limit: INR 103317\nAxis Bank',
 };
 
 Map<String, String> cosmosMessages = {

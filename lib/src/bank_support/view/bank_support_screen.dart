@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sms_inbox/flutter_sms_inbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../shared/models/sms_data.dart';
 import '../../shared/providers/sms_providers.dart';
 import '../../utils/sms_helpers.dart';
 
@@ -17,34 +17,32 @@ class BankSupportScreen extends ConsumerStatefulWidget {
 }
 
 class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
-  final Set<SmsMessage> _selectedMessages = {};
+  final Set<SmsData> _selectedMessages = {};
   bool _hideSupported = false;
 
-  List<SmsMessage> _messagesForSender(
+  List<SmsData> _messagesForSender(
     String key,
-    Map<String, List<SmsMessage>> filteredGroups,
+    Map<String, List<SmsData>> filteredGroups,
   ) => filteredGroups[key] ?? [];
 
-  List<SmsMessage> _visibleMessagesForSender(
+  List<SmsData> _visibleMessagesForSender(
     String key,
-    Map<String, List<SmsMessage>> filteredGroups,
+    Map<String, List<SmsData>> filteredGroups,
     Set<String> transactionBodies,
   ) {
     final msgs = _messagesForSender(key, filteredGroups);
     if (_hideSupported && isSupported(key)) {
-      return msgs
-          .where((m) => !transactionBodies.contains(m.body ?? ''))
-          .toList();
+      return msgs.where((m) => !transactionBodies.contains(m.body)).toList();
     }
     return msgs;
   }
 
-  String _formatMessages(List<SmsMessage> messages) {
+  String _formatMessages(List<SmsData> messages) {
     final buf = StringBuffer();
     for (final msg in messages) {
-      buf.writeln('Sender: ${msg.address ?? ''}');
+      buf.writeln('Sender: ${msg.address}');
       buf.writeln('---');
-      buf.writeln(msg.body ?? '');
+      buf.writeln(msg.body);
       buf.writeln('===');
     }
     return buf.toString().trim();
@@ -67,10 +65,7 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
   void _email() {
     final selected = _selectedMessages.toList();
     if (selected.isEmpty) return;
-    final senders = selected
-        .map((m) => groupKey(m.address ?? ''))
-        .toSet()
-        .join(', ');
+    final senders = selected.map((m) => groupKey(m.address)).toSet().join(', ');
     final formatted = _formatMessages(selected);
     const recipient = 'mominraza.dev@gmail.com';
     final subject = Uri.encodeComponent('Bank Support Request - $senders');
@@ -192,11 +187,11 @@ class _SenderExpansionTile extends StatelessWidget {
   });
 
   final String senderKey;
-  final List<SmsMessage> messages;
-  final Set<SmsMessage> selectedMessages;
+  final List<SmsData> messages;
+  final Set<SmsData> selectedMessages;
   final Set<String> transactionBodies;
   final bool hideSupported;
-  final void Function(SmsMessage msg, bool selected) onMessageToggled;
+  final void Function(SmsData msg, bool selected) onMessageToggled;
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +236,7 @@ class _SenderExpansionTile extends StatelessWidget {
                     supported: supported,
                     isSelected: selectedMessages.contains(msg),
                     isTransaction:
-                        supported && transactionBodies.contains(msg.body ?? ''),
+                        supported && transactionBodies.contains(msg.body),
                     hideSupported: hideSupported,
                     onChanged: (v) => onMessageToggled(msg, v ?? false),
                   ),
@@ -262,7 +257,7 @@ class _MessageCheckboxTile extends StatelessWidget {
     required this.onChanged,
   });
 
-  final SmsMessage msg;
+  final SmsData msg;
   final String senderKey;
   final bool supported;
   final bool isSelected;
@@ -294,7 +289,7 @@ class _MessageCheckboxTile extends StatelessWidget {
               ],
             )
           : null,
-      subtitle: Text(msg.body ?? ''),
+      subtitle: Text(msg.body),
     );
   }
 }
