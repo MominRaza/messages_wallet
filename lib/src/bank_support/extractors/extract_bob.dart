@@ -3,6 +3,38 @@ import '../../shared/models/spending_model.dart';
 Iterable<Transaction> extractBOBMessages(Iterable<String> bobMessages) =>
     bobMessages
         .map((message) {
+          if (message.contains('Dr. from A/C')) {
+            final amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{1,2})?)');
+            final accountRegex = RegExp(r'A/C X+(\d{4})');
+            final balanceRegex = RegExp(r'AvlBal:Rs([\d,]+(?:\.\d{1,2})?)');
+            final dateRegex = RegExp(
+              r'\((\d{4}):(\d{2}):(\d{2}) (\d{2}:\d{2}:\d{2})\)',
+            );
+
+            final amount = amountRegex.firstMatch(message)?.group(1);
+            final accountNumber = accountRegex.firstMatch(message)?.group(1);
+            final balance = balanceRegex.firstMatch(message)?.group(1);
+            final dateMatch = dateRegex.firstMatch(message);
+
+            final year = dateMatch?.group(1);
+            final month = dateMatch?.group(2);
+            final day = dateMatch?.group(3);
+            final time = dateMatch?.group(4);
+
+            final dateTime = DateTime.tryParse('$year-$month-$day $time');
+
+            return Transaction(
+              type: TransactionType.transferred,
+              transactionAmount: double.tryParse(amount ?? '') ?? 0,
+              accountNumber: accountNumber == null
+                  ? ''
+                  : 'Bank of Baroda $accountNumber',
+              body: message,
+              dateTime: dateTime ?? DateTime(0),
+              finalAmount: double.tryParse(balance ?? ''),
+            );
+          }
+
           RegExp typeRegex = RegExp(r'(Credited|withdrawn|transferred)');
           RegExp amountRegex = RegExp(r'Rs\.([\d,]+(?:\.\d{1,2})?)');
           RegExp finalAmountRegex = RegExp(

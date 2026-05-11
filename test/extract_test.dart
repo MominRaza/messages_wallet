@@ -58,6 +58,18 @@ void main() {
       expect(transaction.body, bobMessages['bob_bobsms_withdrawn']);
       expect(transaction.dateTime, DateTime.parse('2025-11-02 18:45:46'));
     });
+
+    test('UPI transfer (BOBSMS Dr. from A/C format)', () {
+      var transaction = extractBOBMessages([
+        bobMessages['bob_bobsms_upi_transfer']!,
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 54);
+      expect(transaction.finalAmount, 2185);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_upi_transfer']);
+      expect(transaction.dateTime, DateTime.parse('2025-12-01 11:26:13'));
+    });
   });
 
   group('Axis Extract', () {
