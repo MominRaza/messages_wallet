@@ -9,13 +9,17 @@ import '../../bank_support/extractors/extract_cosmos.dart';
 import '../../bank_support/extractors/extract_icici.dart';
 import '../../bank_support/extractors/extract_kotak.dart';
 import '../../utils/sms_helpers.dart';
+import '../models/sms_data.dart';
 import '../models/spending_model.dart';
 
-final smsMessagesProvider = FutureProvider<List<SmsMessage>>((ref) async {
+final smsMessagesProvider = FutureProvider<List<SmsData>>((ref) async {
   final permission = await Permission.sms.status;
   if (!permission.isGranted) return [];
   final query = SmsQuery();
-  return await query.querySms();
+  final messages = await query.querySms();
+  return messages
+      .map((m) => SmsData(address: m.address ?? '', body: m.body ?? ''))
+      .toList();
 });
 
 final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
@@ -25,27 +29,27 @@ final transactionsGroupProvider = Provider<Map<String, List<Transaction>>>((
   return messagesAsync.when(
     data: (messages) {
       final axisMessages = messages.where(
-        (m) => m.address?.toLowerCase().contains('-axisbk') ?? false,
+        (m) => m.address.toLowerCase().contains('-axisbk'),
       );
       final bobMessages = messages.where(
-        (m) => m.address?.toLowerCase().contains('-bobtxn') ?? false,
+        (m) => m.address.toLowerCase().contains('-bobtxn'),
       );
       final cosmosMessages = messages.where(
-        (m) => m.address?.toLowerCase().contains('-cosmos') ?? false,
+        (m) => m.address.toLowerCase().contains('-cosmos'),
       );
       final iciciMessages = messages.where(
-        (m) => m.address?.toLowerCase().contains('-icicit') ?? false,
+        (m) => m.address.toLowerCase().contains('-icicit'),
       );
       final kotakMessages = messages.where(
-        (m) => m.address?.toLowerCase().contains('-kotakb') ?? false,
+        (m) => m.address.toLowerCase().contains('-kotakb'),
       );
 
       final transactions = [
-        ...extractBOBMessages(bobMessages.map((e) => e.body ?? '')),
-        ...extractAxisMessages(axisMessages.map((e) => e.body ?? '')),
-        ...extractCosmosMessages(cosmosMessages.map((e) => e.body ?? '')),
-        ...extractICICIMessages(iciciMessages.map((e) => e.body ?? '')),
-        ...extractKotakMessages(kotakMessages.map((e) => e.body ?? '')),
+        ...extractBOBMessages(bobMessages.map((e) => e.body)),
+        ...extractAxisMessages(axisMessages.map((e) => e.body)),
+        ...extractCosmosMessages(cosmosMessages.map((e) => e.body)),
+        ...extractICICIMessages(iciciMessages.map((e) => e.body)),
+        ...extractKotakMessages(kotakMessages.map((e) => e.body)),
       ];
 
       final grouped = groupBy(transactions, (Transaction t) => t.accountNumber);
@@ -69,15 +73,14 @@ final transactionBodiesProvider = Provider<Set<String>>((ref) {
   };
 });
 
-final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
+final senderGroupsProvider = Provider<Map<String, List<SmsData>>>((ref) {
   final messagesAsync = ref.watch(smsMessagesProvider);
   return messagesAsync.when(
     data: (messages) {
-      final Map<String, List<SmsMessage>> groups = {};
+      final Map<String, List<SmsData>> groups = {};
       for (final msg in messages) {
-        final addr = msg.address ?? '';
-        if (!dltRegex.hasMatch(addr)) continue;
-        final key = groupKey(addr);
+        if (!dltRegex.hasMatch(msg.address)) continue;
+        final key = groupKey(msg.address);
         if (isNumericOnly(key)) continue;
         groups.putIfAbsent(key, () => []).add(msg);
       }
@@ -89,14 +92,14 @@ final senderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((ref) {
   );
 });
 
-final filteredSenderGroupsProvider = Provider<Map<String, List<SmsMessage>>>((
+final filteredSenderGroupsProvider = Provider<Map<String, List<SmsData>>>((
   ref,
 ) {
   final groups = ref.watch(senderGroupsProvider);
-  final Map<String, List<SmsMessage>> filtered = {};
+  final Map<String, List<SmsData>> filtered = {};
   for (final entry in groups.entries) {
     final txMessages = entry.value
-        .where((m) => isLikelyTransaction(m.body ?? ''))
+        .where((m) => isLikelyTransaction(m.body))
         .toList();
     if (txMessages.isNotEmpty) {
       filtered[entry.key] = txMessages;
