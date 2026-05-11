@@ -209,5 +209,37 @@ void main() {
 
       expect(result, isEmpty);
     });
+
+    group('given a creditCardReversed transaction', () {
+      late List<Spending> result;
+
+      setUp(() {
+        List<Transaction> transactions = [
+          Transaction(
+            dateTime: DateTime(2023, 1, 15),
+            transactionAmount: 500,
+            type: TransactionType.creditCardReversed,
+            accountNumber: '123456',
+            body: 'Refund',
+          ),
+          Transaction(
+            dateTime: DateTime(2023, 1, 20),
+            transactionAmount: 1000,
+            type: TransactionType.creditCardSpent,
+            accountNumber: '123456',
+            body: 'Purchase',
+          ),
+        ];
+
+        result = groupTransactionsByMonth(transactions);
+      });
+
+      test('creditCardReversed should add to totalCredit not totalDebit', () {
+        final monthly = result[0] as MonthlySpending;
+        expect(monthly.totalCredit, 500);
+        expect(monthly.totalDebit, 1000);
+        expect(monthly.totalAmount, -500);
+      });
+    });
   });
 }
