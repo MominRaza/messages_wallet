@@ -1,6 +1,7 @@
 const supportedSenders = [
   'axisbk',
   'bobtxn',
+  'bobsms',
   'cosmos',
   'hdfcbk',
   'icicit',

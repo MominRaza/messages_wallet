@@ -5,6 +5,7 @@ import 'package:messages_wallet/src/bank_support/extractors/extract_cosmos.dart'
 import 'package:messages_wallet/src/bank_support/extractors/extract_hdfc.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_icici.dart';
 import 'package:messages_wallet/src/bank_support/extractors/extract_kotak.dart';
+import 'package:messages_wallet/src/shared/models/sms_data.dart';
 import 'package:messages_wallet/src/shared/models/spending_model.dart';
 
 import 'test_data.dart';
@@ -13,7 +14,7 @@ void main() {
   group('BOB Extract', () {
     test('Credited', () {
       var transaction = extractBOBMessages([
-        bobMessages['bob_credited']!,
+        SmsData(address: '', body: bobMessages['bob_credited']!),
       ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 30);
@@ -25,7 +26,7 @@ void main() {
 
     test('withdrawn', () {
       var transaction = extractBOBMessages([
-        bobMessages['bob_withdrawn']!,
+        SmsData(address: '', body: bobMessages['bob_withdrawn']!),
       ]).first;
       expect(transaction.type, TransactionType.withdrawn);
       expect(transaction.transactionAmount, 5500);
@@ -37,7 +38,7 @@ void main() {
 
     test('transferred', () {
       var transaction = extractBOBMessages([
-        bobMessages['bob_transferred']!,
+        SmsData(address: '', body: bobMessages['bob_transferred']!),
       ]).first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 20);
@@ -45,6 +46,76 @@ void main() {
       expect(transaction.accountNumber, 'Bank of Baroda 7544');
       expect(transaction.body, bobMessages['bob_transferred']);
       expect(transaction.dateTime, DateTime.parse('2023-10-31 21:19:22'));
+    });
+
+    test('withdrawn (VK-BOBSMS-S, Avlbal Amt)', () {
+      var transaction = extractBOBMessages([
+        SmsData(address: '', body: bobMessages['bob_bobsms_withdrawn']!),
+      ]).first;
+      expect(transaction.type, TransactionType.withdrawn);
+      expect(transaction.transactionAmount, 2000);
+      expect(transaction.finalAmount, 15.97);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_withdrawn']);
+      expect(transaction.dateTime, DateTime.parse('2025-11-02 18:45:46'));
+    });
+
+    test('UPI transfer (BOBSMS Dr. from A/C format)', () {
+      var transaction = extractBOBMessages([
+        SmsData(address: '', body: bobMessages['bob_bobsms_upi_transfer']!),
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 54);
+      expect(transaction.finalAmount, 2185);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_upi_transfer']);
+      expect(transaction.dateTime, DateTime.parse('2025-12-01 11:26:13'));
+    });
+
+    test('UPI reversal credited (Dear BOB UPI User format)', () {
+      var transaction = extractBOBMessages([
+        SmsData(address: '', body: bobMessages['bob_bobsms_reversal']!),
+      ]).first;
+      expect(transaction.type, TransactionType.credited);
+      expect(transaction.transactionAmount, 200);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_reversal']);
+      expect(transaction.dateTime, DateTime.parse('2025-06-15 22:03:41'));
+    });
+
+    test('debit transfer (credited to, no embedded date)', () {
+      final testDate = DateTime.parse('2025-11-15 09:30:00');
+      final transaction = extractBOBMessages([
+        SmsData(
+          address: 'VM-BOBSMS',
+          body: bobMessages['bob_bobsms_debit_credited']!,
+          date: testDate,
+        ),
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 7868.54);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_debit_credited']);
+      expect(transaction.dateTime, testDate);
+    });
+
+    test('debit trf (trf to, with balance, no embedded date)', () {
+      final testDate = DateTime.parse('2025-07-24 08:45:00');
+      final transaction = extractBOBMessages([
+        SmsData(
+          address: 'TM-BOBSMS-S',
+          body: bobMessages['bob_bobsms_debit_trf']!,
+          date: testDate,
+        ),
+      ]).first;
+      expect(transaction.type, TransactionType.transferred);
+      expect(transaction.transactionAmount, 24);
+      expect(transaction.finalAmount, 9991);
+      expect(transaction.accountNumber, 'Bank of Baroda 7544');
+      expect(transaction.body, bobMessages['bob_bobsms_debit_trf']);
+      expect(transaction.dateTime, testDate);
     });
   });
 
@@ -273,7 +344,7 @@ void main() {
   group('Defect #10: Single digit after decimal', () {
     test('BOB single digit decimal', () {
       var transaction = extractBOBMessages([
-        bobMessages['bob_single_decimal']!,
+        SmsData(address: '', body: bobMessages['bob_single_decimal']!),
       ]).first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 100.1);
