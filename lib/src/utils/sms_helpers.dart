@@ -2,9 +2,10 @@ const supportedSenders = ['axisbk', 'bobtxn', 'cosmos'];
 final dltRegex = RegExp(r'^[A-Za-z]{2}-[A-Za-z0-9]{3,8}$');
 final _allDigitsRegex = RegExp(r'^\d+$');
 
-final _fourDigitsRegex = RegExp(r'\d{4}');
+final _transactionIndicatorRegex = RegExp(r'(?:\.{3}|X{1,2}|x{1,2})\d{4,6}');
 
-bool isLikelyTransaction(String body) => _fourDigitsRegex.hasMatch(body);
+bool isLikelyTransaction(String body) =>
+    _transactionIndicatorRegex.hasMatch(body);
 
 String groupKey(String address) {
   final dash = address.indexOf('-');
