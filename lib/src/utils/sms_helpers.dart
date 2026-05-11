@@ -1,4 +1,11 @@
-const supportedSenders = ['axisbk', 'bobtxn', 'cosmos', 'icicit', 'kotakb'];
+const supportedSenders = [
+  'axisbk',
+  'bobtxn',
+  'cosmos',
+  'hdfcbk',
+  'icicit',
+  'kotakb',
+];
 final dltRegex = RegExp(r'^[A-Z]{2}-[A-Za-z0-9]{6}(?:-[ST])?$');
 final _allDigitsRegex = RegExp(r'^\d+$');
 
