@@ -30,6 +30,8 @@ Map<String, String> axisMessages = {
       'INR 133.00 debited\nA/c no. XX5237\n04-05-26, 17:30:09\nUPI/P2M/123456789012/MERCHANT\nNot you? SMS BLOCKUPI Cust ID to 919999999999\nAxis Bank',
   'axis_creditCardPayment':
       'Payment of INR 199 has been received towards your Axis Bank Credit Card XX8695 on 16-04-26 - Axis Bank',
+  'axis_txnReversal':
+      'Txn reversal of INR 22.16 at MERCHANT. was successful. \nCard no. XX8695\n20-11-25 14:11:51 IST\nAvl Limit: INR 103317\nAxis Bank',
 };
 
 Map<String, String> cosmosMessages = {

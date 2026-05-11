@@ -155,6 +155,18 @@ void main() {
       expect(transaction.body, axisMessages['axis_creditCardPayment']);
       expect(transaction.dateTime, DateTime.parse('2026-04-16 00:00:00'));
     });
+
+    test('txn reversal (new format)', () {
+      var transaction = extractAxisMessages([
+        axisMessages['axis_txnReversal']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardReversed);
+      expect(transaction.transactionAmount, 22.16);
+      expect(transaction.finalAmount, 103317);
+      expect(transaction.accountNumber, 'Axis Bank Credit Card 8695');
+      expect(transaction.body, axisMessages['axis_txnReversal']);
+      expect(transaction.dateTime, DateTime.parse('2025-11-20 14:11:51'));
+    });
   });
 
   group('Cosmos Extract', () {
