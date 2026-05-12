@@ -80,6 +80,37 @@ Iterable<Transaction> extractHDFCMessages(Iterable<String> hdfcMessages) =>
             );
           }
 
+          if (message.contains('Transaction Reversed!') &&
+              message.contains('HDFC Bank CREDIT Card')) {
+            final amountRegex = RegExp(r'Amt:\s*Rs\.(\d+(?:\.\d{1,2})?)');
+            final cardRegex = RegExp(r'HDFC Bank CREDIT Card [Xx]{2}(\d{4})');
+            final dateRegex = RegExp(
+              r'On (\d{4})-(\d{2})-(\d{2}):(\d{2}:\d{2}:\d{2})',
+            );
+
+            final amount = amountRegex.firstMatch(message)?.group(1);
+            final cardNumber = cardRegex.firstMatch(message)?.group(1);
+            final dateMatch = dateRegex.firstMatch(message);
+
+            final year = dateMatch?.group(1);
+            final month = dateMatch?.group(2);
+            final day = dateMatch?.group(3);
+            final time = dateMatch?.group(4);
+
+            final dateTime = DateTime.tryParse('$year-$month-$day $time');
+
+            return Transaction(
+              type: TransactionType.creditCardReversed,
+              transactionAmount: double.tryParse(amount ?? '') ?? 0,
+              accountNumber: cardNumber == null
+                  ? ''
+                  : 'HDFC Bank Credit Card $cardNumber',
+              body: message,
+              dateTime: dateTime ?? DateTime(0),
+              finalAmount: null,
+            );
+          }
+
           if (message.contains('Txn Rs.') && message.contains('by UPI')) {
             final amountRegex = RegExp(r'Txn Rs\.(\d+(?:\.\d{1,2})?)');
             final cardRegex = RegExp(r'On HDFC Bank Card (\d{4})');
