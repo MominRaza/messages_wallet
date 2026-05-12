@@ -18,7 +18,7 @@ class BankSupportScreen extends ConsumerStatefulWidget {
 
 class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
   final Set<SmsData> _selectedMessages = {};
-  bool _hideSupported = false;
+  bool _showSupported = false;
 
   List<SmsData> _messagesForSender(
     String key,
@@ -31,7 +31,7 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
     Set<String> transactionBodies,
   ) {
     final msgs = _messagesForSender(key, filteredGroups);
-    if (_hideSupported && isSupported(key)) {
+    if (!_showSupported && isSupported(key)) {
       return msgs.where((m) => !transactionBodies.contains(m.body)).toList();
     }
     return msgs;
@@ -125,13 +125,13 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'Hide supported messages',
+                          'Show supported messages',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const Spacer(),
                         Switch.adaptive(
-                          value: _hideSupported,
-                          onChanged: (v) => setState(() => _hideSupported = v),
+                          value: _showSupported,
+                          onChanged: (v) => setState(() => _showSupported = v),
                         ),
                       ],
                     ),
@@ -155,7 +155,7 @@ class _BankSupportScreenState extends ConsumerState<BankSupportScreen> {
                               ),
                               selectedMessages: _selectedMessages,
                               transactionBodies: transactionBodies,
-                              hideSupported: _hideSupported,
+                              showSupported: _showSupported,
                               onMessageToggled: (msg, selected) {
                                 setState(() {
                                   if (selected) {
@@ -182,7 +182,7 @@ class _SenderExpansionTile extends StatelessWidget {
     required this.messages,
     required this.selectedMessages,
     required this.transactionBodies,
-    required this.hideSupported,
+    required this.showSupported,
     required this.onMessageToggled,
   });
 
@@ -190,7 +190,7 @@ class _SenderExpansionTile extends StatelessWidget {
   final List<SmsData> messages;
   final Set<SmsData> selectedMessages;
   final Set<String> transactionBodies;
-  final bool hideSupported;
+  final bool showSupported;
   final void Function(SmsData msg, bool selected) onMessageToggled;
 
   @override
@@ -237,7 +237,7 @@ class _SenderExpansionTile extends StatelessWidget {
                     isSelected: selectedMessages.contains(msg),
                     isTransaction:
                         supported && transactionBodies.contains(msg.body),
-                    hideSupported: hideSupported,
+                    showSupported: showSupported,
                     onChanged: (v) => onMessageToggled(msg, v ?? false),
                   ),
               ],
@@ -253,7 +253,7 @@ class _MessageCheckboxTile extends StatelessWidget {
     required this.supported,
     required this.isSelected,
     required this.isTransaction,
-    required this.hideSupported,
+    required this.showSupported,
     required this.onChanged,
   });
 
@@ -262,12 +262,12 @@ class _MessageCheckboxTile extends StatelessWidget {
   final bool supported;
   final bool isSelected;
   final bool isTransaction;
-  final bool hideSupported;
+  final bool showSupported;
   final ValueChanged<bool?> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final showChip = supported && (isTransaction || !hideSupported);
+    final showChip = supported && (isTransaction || showSupported);
     return CheckboxListTile(
       value: isSelected,
       onChanged: onChanged,
