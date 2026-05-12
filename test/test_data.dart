@@ -75,6 +75,8 @@ Map<String, String> hdfcMessages = {
       'HDFC Bank Cardmember, Online Payment of Rs.11713 vide Ref# XXXXXXXXXX was credited to your card ending 1885 On 29/APR/2026_value Date 29/APR/2026',
   'hdfc_spent':
       'Spent Rs.1577 On HDFC Bank Card 0323 At MERCHANT On 2026-04-29:23:25:03.Not You? To Block+Reissue Call 18002586161/SMS BLOCK CC 0323 to 7308080808',
+  'hdfc_reversed':
+      'Transaction Reversed!On HDFC Bank CREDIT Card xx0323 Amt: Rs.131.15 By MERCHANT On 2026-05-12:10:58:57',
 };
 
 Map<String, String> kotakMessages = {

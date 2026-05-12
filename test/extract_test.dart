@@ -413,6 +413,18 @@ void main() {
       expect(transaction.body, hdfcMessages['hdfc_spent']);
       expect(transaction.dateTime, DateTime.parse('2026-04-29 23:25:03'));
     });
+
+    test('credit card reversal (Transaction Reversed!)', () {
+      final transaction = extractHDFCMessages([
+        hdfcMessages['hdfc_reversed']!,
+      ]).first;
+      expect(transaction.type, TransactionType.creditCardReversed);
+      expect(transaction.transactionAmount, 131.15);
+      expect(transaction.finalAmount, isNull);
+      expect(transaction.accountNumber, 'HDFC Bank Credit Card 0323');
+      expect(transaction.body, hdfcMessages['hdfc_reversed']);
+      expect(transaction.dateTime, DateTime.parse('2026-05-12 10:58:57'));
+    });
   });
 
   group('Kotak Extract', () {
