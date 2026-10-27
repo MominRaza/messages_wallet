@@ -11,3 +11,8 @@ linter:
     - prefer_const_literals_to_create_immutables
     - prefer_relative_imports
     - prefer_single_quotes
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
