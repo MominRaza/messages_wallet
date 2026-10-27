@@ -6,6 +6,7 @@ on:
       version:
         description: 'Version number (e.g. 1.0.2, 1.0.2-alpha.1, 1.0.2-beta.1)'
         required: true
+        type: string
 
 permissions:
   contents: write
@@ -13,58 +14,99 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: >-
+        -Dorg.gradle.caching=true
+        "-Dorg.gradle.jvmargs=-Xmx4G -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError"
 
     steps:
       - uses: actions/checkout@v6
-      - uses: subosito/flutter-action@v2
         with:
-          channel: 'beta'
-          cache: true
+          fetch-depth: 0
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Validate version format
+      - name: Validate version and release tag
+        env:
+          VERSION: ${{ inputs.version }}
         run: |
-          if ! echo "${{ inputs.version }}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-alpha\.[0-9]+|-beta\.[0-9]+)?$'; then
-            echo "Error: version '${{ inputs.version }}' is not a valid semantic version (expected format: X.Y.Z, X.Y.Z-alpha.N, or X.Y.Z-beta.N)"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-alpha\.[0-9]+|-beta\.[0-9]+)?$ ]]; then
+            echo "Error: version '$VERSION' is not valid (expected X.Y.Z, X.Y.Z-alpha.N, or X.Y.Z-beta.N)"
             exit 1
           fi
 
-      - name: Determine track
-        id: track
-        run: |
-          VERSION="${{ inputs.version }}"
-          if [[ "$VERSION" =~ -alpha\. ]]; then
-            echo "track=internal" >> $GITHUB_OUTPUT
-            echo "prerelease=true" >> $GITHUB_OUTPUT
-          elif [[ "$VERSION" =~ -beta\. ]]; then
-            echo "track=beta,internal" >> $GITHUB_OUTPUT
-            echo "prerelease=true" >> $GITHUB_OUTPUT
-          else
-            echo "track=production,internal" >> $GITHUB_OUTPUT
-            echo "prerelease=false" >> $GITHUB_OUTPUT
+          TAG="v${VERSION}"
+          if git show-ref --verify --quiet "refs/tags/$TAG"; then
+            echo "Error: release tag '$TAG' already exists"
+            exit 1
           fi
 
-      - name: Install dependencies
+      - name: Determine Play track
+        id: track
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [[ "$VERSION" =~ -alpha\. ]]; then
+            echo "track=internal" >> "$GITHUB_OUTPUT"
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$VERSION" =~ -beta\. ]]; then
+            echo "track=beta,internal" >> "$GITHUB_OUTPUT"
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "track=production,internal" >> "$GITHUB_OUTPUT"
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: beta
+          cache: true
+
+      - name: Cache Gradle dependencies and task outputs
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          dependency-graph: disabled
+          build-scan-publish: false
+
+      - name: Get dependencies
         run: flutter pub get
 
-      - name: Setup keystore
-        run: echo ${{ secrets.SIGNING_STORE_BASE64 }} | base64 --decode > android/app/keystore.jks
-
-      - name: Build APK
-        run: flutter build apk --no-pub --build-name=${{ inputs.version }} --build-number=${{ github.run_number }}
+      - name: Set up release signing
         env:
+          SIGNING_STORE_BASE64: ${{ secrets.SIGNING_STORE_BASE64 }}
+        run: |
+          printf '%s' "$SIGNING_STORE_BASE64" | base64 --decode > android/app/keystore.jks
+
+      - name: Build AAB
+        env:
+          VERSION: ${{ inputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        run: |
+          flutter build appbundle --no-pub \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER"
+
+      - name: Upload Appbundle
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: '${{ secrets.SERVICE_ACCOUNT_JSON }}'
+          packageName: com.mominraza.messages_wallet
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          tracks: ${{ steps.track.outputs.track }}
+          whatsNewDirectory: distribution/whatsnew
+
+      - name: Build APK
+        env:
+          VERSION: ${{ inputs.version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        run: |
+          flutter build apk --no-pub \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER"
 
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk Messages.Wallet.${{ inputs.version }}.apk
@@ -76,19 +118,3 @@ jobs:
           tag_name: v${{ inputs.version }}
           prerelease: ${{ steps.track.outputs.prerelease }}
           generate_release_notes: true
-
-      - name: Build AAB
-        run: flutter build appbundle --no-pub --build-name=${{ inputs.version }} --build-number=${{ github.run_number }}
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-
-      - name: Upload Appbundle
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: '${{ secrets.SERVICE_ACCOUNT_JSON }}'
-          packageName: com.mominraza.messages_wallet
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          tracks: ${{ steps.track.outputs.track }}
-          whatsNewDirectory: distribution/whatsnew
