@@ -6,6 +6,8 @@ plugins {
 
 android {
     namespace = "com.mominraza.messages_wallet"
+    // permission_handler_android requires compileSdk 37 while Flutter defaults to 36.
+    // Remove maxOf(..., 37) once flutter.compileSdkVersion reaches 37.
     compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
