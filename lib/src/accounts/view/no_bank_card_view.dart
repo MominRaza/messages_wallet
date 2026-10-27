@@ -10,8 +10,7 @@ class NoBankCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardView(
       title: "Can't Find Your Bank?",
-      description:
-          "Send us your bank's SMS samples via email or raise a GitHub issue — we'll add support as soon as possible.",
+      description: "Send us your bank's SMS samples via email or raise a GitHub issue — we'll add support as soon as possible.",
       actions: [
         FilledButton(
           onPressed: () => context.push('/bank-support'),

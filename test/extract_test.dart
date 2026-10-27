@@ -121,9 +121,8 @@ void main() {
 
   group('Axis Extract', () {
     test('credited', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_credited']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_credited']!])
+          .first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 42476);
       expect(transaction.finalAmount, 65789.44);
@@ -133,9 +132,8 @@ void main() {
     });
 
     test('Debit ATM-WDL/', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_withdrawn']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_withdrawn']!])
+          .first;
       expect(transaction.type, TransactionType.withdrawn);
       expect(transaction.transactionAmount, 5000);
       expect(transaction.finalAmount, 4384.44);
@@ -145,9 +143,8 @@ void main() {
     });
 
     test('Debit UPI/', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_transferred']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_transferred']!])
+          .first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 435);
       expect(transaction.finalAmount, isNull);
@@ -157,9 +154,8 @@ void main() {
     });
 
     test('credited 2', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_credited2']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_credited2']!])
+          .first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 1000);
       expect(transaction.finalAmount, isNull);
@@ -193,9 +189,8 @@ void main() {
     });
 
     test('debited UPI (new format)', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_debited']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_debited']!])
+          .first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 84000);
       expect(transaction.finalAmount, isNull);
@@ -205,9 +200,8 @@ void main() {
     });
 
     test('debited UPI (new format 2)', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_debited2']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_debited2']!])
+          .first;
       expect(transaction.type, TransactionType.transferred);
       expect(transaction.transactionAmount, 133);
       expect(transaction.finalAmount, isNull);
@@ -229,9 +223,8 @@ void main() {
     });
 
     test('txn reversal (new format)', () {
-      var transaction = extractAxisMessages([
-        axisMessages['axis_txnReversal']!,
-      ]).first;
+      var transaction = extractAxisMessages([axisMessages['axis_txnReversal']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardReversed);
       expect(transaction.transactionAmount, 22.16);
       expect(transaction.finalAmount, 103317);
@@ -281,9 +274,8 @@ void main() {
 
   group('ICICI Extract', () {
     test('spent using Card (INR)', () {
-      var transaction = extractICICIMessages([
-        iciciMessages['icici_spent']!,
-      ]).first;
+      var transaction = extractICICIMessages([iciciMessages['icici_spent']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 1607.55);
       expect(transaction.finalAmount, 48392.45);
@@ -293,9 +285,8 @@ void main() {
     });
 
     test('reversed', () {
-      var transaction = extractICICIMessages([
-        iciciMessages['icici_reversed']!,
-      ]).first;
+      var transaction = extractICICIMessages([iciciMessages['icici_reversed']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardReversed);
       expect(transaction.transactionAmount, 1.00);
       expect(transaction.finalAmount, 46844.45);
@@ -305,9 +296,8 @@ void main() {
     });
 
     test('debited', () {
-      var transaction = extractICICIMessages([
-        iciciMessages['icici_debited']!,
-      ]).first;
+      var transaction = extractICICIMessages([iciciMessages['icici_debited']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 50.00);
       expect(transaction.finalAmount, isNull);
@@ -317,9 +307,8 @@ void main() {
     });
 
     test('spent on Card (Rs)', () {
-      var transaction = extractICICIMessages([
-        iciciMessages['icici_spent_rs']!,
-      ]).first;
+      var transaction = extractICICIMessages([iciciMessages['icici_spent_rs']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 5000.00);
       expect(transaction.finalAmount, 41794.45);
@@ -329,9 +318,8 @@ void main() {
     });
 
     test('payment received', () {
-      var transaction = extractICICIMessages([
-        iciciMessages['icici_payment']!,
-      ]).first;
+      var transaction = extractICICIMessages([iciciMessages['icici_payment']!])
+          .first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 3155.55);
       expect(transaction.finalAmount, isNull);
@@ -379,9 +367,8 @@ void main() {
 
   group('HDFC Extract', () {
     test('UPI debit (multi-line, Txn Rs.)', () {
-      final transaction = extractHDFCMessages([
-        hdfcMessages['hdfc_upi_debit']!,
-      ]).first;
+      final transaction = extractHDFCMessages([hdfcMessages['hdfc_upi_debit']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 60.00);
       expect(transaction.finalAmount, isNull);
@@ -391,9 +378,8 @@ void main() {
     });
 
     test('online payment credited (VM-HDFCBK-S)', () {
-      final transaction = extractHDFCMessages([
-        hdfcMessages['hdfc_payment']!,
-      ]).first;
+      final transaction = extractHDFCMessages([hdfcMessages['hdfc_payment']!])
+          .first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 11713);
       expect(transaction.finalAmount, isNull);
@@ -403,9 +389,8 @@ void main() {
     });
 
     test('merchant spent (single-line, Spent Rs.)', () {
-      final transaction = extractHDFCMessages([
-        hdfcMessages['hdfc_spent']!,
-      ]).first;
+      final transaction = extractHDFCMessages([hdfcMessages['hdfc_spent']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 1577);
       expect(transaction.finalAmount, isNull);
@@ -415,9 +400,8 @@ void main() {
     });
 
     test('credit card reversal (Transaction Reversed!)', () {
-      final transaction = extractHDFCMessages([
-        hdfcMessages['hdfc_reversed']!,
-      ]).first;
+      final transaction = extractHDFCMessages([hdfcMessages['hdfc_reversed']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardReversed);
       expect(transaction.transactionAmount, 131.15);
       expect(transaction.finalAmount, isNull);
@@ -429,9 +413,8 @@ void main() {
 
   group('Kotak Extract', () {
     test('spent (VM-KOTAKB)', () {
-      var transaction = extractKotakMessages([
-        kotakMessages['kotak_spent_vm']!,
-      ]).first;
+      var transaction = extractKotakMessages([kotakMessages['kotak_spent_vm']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 500);
       expect(transaction.finalAmount, 29500);
@@ -441,9 +424,8 @@ void main() {
     });
 
     test('payment credited (AD-KOTAKB)', () {
-      var transaction = extractKotakMessages([
-        kotakMessages['kotak_payment']!,
-      ]).first;
+      var transaction = extractKotakMessages([kotakMessages['kotak_payment']!])
+          .first;
       expect(transaction.type, TransactionType.credited);
       expect(transaction.transactionAmount, 1606.4);
       expect(transaction.finalAmount, 30000);
@@ -453,9 +435,8 @@ void main() {
     });
 
     test('spent (AD-KOTAKB)', () {
-      var transaction = extractKotakMessages([
-        kotakMessages['kotak_spent_ad']!,
-      ]).first;
+      var transaction = extractKotakMessages([kotakMessages['kotak_spent_ad']!])
+          .first;
       expect(transaction.type, TransactionType.creditCardSpent);
       expect(transaction.transactionAmount, 1600);
       expect(transaction.finalAmount, 28400);
